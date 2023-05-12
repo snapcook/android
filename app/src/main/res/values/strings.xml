@@ -3,4 +3,9 @@
 
     <string name="label_yes">Yes</string>
     <string name="label_no">No</string>
+    <string name="label_ingredients_for">Bahan Untuk</string>
+    <string name="action_buy_ingredient">Beli Bahan</string>
+    <string name="label_cooking_ware">Alat Memasak</string>
+    <string name="label_steps">Langkah-langkah</string>
+    <string name="action_start_cooking">Mulai Memasak</string>
 </resources>

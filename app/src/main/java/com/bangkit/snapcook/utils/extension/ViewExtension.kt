@@ -10,6 +10,8 @@ import android.widget.ImageView
 import com.bangkit.snapcook.utils.constant.AnimationConstants.POP_ANIMATION
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.facebook.shimmer.Shimmer
+import com.facebook.shimmer.ShimmerDrawable
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.snackbar.Snackbar
 
@@ -25,8 +27,23 @@ fun View.gone() {
     visibility = View.GONE
 }
 
+private val shimmer = Shimmer.AlphaHighlightBuilder()
+    .setDuration(1800)
+    .setBaseAlpha(0.7f)
+    .setHighlightAlpha(0.6f)
+    .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
+    .setAutoStart(true)
+    .build()
+
+private val shimmerDrawable = ShimmerDrawable().apply {
+    setShimmer(shimmer)
+}
+
 fun ImageView.setImageUrl(url: String?) {
-    Glide.with(this.rootView).load(url).apply(RequestOptions())
+    Glide.with(this.rootView)
+        .load(url)
+        .placeholder(shimmerDrawable)
+        .apply(RequestOptions())
         .into(this)
 }
 

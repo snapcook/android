@@ -19,7 +19,6 @@ val localModule = module {
             .build()
     }
 
-
     ///Provide context for database
     single { provideDatabase(androidApplication()) }
 }

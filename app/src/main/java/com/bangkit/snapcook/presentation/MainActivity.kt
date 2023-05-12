@@ -1,12 +1,15 @@
 package com.bangkit.snapcook.presentation
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.bangkit.snapcook.R
+import com.bangkit.snapcook.base.BaseActivity
+import com.bangkit.snapcook.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity : BaseActivity<ActivityMainBinding>() {
+    override fun getViewBinding(): ActivityMainBinding {
+        return ActivityMainBinding.inflate(layoutInflater)
     }
+    override fun initUI() {}
+
+    override fun initProcess() {}
+
+    override fun initObservers() {}
 }
