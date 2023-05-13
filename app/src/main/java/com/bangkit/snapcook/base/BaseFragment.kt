@@ -1,15 +1,20 @@
 package com.bangkit.snapcook.base
 
 import android.Manifest
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.bangkit.snapcook.R
+import com.bangkit.snapcook.utils.enums.ImageSource
 import com.bangkit.snapcook.utils.extension.getFileFromUri
 import com.bangkit.snapcook.utils.extension.getImageUri
 import com.bangkit.snapcook.utils.extension.showSnackBar
@@ -18,6 +23,7 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import java.io.File
 
 abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
@@ -58,7 +64,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     protected open fun initActions() {}
 
-    protected fun takePicture() {
+    protected fun takePicture(source: ImageSource) {
         Dexter.withContext(requireActivity())
             .withPermissions(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -66,7 +72,20 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
                 Manifest.permission.CAMERA
             ).withListener(object : MultiplePermissionsListener {
                 override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {
-                    showImagePickerMenu()
+                    if (source == ImageSource.BOTH){
+                        showImagePickerMenu()
+                        return
+                    }
+
+                    if (source == ImageSource.CAMERA){
+                        takePictureRegistration.launch()
+                        return
+                    }
+
+                    if (source == ImageSource.GALLERY){
+                        pickFileImage.launch("image/*")
+                        return
+                    }
                 }
 
                 override fun onPermissionRationaleShouldBeShown(
@@ -81,20 +100,35 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
             .check()
     }
 
-    protected open fun takePictureRegistration() {}
-    protected open fun pickFileRegistration() {}
+    protected open fun takePictureRegistration(uri: Uri?, bitmap: Bitmap?) {}
+    protected open fun pickFileRegistration(uri: Uri?) {}
 
     private fun showImagePickerMenu() {
         AlertDialog.Builder(requireActivity())
             .setTitle(context?.getString(R.string.label_choose_image_picker_method))
             .setItems(R.array.pictures) { _, p1 ->
                 if (p1 == 0) {
-                    takePictureRegistration()
+                    takePictureRegistration.launch()
                 } else {
-                    pickFileRegistration()
+                    pickFileImage.launch("image/*")
                 }
             }.create().show()
     }
+
+    private val takePictureRegistration =
+        registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+            if (bitmap != null) {
+                val uri = requireActivity().getImageUri(bitmap)
+                takePictureRegistration(uri, bitmap)
+            }
+        }
+
+    private val pickFileImage =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            if (uri != null) {
+                pickFileRegistration(uri)
+            }
+        }
 
     override fun onDestroyView() {
         super.onDestroyView()

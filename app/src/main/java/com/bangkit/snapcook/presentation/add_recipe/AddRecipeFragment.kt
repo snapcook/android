@@ -5,16 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.launch
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.databinding.FragmentAddRecipeBinding
 import com.bangkit.snapcook.presentation.add_recipe.adapter.AddIngredientAdapter
 import com.bangkit.snapcook.presentation.add_recipe.adapter.AddSpiceAdapter
 import com.bangkit.snapcook.presentation.add_recipe.adapter.AddStepAdapter
+import com.bangkit.snapcook.utils.enums.ImageSource
 import com.bangkit.snapcook.utils.extension.getFileFromUri
-import com.bangkit.snapcook.utils.extension.getImageUri
 import com.bangkit.snapcook.utils.extension.popClick
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -54,7 +52,7 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
             }
 
             btnAddPicture.popClick {
-                takePicture()
+                takePicture(ImageSource.GALLERY)
             }
 
             rvIngredient.apply {
@@ -93,9 +91,7 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
             btnSave.popClick {
                 val result = addIngredientAdapter.retrieveResult()
                 val resultStep = addStepAdapter.retrieveResult()
-
                 Timber.d("RESULT $result")
-
                 Timber.d("RESULT STEPS $resultStep")
                 tvTest.text = result
             }
@@ -106,38 +102,17 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
         addStepAdapter.itemTouchHelper.attachToRecyclerView(binding.rvSteps)
     }
 
-    override fun takePictureRegistration() {
-        takePictureRegistration.launch()
+    override fun pickFileRegistration(uri: Uri?) {
+        handleImagePicker(uri)
     }
 
-    override fun pickFileRegistration() {
-        pickFileImage.launch("image/*")
+    private fun handleImagePicker(uri: Uri?){
+        imageFile = requireActivity().getFileFromUri(uri)
+        binding.imgFood.apply {
+            scaleType = ImageView.ScaleType.CENTER
+            setImageURI(uri)
+        }
     }
-
-    private val takePictureRegistration =
-        registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
-            if (bitmap != null) {
-                val uri = requireActivity().getImageUri(bitmap)
-                mUri = uri
-                imageFile = requireActivity().getFileFromUri(uri)
-                binding.imgFood.apply {
-                    setImageBitmap(bitmap)
-                    scaleType = ImageView.ScaleType.CENTER
-                }
-            }
-        }
-
-    private val pickFileImage =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            if (uri != null) {
-                mUri = uri
-                imageFile = requireActivity().getFileFromUri(uri)
-                binding.imgFood.apply {
-                    setImageURI(uri)
-                    scaleType = ImageView.ScaleType.CENTER
-                }
-            }
-        }
 
     override fun initProcess() {
     }
