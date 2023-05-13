@@ -17,4 +17,14 @@
     <string name="label_step_item">Langkah %1$s</string>
     <string name="label_cooking_time">Lama Memasak</string>
     <string name="action_add_step">Tambah Langkah</string>
+    <string name="action_take_food_picture">Ambil foto makanan</string>
+
+    <string name="warning_image_picker_permission">Aplikasi membutuhkan izin untuk mengakses kamera dan galeri</string>
+    <string name="label_choose_image_picker_method">Pilih metode pengambilan gambar</string>
+
+    <string-array name="pictures">
+        <item>Dari kamera</item>
+        <item>Dari galeri</item>
+    </string-array>
+
 </resources>

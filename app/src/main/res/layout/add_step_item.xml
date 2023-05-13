@@ -37,6 +37,7 @@
         android:layout_marginHorizontal="@dimen/dimen_8dp"
         android:layout_height="wrap_content"
         android:height="@dimen/dimen_44dp"
+        android:paddingHorizontal="@dimen/dimen_8dp"
         android:background="@drawable/bg_bordered_edit_text"
         app:layout_constraintEnd_toStartOf="@+id/icon_close"
         app:layout_constraintStart_toEndOf="@id/icon_drag"

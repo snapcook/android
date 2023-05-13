@@ -13,7 +13,7 @@ import java.lang.Math.max
 import java.lang.Math.min
 import java.util.Collections
 
-class AddStepAdapter : RecyclerView.Adapter<AddStepAdapter.StringViewHolder>() {
+class AddStepAdapter(private val rv: RecyclerView) : RecyclerView.Adapter<AddStepAdapter.StringViewHolder>() {
 
     private var data: ArrayList<String> = arrayListOf("")
 
@@ -25,6 +25,10 @@ class AddStepAdapter : RecyclerView.Adapter<AddStepAdapter.StringViewHolder>() {
     fun removeData(position: Int) {
         data.removeAt(position)
         notifyItemRemoved(position)
+        for (i in 0 until data.size){
+            val holder = rv.findViewHolderForAdapterPosition(i) as StringViewHolder
+            holder.bind(i)
+        }
     }
 
     fun retrieveResult(): String {
@@ -41,7 +45,6 @@ class AddStepAdapter : RecyclerView.Adapter<AddStepAdapter.StringViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: StringViewHolder, position: Int) {
-
         holder.bind(position)
     }
 
@@ -62,6 +65,7 @@ class AddStepAdapter : RecyclerView.Adapter<AddStepAdapter.StringViewHolder>() {
                 iconClose.popClick {
                     edtStep.text.clear()
                     removeData(layoutPosition)
+
                 }
             }
         }
@@ -78,14 +82,13 @@ class AddStepAdapter : RecyclerView.Adapter<AddStepAdapter.StringViewHolder>() {
             val final = target.absoluteAdapterPosition
             Collections.swap(data, initial, final)
             notifyItemMoved(initial, final)
-
             for (i in 0 until data.size){
                 val holder = recyclerView.findViewHolderForAdapterPosition(i) as StringViewHolder
                 holder.bind(i)
             }
-
             return false
         }
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
     })
+
 }

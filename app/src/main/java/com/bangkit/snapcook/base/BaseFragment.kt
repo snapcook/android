@@ -1,11 +1,23 @@
 package com.bangkit.snapcook.base
 
+import android.Manifest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.bangkit.snapcook.R
+import com.bangkit.snapcook.utils.extension.getFileFromUri
+import com.bangkit.snapcook.utils.extension.getImageUri
+import com.bangkit.snapcook.utils.extension.showSnackBar
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 
 abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
@@ -45,6 +57,44 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     protected open fun initIntent() {}
 
     protected open fun initActions() {}
+
+    protected fun takePicture() {
+        Dexter.withContext(requireActivity())
+            .withPermissions(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+            ).withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {
+                    showImagePickerMenu()
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    p0: MutableList<PermissionRequest>?,
+                    p1: PermissionToken?
+                ) {
+                    p1?.continuePermissionRequest()
+                }
+            }).withErrorListener {
+                binding.root.showSnackBar(getString(R.string.warning_image_picker_permission))
+            }.onSameThread()
+            .check()
+    }
+
+    protected open fun takePictureRegistration() {}
+    protected open fun pickFileRegistration() {}
+
+    private fun showImagePickerMenu() {
+        AlertDialog.Builder(requireActivity())
+            .setTitle(context?.getString(R.string.label_choose_image_picker_method))
+            .setItems(R.array.pictures) { _, p1 ->
+                if (p1 == 0) {
+                    takePictureRegistration()
+                } else {
+                    pickFileRegistration()
+                }
+            }.create().show()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
