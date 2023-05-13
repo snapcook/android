@@ -3,11 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/detailRecipeFragment">
+    app:startDestination="@id/addRecipeFragment">
 
     <fragment
         android:id="@+id/detailRecipeFragment"
         android:name="com.bangkit.snapcook.presentation.detail.DetailRecipeFragment"
         android:label="fragment_detail_recipe"
         tools:layout="@layout/fragment_detail_recipe" />
+    <fragment
+        android:id="@+id/addRecipeFragment"
+        android:name="com.bangkit.snapcook.presentation.add_recipe.AddRecipeFragment"
+        android:label="fragment_add_recipe"
+        tools:layout="@layout/fragment_add_recipe" />
 </navigation>

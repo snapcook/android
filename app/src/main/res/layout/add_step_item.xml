@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/dimen_8dp"
+    android:layout_marginTop="@dimen/dimen_8dp"
+    android:background="@drawable/bg_border"
+    android:paddingVertical="@dimen/dimen_8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_step"
+        style="@style/SnapcookTextStyle.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Langkah 1" />
+
+    <ImageView
+        android:id="@+id/icon_drag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:src="@drawable/ic_drag_handle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_step" />
+
+    <EditText
+        android:id="@+id/edt_step"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:layout_marginHorizontal="@dimen/dimen_8dp"
+        android:layout_height="wrap_content"
+        android:height="@dimen/dimen_44dp"
+        android:background="@drawable/bg_bordered_edit_text"
+        app:layout_constraintEnd_toStartOf="@+id/icon_close"
+        app:layout_constraintStart_toEndOf="@id/icon_drag"
+        app:layout_constraintTop_toBottomOf="@id/tv_step" />
+
+    <ImageButton
+        android:id="@+id/icon_close"
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_circle_close"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_step"
+        app:tint="@color/red_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

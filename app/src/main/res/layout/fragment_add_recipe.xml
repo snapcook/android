@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".presentation.add_recipe.AddRecipeFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SnapcookTextStyle.Title"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:layout_marginTop="@dimen/dimen_16dp"
+                android:text="@string/label_recipe_name"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/edt_ingredient_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:layout_marginTop="@dimen/dimen_4dp"
+                android:height="@dimen/dimen_44dp"
+                android:autofillHints="Bahan"
+                android:background="@drawable/bg_bordered_edit_text" />
+
+            <TextView
+                style="@style/SnapcookTextStyle.Title"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:layout_marginTop="@dimen/dimen_16dp"
+                android:text="@string/label_recipe_name"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/edt_ingredient_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:layout_marginTop="@dimen/dimen_4dp"
+                android:autofillHints="Bahan"
+                android:background="@drawable/bg_bordered_edit_text"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:maxLines="5" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:layout_marginVertical="@dimen/dimen_16dp">
+
+                <TextView
+                    android:id="@+id/tx_portion"
+                    style="@style/SnapcookTextStyle.Title"
+                    android:text="@string/label_portion"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@+id/edt_portion"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/edt_portion" />
+
+                <EditText
+                    android:id="@+id/edt_portion"
+                    android:layout_width="@dimen/dimen_100dp"
+                    android:layout_height="wrap_content"
+                    android:height="@dimen/dimen_36dp"
+                    android:autofillHints="Bahan"
+                    android:background="@drawable/bg_bordered_edit_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tx_cooking_time"
+                    style="@style/SnapcookTextStyle.Title"
+                    android:text="@string/label_cooking_time"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@+id/edt_cooking_time"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/edt_cooking_time" />
+
+                <EditText
+                    android:id="@+id/edt_cooking_time"
+                    android:layout_width="@dimen/dimen_100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:height="@dimen/dimen_36dp"
+                    android:autofillHints="Bahan"
+                    android:background="@drawable/bg_bordered_edit_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_portion" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--      Main Ingredient      -->
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:layout_marginVertical="@dimen/dimen_8dp"
+                app:dividerColor="@color/black" />
+
+            <TextView
+                style="@style/SnapcookTextStyle.Title"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="@string/label_main_ingredient"
+                android:textColor="@color/black" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_ingredient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:overScrollMode="never"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                tools:itemCount="1"
+                tools:listitem="@layout/add_ingredient_item" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_add_main_ingredient"
+                style="@style/SnapcookButton"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginVertical="@dimen/dimen_8dp"
+                android:drawableStart="@drawable/ic_add"
+                android:drawableTint="@color/white"
+                android:text="@string/action_add_ingredient" />
+
+            <!--      Main Ingredient      -->
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:layout_marginVertical="@dimen/dimen_8dp"
+                app:dividerColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tx_ingredient"
+                style="@style/SnapcookTextStyle.Title"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="@string/label_spice"
+                android:textColor="@color/black" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_spices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                tools:itemCount="1"
+                tools:listitem="@layout/add_ingredient_item" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_add_spice"
+                style="@style/SnapcookButton"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginVertical="@dimen/dimen_8dp"
+                android:drawableStart="@drawable/ic_add"
+                android:drawableTint="@color/white"
+                android:text="@string/action_add_spice" />
+
+            <!--      Main Ingredient      -->
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:layout_marginVertical="@dimen/dimen_8dp"
+                app:dividerColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_step"
+                style="@style/SnapcookTextStyle.Title"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="@string/label_steps"
+                android:textColor="@color/black" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_steps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                tools:itemCount="1"
+                tools:listitem="@layout/add_step_item" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_add_step"
+                style="@style/SnapcookButton"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginVertical="@dimen/dimen_8dp"
+                android:drawableStart="@drawable/ic_add"
+                android:drawableTint="@color/white"
+                android:text="@string/action_add_step" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Save" />
+
+            <TextView
+                android:id="@+id/tv_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen_24dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

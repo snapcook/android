@@ -8,4 +8,13 @@
     <string name="label_cooking_ware">Alat Memasak</string>
     <string name="label_steps">Langkah-langkah</string>
     <string name="action_start_cooking">Mulai Memasak</string>
+    <string name="action_add_ingredient">Tambah Bahan</string>
+    <string name="label_main_ingredient">Bahan Utama</string>
+    <string name="action_add_spice">Tambah Bumbu</string>
+    <string name="label_spice">Bumbu</string>
+    <string name="label_recipe_name">Nama Resep</string>
+    <string name="label_portion">Porsi</string>
+    <string name="label_step_item">Langkah %1$s</string>
+    <string name="label_cooking_time">Lama Memasak</string>
+    <string name="action_add_step">Tambah Langkah</string>
 </resources>
