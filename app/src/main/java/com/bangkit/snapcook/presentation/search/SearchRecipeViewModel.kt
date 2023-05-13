@@ -1,4 +1,7 @@
-package com.bangkit.snapcook.presentation.search;
+package com.bangkit.snapcook.presentation.search
 
-public class SearchRecipeViewModel {
+import androidx.lifecycle.ViewModel
+
+class SearchRecipeViewModel : ViewModel() {
+
 }
