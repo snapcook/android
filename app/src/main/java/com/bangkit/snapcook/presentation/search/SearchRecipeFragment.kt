@@ -3,6 +3,7 @@ package com.bangkit.snapcook.presentation.search
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.databinding.FragmentSearchRecipeBinding
 import org.koin.android.ext.android.inject
@@ -21,7 +22,21 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
     }
 
     override fun initUI() {
-        TODO("Not yet implemented")
+        binding.svRecipe.apply {
+            requestFocus()
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    clearFocus()
+                    //search query
+                    return true
+                }
+                override fun onQueryTextChange(newText: String): Boolean {
+                    return false
+                }
+            })
+        }
+
+
     }
 
     override fun initProcess() {
