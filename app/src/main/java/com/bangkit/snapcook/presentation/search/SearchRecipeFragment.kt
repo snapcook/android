@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.databinding.FragmentSearchRecipeBinding
+import com.bangkit.snapcook.utils.extension.setPopBackEnabled
 import org.koin.android.ext.android.inject
 
 class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
@@ -21,19 +22,25 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
     }
 
     override fun initUI() {
-        binding.svRecipe.apply {
-            requestFocus()
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String): Boolean {
-                    clearFocus()
-                    return true
-                }
-                override fun onQueryTextChange(newText: String): Boolean {
-                    return false
-                }
-            })
-        }
+        binding.apply {
+            toolBar.setPopBackEnabled()
+            svRecipe.apply {
+                requestFocus()
+                setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String): Boolean {
+                        clearFocus()
+                        return true
+                    }
+                    override fun onQueryTextChange(newText: String): Boolean {
+                        return false
+                    }
+                })
+            }
 
+            rvSearchRecipe.apply {
+
+            }
+        }
 
     }
 

@@ -48,5 +48,12 @@
         <item>Dari kamera</item>
         <item>Dari galeri</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_detect_ingredient">Deteksi Bahan</string>
+    <string name="instruction_detect_ingredient">Foto bahan Anda dan resep yang sesuai untuk Anda akan muncul.</string>
+    <string name="action_gallery">Galeri</string>
+    <string name="action_camera">Kamera</string>
+    <string name="action_scan">Mulai Scan</string>
 
 </resources>
