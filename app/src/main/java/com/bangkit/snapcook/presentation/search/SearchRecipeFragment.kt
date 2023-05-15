@@ -8,7 +8,6 @@ import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.databinding.FragmentSearchRecipeBinding
 import org.koin.android.ext.android.inject
 
-
 class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
 
     private val viewModel: SearchRecipeViewModel by inject()
@@ -27,7 +26,6 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
                     clearFocus()
-                    //search query
                     return true
                 }
                 override fun onQueryTextChange(newText: String): Boolean {
@@ -40,11 +38,9 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
     }
 
     override fun initProcess() {
-        TODO("Not yet implemented")
     }
 
     override fun initObservers() {
-        TODO("Not yet implemented")
     }
 
 }

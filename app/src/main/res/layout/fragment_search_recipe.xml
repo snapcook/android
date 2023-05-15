@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="?attr/text_color"
         android:background="@color/primary_color"
         app:navigationIcon="@drawable/ic_back" />
 
@@ -45,6 +44,8 @@
             android:textSize="@dimen/font_big"
             android:textStyle="bold"
             android:text="Keyword"/>
+
+
 
         <TextView
             android:id="@+id/tv_info"
