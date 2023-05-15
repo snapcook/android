@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/detailRecipeFragment"
@@ -19,7 +19,11 @@
         android:id="@+id/loginFragment"
         android:name="com.bangkit.snapcook.presentation.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.bangkit.snapcook.presentation.home.HomeFragment"
@@ -30,4 +34,9 @@
         android:name="com.bangkit.snapcook.presentation.search.SearchRecipeFragment"
         android:label="fragment_search_recipe"
         tools:layout="@layout/fragment_search_recipe" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.bangkit.snapcook.presentation.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
 </navigation>

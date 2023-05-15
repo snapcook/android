@@ -3,23 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.login.LoginFragment">
+    android:orientation="vertical"
+    tools:context=".presentation.register.RegisterFragment">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_marginTop="@dimen/dimen_32dp"
-        android:layout_width="@dimen/dimen_100dp"
-        android:layout_height="@dimen/dimen_100dp"
-        android:src="@color/primary_color"
-        android:layout_gravity="center_horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/primary_color"
+        app:navigationIcon="@drawable/ic_back" />
 
     <TextView
         android:id="@+id/tvLoginTitle"
-        android:text="@string/label_login"
+        android:text="@string/label_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimen_16dp"
@@ -28,13 +26,46 @@
 
     <TextView
         android:id="@+id/tvLoginSubtitle"
-        android:text="@string/label_login_description"
+        android:text="@string/label_register_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dimen_16dp"
         app:layout_constraintTop_toBottomOf="@id/tvLoginTitle"
         app:layout_constraintStart_toStartOf="@id/tvLoginTitle"
         style="@style/SnapcookTextStyle"/>
+
+    <TextView
+        android:id="@+id/tv_full_name_label"
+        style="@style/SnapcookTextStyle.Title"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_16dp"
+        android:text="@string/label_name" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_full_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_16dp"
+        android:layout_marginTop="12dp"
+        app:hintEnabled="false"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tvEmailLabel">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtFullName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableStart="@drawable/ic_person"
+            android:inputType="textPassword"
+            android:padding="@dimen/dimen_20dp"
+            android:drawablePadding="@dimen/dimen_8dp"
+            android:hint="@string/masukkan_nama_lengkap_mu"
+            android:background="@drawable/bg_bordered_edit_text"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tvEmailLabel"
@@ -106,13 +137,13 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnLogin"
+        android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/dimen_32dp"
         android:layout_marginHorizontal="@dimen/dimen_16dp"
         android:layout_height="wrap_content"
         style="@style/SnapcookButton.LessRadius"
-        android:text="@string/action_login"
+        android:text="@string/action_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_password" />
@@ -125,17 +156,17 @@
 
         <TextView
             android:id="@+id/tv_register"
-            android:text="@string/label_dont_have_account"
+            style="@style/SnapcookTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_16dp"
-            app:layout_constraintTop_toBottomOf="@id/tvLoginTitle"
+            android:text="@string/label_do_have_account"
             app:layout_constraintStart_toStartOf="@id/tvLoginTitle"
-            style="@style/SnapcookTextStyle"/>
+            app:layout_constraintTop_toBottomOf="@id/tvLoginTitle" />
 
         <Button
-            android:id="@+id/btn_register"
-            android:text="@string/action_register"
+            android:id="@+id/btn_login"
+            android:text="@string/action_login"
             style="@style/SnapcookButton"
             android:textStyle="bold"
             android:textColor="@color/teal_200"
@@ -144,5 +175,6 @@
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
+
 
 </LinearLayout>

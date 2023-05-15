@@ -23,6 +23,19 @@
     <string name="label_choose_image_picker_method">Pilih metode pengambilan gambar</string>
     <string name="hint_email">Masukkan email anda</string>
     <string name="hint_password">Masukkan password</string>
+    <string name="action_login">Masuk</string>
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
+    <string name="label_login">Login</string>
+    <string name="label_login_description">Please login using your account to continue</string>
+    <string name="action_register">Daftar</string>
+    <string name="label_dont_have_account">Tidak memiliki akun Snapcook?</string>
+    <string name="label_do_have_account">Sudah memiliki akun Snapcook?</string>
+
+    <string name="label_register">Daftar</string>
+    <string name="label_register_description">Buat akun untuk mengakses Snapcook</string>
+    <string name="label_name">Nama</string>
+    <string name="masukkan_nama_lengkap_mu">Masukkan nama lengkap mu</string>
 
     <string-array name="pictures">
         <item>Dari kamera</item>

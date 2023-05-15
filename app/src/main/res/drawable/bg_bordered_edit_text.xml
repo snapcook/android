@@ -9,6 +9,6 @@
         android:color="@color/grey_400"/>
 
     <solid
-        android:color="@color/grey_300"/>
+        android:color="@color/grey_100"/>
 
 </shape>

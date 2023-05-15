@@ -5,3 +5,4 @@ sealed class ApiResponse<out R> {
     object Loading : ApiResponse<Nothing>()
     object Empty : ApiResponse<Nothing>()
 }
+
