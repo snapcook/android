@@ -46,6 +46,8 @@
             app:layout_constraintTop_toBottomOf="@+id/sv_recipe"
             tools:text="Keyword"/>
 
+
+
         <TextView
             android:id="@+id/tv_info"
             android:layout_width="wrap_content"

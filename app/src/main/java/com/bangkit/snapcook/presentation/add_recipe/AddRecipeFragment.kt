@@ -107,7 +107,6 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
         handleImagePicker(uri)
     }
 
-
     private fun handleImagePicker(uri: Uri?) {
         imageFile = requireActivity().getFileFromUri(uri)
         binding.imgFood.apply {
