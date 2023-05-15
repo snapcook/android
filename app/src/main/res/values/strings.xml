@@ -23,6 +23,13 @@
     <string name="label_choose_image_picker_method">Pilih metode pengambilan gambar</string>
     <string name="hint_email">Masukkan email anda</string>
     <string name="hint_password">Masukkan password</string>
+    <string name="label_popular_recipe">Resep Populer</string>
+    <string name="label_recommended_recipe">Rekomendasi dari Kami</string>
+    <string name="label_user_taste">Pilih berdasarkan seleramu</string>
+    <string name="label_found_recipe">Resep yang ditemukan</string>
+    <string name="action_category_food">Makanan</string>
+    <string name="action_category_drink">Minuman</string>
+    <string name="hint_search">Cari resep apa hari ini?</string>
 
     <string-array name="pictures">
         <item>Dari kamera</item>
