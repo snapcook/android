@@ -63,7 +63,6 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     protected open fun initIntent() {}
 
     protected open fun initActions() {}
-
     protected fun takePicture(source: ImageSource) {
         Dexter.withContext(requireActivity())
             .withPermissions(
@@ -100,8 +99,8 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
             .check()
     }
 
-    protected open fun takePictureRegistration(uri: Uri?, bitmap: Bitmap?) {}
-    protected open fun pickFileRegistration(uri: Uri?) {}
+    protected open fun onCameraImageResult(uri: Uri?, bitmap: Bitmap?) {}
+    protected open fun onGalleryImageResult(uri: Uri?) {}
 
     private fun showImagePickerMenu() {
         AlertDialog.Builder(requireActivity())
@@ -119,14 +118,14 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
             if (bitmap != null) {
                 val uri = requireActivity().getImageUri(bitmap)
-                takePictureRegistration(uri, bitmap)
+                onCameraImageResult(uri, bitmap)
             }
         }
 
     private val pickFileImage =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
-                pickFileRegistration(uri)
+                onGalleryImageResult(uri)
             }
         }
 

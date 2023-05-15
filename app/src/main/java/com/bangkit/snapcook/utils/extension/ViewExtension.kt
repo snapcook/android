@@ -2,6 +2,7 @@ package com.bangkit.snapcook.utils.extension
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -43,6 +44,13 @@ fun ImageView.setImageUrl(url: String?) {
     Glide.with(this.rootView)
         .load(url)
         .placeholder(shimmerDrawable)
+        .apply(RequestOptions())
+        .into(this)
+}
+
+fun ImageView.setGlideImageUri(uri: Uri?) {
+    Glide.with(this.rootView)
+        .load(uri)
         .apply(RequestOptions())
         .into(this)
 }

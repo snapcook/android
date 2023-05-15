@@ -21,6 +21,8 @@
 
     <string name="warning_image_picker_permission">Aplikasi membutuhkan izin untuk mengakses kamera dan galeri</string>
     <string name="label_choose_image_picker_method">Pilih metode pengambilan gambar</string>
+    <string name="hint_email">Masukkan email anda</string>
+    <string name="hint_password">Masukkan password</string>
 
     <string-array name="pictures">
         <item>Dari kamera</item>

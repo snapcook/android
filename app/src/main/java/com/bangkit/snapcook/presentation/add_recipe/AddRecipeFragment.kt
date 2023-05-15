@@ -14,6 +14,7 @@ import com.bangkit.snapcook.presentation.add_recipe.adapter.AddStepAdapter
 import com.bangkit.snapcook.utils.enums.ImageSource
 import com.bangkit.snapcook.utils.extension.getFileFromUri
 import com.bangkit.snapcook.utils.extension.popClick
+import com.bangkit.snapcook.utils.extension.setGlideImageUri
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.io.File
@@ -40,7 +41,7 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): FragmentAddRecipeBinding {
         return FragmentAddRecipeBinding.inflate(inflater, container, false)
     }
@@ -102,15 +103,16 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
         addStepAdapter.itemTouchHelper.attachToRecyclerView(binding.rvSteps)
     }
 
-    override fun pickFileRegistration(uri: Uri?) {
+    override fun onGalleryImageResult(uri: Uri?) {
         handleImagePicker(uri)
     }
 
-    private fun handleImagePicker(uri: Uri?){
+
+    private fun handleImagePicker(uri: Uri?) {
         imageFile = requireActivity().getFileFromUri(uri)
         binding.imgFood.apply {
             scaleType = ImageView.ScaleType.CENTER
-            setImageURI(uri)
+            setGlideImageUri(uri)
         }
     }
 
