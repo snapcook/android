@@ -1,11 +1,9 @@
 package com.bangkit.snapcook.presentation.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import com.bangkit.snapcook.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.databinding.FragmentHomeBinding
 import org.koin.android.ext.android.inject
@@ -24,6 +22,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun initUI() {
+        binding.apply {
+            rvPopularRecipe.apply {
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                isNestedScrollingEnabled = true
+            }
+
+            chipGroupCategory.apply {
+                isNestedScrollingEnabled = true
+            }
+
+            rvRecommendedRecipe.apply {
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                isNestedScrollingEnabled = true
+            }
+
+            rvUserTaste.apply {
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                isNestedScrollingEnabled = true
+            }
+        }
 
     }
 
