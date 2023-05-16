@@ -13,6 +13,7 @@ import org.koin.android.ext.android.inject
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
     private val viewModel: RegisterViewModel by inject()
+
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,7 +32,6 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
             btnRegister.popClick {
             }
         }
-
     }
 
     override fun initProcess() {
@@ -39,6 +39,4 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
     override fun initObservers() {
     }
-
-
 }
