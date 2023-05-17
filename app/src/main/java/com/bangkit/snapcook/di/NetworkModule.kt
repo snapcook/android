@@ -28,7 +28,7 @@ val networkModule = module {
     /// Provide Retrofit
     single {
         Retrofit.Builder()
-            .baseUrl("")
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()

@@ -56,4 +56,13 @@
     <string name="action_camera">Kamera</string>
     <string name="action_scan">Mulai Scan</string>
 
+    <string name="validation_full_name">Full name only allow characters</string>
+    <string name="validation_email">Your email format is incorrect</string>
+    <string name="validation_password">Min 8 characters</string>
+    <string name="validation_must_not_empty">This field must not be empty</string>
+    <string name="validation_description_must_not_empty">Story description must not be empty</string>
+    <string name="validation_photo">You have to add photo for your story</string>
+    <string name="validation_email_not_valid">Email is invalid</string>
+    <string name="validation_email_must_not_empty">Email should not be empty</string>
+
 </resources>

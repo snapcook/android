@@ -7,9 +7,15 @@ import androidx.navigation.fragment.findNavController
 import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.databinding.FragmentLoginBinding
+import com.bangkit.snapcook.utils.extension.observeSingleEvent
 import com.bangkit.snapcook.utils.extension.popClick
+import com.bangkit.snapcook.utils.extension.showError
+import com.bangkit.snapcook.utils.extension.showSnackBar
+import org.koin.android.ext.android.inject
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
+
+    private val viewModel: LoginViewModel by inject()
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -22,7 +28,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override fun initUI() {
         binding.apply {
             btnLogin.popClick {
-
+                loginUser()
             }
 
             btnRegister.popClick {
@@ -35,7 +41,42 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     override fun initObservers() {
+        viewModel.loginResult.observeSingleEvent(
+            viewLifecycleOwner,
+            loading = {
+                showLoadingDialog()
+            },
+            success = {
+                hideLoadingDialog()
+                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            },
+            error = {response ->
+                hideLoadingDialog()
+                binding.root.showSnackBar(response.errorMessage)
+            },
+        )
     }
+
+    private fun loginUser(){
+        val email = binding.edtEmail.text.toString()
+        val password = binding.edtPassword.text.toString()
+        when {
+            email.isEmpty() -> {
+                binding.edtEmail.showError(getString(R.string.validation_must_not_empty))
+            }
+            password.isEmpty() -> {
+                binding.edtPassword.showError(getString(R.string.validation_must_not_empty))
+            }
+            password.length < 8 -> {
+                binding.edtPassword.showError(getString(R.string.validation_password))
+            }
+            else -> {
+                viewModel.loginUser(email, password)
+            }
+        }
+    }
+
+
 
 
 }

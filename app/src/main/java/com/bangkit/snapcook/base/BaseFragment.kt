@@ -7,15 +7,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.bangkit.snapcook.R
+import com.bangkit.snapcook.base.custom_view.CustomLoadingDialog
 import com.bangkit.snapcook.utils.enums.ImageSource
-import com.bangkit.snapcook.utils.extension.getFileFromUri
 import com.bangkit.snapcook.utils.extension.getImageUri
 import com.bangkit.snapcook.utils.extension.showSnackBar
 import com.karumi.dexter.Dexter
@@ -23,12 +22,12 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import java.io.File
 
 abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     private var _binding: VB? = null
     val binding get() = _binding!!
+    private lateinit var loadingDialog: CustomLoadingDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +40,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        loadingDialog = CustomLoadingDialog(requireContext())
         initIntent()
         initUI()
         initActions()
@@ -101,6 +100,13 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     protected open fun onCameraImageResult(uri: Uri?, bitmap: Bitmap?) {}
     protected open fun onGalleryImageResult(uri: Uri?) {}
+
+    open fun showLoadingDialog() {
+        loadingDialog.showDialog()
+    }
+    open fun hideLoadingDialog() {
+        loadingDialog.dismissDialog()
+    }
 
     private fun showImagePickerMenu() {
         AlertDialog.Builder(requireActivity())

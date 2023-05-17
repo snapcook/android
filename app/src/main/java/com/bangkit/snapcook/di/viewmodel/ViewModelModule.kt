@@ -1,7 +1,10 @@
 package com.bangkit.snapcook.di.viewmodel
 
+import com.bangkit.snapcook.presentation.login.LoginViewModel
+import com.bangkit.snapcook.presentation.register.RegisterViewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    single {  }
+    single { RegisterViewModel(get()) }
+    single { LoginViewModel(get()) }
 }

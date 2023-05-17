@@ -3,6 +3,7 @@ package com.bangkit.snapcook.utils
 import android.content.Context
 import android.content.SharedPreferences
 import com.bangkit.snapcook.utils.constant.AppConstants.KEY_TOKEN
+import com.bangkit.snapcook.utils.constant.AppConstants.KEY_USER_ID
 import com.bangkit.snapcook.utils.constant.AppConstants.PREFS_NAME
 
 class PreferenceManager(context: Context) {
@@ -11,17 +12,19 @@ class PreferenceManager(context: Context) {
         context.applicationContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     private val editor = prefs.edit()
 
-    fun storeLoginData(token: String) {
+    fun storeLoginData(token: String, userId: String) {
         editor.putString(KEY_TOKEN, token)
+        editor.putString(KEY_USER_ID, userId)
         editor.apply()
     }
 
     fun clearAllPreferences() {
         editor.remove(KEY_TOKEN)
+        editor.remove(KEY_USER_ID)
         editor.apply()
     }
 
     val getToken = prefs.getString(KEY_TOKEN, "") ?: ""
+    val getUserId = prefs.getString(KEY_USER_ID, "") ?: ""
     val isLogin = getToken.isNotEmpty()
-
 }

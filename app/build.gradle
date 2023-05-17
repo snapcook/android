@@ -17,6 +17,8 @@ android {
         versionName "1.0"
 
         buildConfigField("String", "DB_NAME", '"snapcook-db"')
+        buildConfigField("String", "BASE_URL", '"https://api-dot-snapcook-dev.et.r.appspot.com/"')
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

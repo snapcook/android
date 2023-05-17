@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawableStart="@drawable/ic_email"
-            android:inputType="textPassword"
+            android:inputType="textEmailAddress"
             android:padding="@dimen/dimen_20dp"
             android:drawablePadding="@dimen/dimen_8dp"
             android:hint="@string/hint_email"

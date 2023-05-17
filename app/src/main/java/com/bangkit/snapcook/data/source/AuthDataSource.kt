@@ -20,10 +20,12 @@ class AuthDataSource(
     ): Flow<ApiResponse<String>> {
         return flow {
             try {
-//                emit(ApiResponse.Loading)
-                service.register(request)
-//                emit(ApiResponse.Success(response.message))
+                emit(ApiResponse.Loading)
+                val response = service.register(request)
+                emit(ApiResponse.Success("Success"))
             } catch (e: Exception) {
+                emit(ApiResponse.Error(e.message.toString()))
+
 //                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
             }
         }
@@ -40,11 +42,11 @@ class AuthDataSource(
 //                    emit(ApiResponse.Error(response.message))
 //                    return@flow
 //                }
-
-//                pref.storeLoginData(response.data.token)
-//                reloadModule()
-//                emit(ApiResponse.Success(response.message))
+                pref.storeLoginData(response.token, response.user.id)
+                reloadModule()
+                emit(ApiResponse.Success("SUCCESS"))
             } catch (e: Exception) {
+                emit(ApiResponse.Error(e.message.toString()))
 //                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
             }
         }
