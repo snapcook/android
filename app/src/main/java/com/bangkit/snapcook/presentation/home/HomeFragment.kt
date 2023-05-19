@@ -26,9 +26,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun initUI() {
         binding.apply {
-            fabCamera.popClick {
-                findNavController().navigate(R.id.action_homeFragment_to_detectIngredientFragment2)
-            }
+//            fabCamera.popClick {
+//                findNavController().navigate(R.id.action_homeFragment_to_detectIngredientFragment2)
+//            }
             rvPopularRecipe.apply {
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

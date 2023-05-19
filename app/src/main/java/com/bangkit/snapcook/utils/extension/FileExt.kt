@@ -20,6 +20,9 @@ fun Context.getImageUri(img: Bitmap): Uri? {
 
 fun Context.getFileFromUri(contentUri: Uri?): File? {
     val fileName: String = getFileName(contentUri) ?: ""
+    Timber.d("FILE NAME FROM URI $fileName")
+    Timber.d("FILE NAME FROM URI ${contentUri?.path}")
+
     val dir = File(
         this.externalCacheDir.toString()
     )
@@ -42,7 +45,7 @@ private fun getFileName(uri: Uri?): String? {
     if (cut != -1) {
         fileName = path.substring(cut + 1)
     }
-    return fileName
+    return "$fileName.jpg"
 }
 
 private fun copy(context: Context, srcUri: Uri?, dstFile: File?) {

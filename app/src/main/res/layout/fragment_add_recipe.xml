@@ -50,11 +50,11 @@
                 android:textColor="@color/black" />
 
             <EditText
-                android:id="@+id/edt_ingredient_name"
+                android:id="@+id/edt_recipe_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dimen_16dp"
-                android:paddingHorizontal="@dimen/dimen_8dp"
+                android:padding="8dp"
                 android:layout_marginTop="@dimen/dimen_4dp"
                 android:height="@dimen/dimen_44dp"
                 android:autofillHints="Bahan"
@@ -64,14 +64,14 @@
                 style="@style/SnapcookTextStyle.Title"
                 android:layout_marginHorizontal="@dimen/dimen_16dp"
                 android:layout_marginTop="@dimen/dimen_16dp"
-                android:text="@string/label_recipe_name"
+                android:text="@string/label_recipe_description"
                 android:textColor="@color/black" />
 
             <EditText
-                android:id="@+id/edt_ingredient_description"
+                android:id="@+id/edt_recipe_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/dimen_8dp"
+                android:padding="8dp"
                 android:gravity="top"
                 android:layout_marginHorizontal="@dimen/dimen_16dp"
                 android:layout_marginTop="@dimen/dimen_4dp"
@@ -98,9 +98,10 @@
 
                 <EditText
                     android:id="@+id/edt_portion"
-                    android:layout_width="@dimen/dimen_100dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:height="@dimen/dimen_36dp"
+                    android:padding="8dp"
                     android:paddingHorizontal="@dimen/dimen_8dp"
                     android:autofillHints="Bahan"
                     android:background="@drawable/bg_bordered_edit_text"
@@ -118,12 +119,13 @@
 
                 <EditText
                     android:id="@+id/edt_cooking_time"
-                    android:layout_width="@dimen/dimen_100dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen_16dp"
-                    android:height="@dimen/dimen_36dp"
+                    android:minHeight="@dimen/dimen_36dp"
                     android:paddingHorizontal="@dimen/dimen_8dp"
                     android:autofillHints="Bahan"
+                    android:padding="8dp"
                     android:background="@drawable/bg_bordered_edit_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/edt_portion" />

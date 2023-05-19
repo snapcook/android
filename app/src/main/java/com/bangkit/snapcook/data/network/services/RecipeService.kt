@@ -1,15 +1,14 @@
 package com.bangkit.snapcook.data.network.services
 
 import com.bangkit.snapcook.data.model.Recipe
-import com.bangkit.snapcook.data.network.request.RecipeRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.PartMap
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -34,14 +33,16 @@ interface RecipeService {
         @Part photo: MultipartBody.Part,
         @Part("title") title: RequestBody,
         @Part("mainCategory") mainCategory: RequestBody? = null,
+        @Part("secondCategoryId") secondCategoryId: RequestBody? = null,
         @Part("authorId") authorId: RequestBody? = null,
         @Part("description") description: RequestBody,
         @Part("totalServing") totalServing: RequestBody,
         @Part("estimatedTime") estimatedTime: RequestBody,
-        @Part("mainIngredients[]") mainIngredients: List<RequestBody>,
-        @Part("spices[]") spices: List<RequestBody>,
-        @Part("steps[]") steps: List<RequestBody>,
-        ): Nothing
+        @Part("mainIngredients[]") mainIngredients: List<@JvmSuppressWildcards RequestBody>,
+        @Part("spices[]") spices: List<@JvmSuppressWildcards RequestBody>,
+        @Part("steps[]") steps: List<@JvmSuppressWildcards RequestBody>,
+        @Part("utensils[]") utensils: List<@JvmSuppressWildcards RequestBody>,
+    ): Recipe
 
     @PUT("/recipe/{id}")
     suspend fun editRecipe(

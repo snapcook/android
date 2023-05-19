@@ -31,12 +31,8 @@ class AddStepAdapter(private val rv: RecyclerView) : RecyclerView.Adapter<AddSte
         }
     }
 
-    fun retrieveResult(): String {
-        var finalResult = ""
-        for (result in data){
-            finalResult += "$result,"
-        }
-        return finalResult
+    fun retrieveResult(): List<String> {
+        return data
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StringViewHolder {
