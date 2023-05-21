@@ -4,14 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bangkit.snapcook.base.BaseFragment
+import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.databinding.FragmentDetailRecipeBinding
 import com.bangkit.snapcook.utils.extension.popClick
 import com.bangkit.snapcook.utils.extension.setImageUrl
+import com.bangkit.snapcook.utils.extension.setPopBackEnabled
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 
 class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
 
     private val viewModel: DetailRecipeViewModel by inject()
+
+    private var slug = ""
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -23,7 +28,7 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
 
     override fun initUI() {
         binding.apply {
-            imgFood.setImageUrl("https://img.herstory.co.id/articles/archive_20210707/laksa-20210707-103155.jpg")
+            toolBar.setPopBackEnabled()
             btnBookmark.popClick {
 
             }
@@ -36,10 +41,52 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
         }
     }
 
+    override fun initIntent() {
+        val safeArgs = arguments?.let { DetailRecipeFragmentArgs.fromBundle(it) }
+        slug = safeArgs?.slug ?: ""
+    }
+
     override fun initProcess() {
+        viewModel.getRecipeDetail(slug)
     }
 
     override fun initObservers() {
+        viewModel.recipeDetailResult.observe(viewLifecycleOwner) { response ->
+            Timber.d("Response is $response")
+            when (response) {
+                is ApiResponse.Success -> {
+                    val recipe = response.data
+                    binding.apply {
+                        imgFood.setImageUrl(recipe.photo)
+                        tvTitle.text = recipe.title
+                        //get user info and display name not author id
+                        tvUserName.text = recipe.authorId
+                        tvTimer.text = recipe.estimatedTime.toHoursAndMinutes()
+                        tvStory.text = recipe.description
+
+                        //recycler view to do
+                    }
+
+                }
+
+                is ApiResponse.Loading -> {
+                    // Handle loading state
+                }
+                is ApiResponse.Error -> {
+                    // Handle error state
+                }
+                is ApiResponse.Empty -> {
+                    // Handle empty state
+                }
+
+            }
+        }
     }
 
+    fun Int.toHoursAndMinutes(): String {
+        val hours = this / 60
+        val minutes = this % 60
+
+        return "$hours hour(s) and $minutes minute(s)"
+    }
 }

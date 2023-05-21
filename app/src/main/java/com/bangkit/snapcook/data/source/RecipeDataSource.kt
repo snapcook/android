@@ -1,5 +1,6 @@
 package com.bangkit.snapcook.data.source
 
+import com.bangkit.snapcook.data.model.Recipe
 import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.data.network.services.RecipeService
 import com.bangkit.snapcook.utils.PreferenceManager
@@ -44,6 +45,7 @@ class RecipeDataSource(
                     description = description.toRequestBody(),
                     authorId = userId.toRequestBody()
                 )
+
                 emit(ApiResponse.Success("Success"))
             } catch (e: Exception) {
                 Timber.e(e.message)
@@ -51,5 +53,51 @@ class RecipeDataSource(
             }
         }
     }
+
+    suspend fun fetchRecipes(
+        authorId: String? = null,
+        mainCategory: String? = null,
+        secondCategoryId: String? = null,
+        search: String? = null
+    ): Flow<ApiResponse<List<Recipe>>> {
+        return flow {
+            try {
+                emit(ApiResponse.Loading)
+                val response = service.fetchRecipe(
+                    authorId,
+                    mainCategory,
+                    secondCategoryId,
+                    search
+                )
+
+                if (response.isEmpty()) {
+                    emit(ApiResponse.Empty)
+                    return@flow
+                }
+
+                emit(ApiResponse.Success(response))
+            } catch (e: Exception) {
+                Timber.e(e.message)
+                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
+            }
+
+        }
+    }
+
+    suspend fun fetchRecipeDetail(slug: String): Flow<ApiResponse<Recipe>> {
+        return flow {
+            try {
+                emit(ApiResponse.Loading)
+                val response = service.fetchRecipeDetail(slug)
+
+                emit(ApiResponse.Success(response))
+            } catch (e: Exception) {
+                Timber.e(e.message)
+                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
+            }
+
+        }
+    }
+
 
 }

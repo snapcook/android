@@ -1,6 +1,7 @@
 package com.bangkit.snapcook.data.model
 
 data class Recipe (
+    val id: String,
     val title: String,
     val mainCategory: String,
     val secondCategoryId: String,
@@ -12,5 +13,6 @@ data class Recipe (
     val spices: List<String>,
     val utensils: List<String>,
     val estimatedTime: Int,
-    val steps: List<String>
+    val steps: List<String>,
+    val slug: String
 )

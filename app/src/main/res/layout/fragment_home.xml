@@ -81,6 +81,8 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_category_food"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:text="@string/action_category_food"
                     android:textSize="@dimen/font_small"
                     android:layout_width="wrap_content"
@@ -89,6 +91,8 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_category_drink"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:text="@string/action_category_drink"
                     android:textSize="@dimen/font_small"
                     android:layout_width="wrap_content"

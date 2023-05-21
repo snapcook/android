@@ -1,8 +1,10 @@
 package com.bangkit.snapcook.data.network.request
 
 data class RecipeRequest (
+    val id: String,
     val title: String,
     val mainCategory: String,
+    val secondCategoryId: String,
     val authorId: String,
     val photo: String,
     val description: String,
@@ -11,5 +13,6 @@ data class RecipeRequest (
     val spices: List<String>,
     val utensils: List<String>,
     val estimatedTime: Int,
-    val steps: List<String>
+    val steps: List<String>,
+    val slug: String
 )
