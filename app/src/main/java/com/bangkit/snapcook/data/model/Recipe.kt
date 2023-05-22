@@ -14,5 +14,12 @@ data class Recipe (
     val utensils: List<String>,
     val estimatedTime: Int,
     val steps: List<String>,
-    val slug: String
-)
+    val slug: String,
+    val author: Author
+) {
+    data class Author(
+        val name: String,
+        val photo: String,
+        val slug: String
+    )
+}

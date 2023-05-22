@@ -58,12 +58,10 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                     val recipe = response.data
                     binding.apply {
                         imgFood.setImageUrl(recipe.photo)
-                        tvTitle.text = recipe.title
-                        //get user info and display name not author id
-                        tvUserName.text = recipe.authorId
+                        imgProfile.setImageUrl(recipe.author.photo)
+                        tvUserName.text = recipe.author.name
                         tvTimer.text = recipe.estimatedTime.toHoursAndMinutes()
                         tvStory.text = recipe.description
-
                         //recycler view to do
                     }
 
@@ -87,6 +85,6 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
         val hours = this / 60
         val minutes = this % 60
 
-        return "$hours hour(s) and $minutes minute(s)"
+        return "$hours jam dan $minutes menit"
     }
 }

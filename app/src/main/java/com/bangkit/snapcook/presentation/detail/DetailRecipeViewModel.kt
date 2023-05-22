@@ -7,11 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.bangkit.snapcook.data.model.Recipe
 import com.bangkit.snapcook.data.model.User
 import com.bangkit.snapcook.data.network.ApiResponse
+import com.bangkit.snapcook.data.repository.AuthRepository
 import com.bangkit.snapcook.data.repository.RecipeRepository
+import com.bangkit.snapcook.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
 class DetailRecipeViewModel(
-    private val repository: RecipeRepository
+    private val recipeRepository: RecipeRepository,
     ) : ViewModel() {
 
     val recipeDetailResult: LiveData<ApiResponse<Recipe>> by lazy { _recipeDetailResult }
@@ -19,7 +21,7 @@ class DetailRecipeViewModel(
 
     fun getRecipeDetail(slug: String) {
         viewModelScope.launch {
-            repository.getRecipeDetail(slug).collect {
+            recipeRepository.getRecipeDetail(slug).collect {
                 _recipeDetailResult.postValue(it)
             }
         }
