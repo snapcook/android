@@ -209,12 +209,13 @@
                     app:layout_constraintTop_toBottomOf="@id/divider1" />
 
                 <TextView
-                    android:id="@+id/tv_ingredient"
+                    android:id="@+id/tv_portion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="4 Porsi"
                     android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@id/tx_ingredient" />
+                    app:layout_constraintTop_toBottomOf="@id/tx_ingredient"
+                    tools:layout_editor_absoluteX="0dp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_buy_ingredient"
@@ -235,7 +236,7 @@
                     android:id="@+id/rv_ingredient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/tv_ingredient"
+                    app:layout_constraintTop_toBottomOf="@id/tv_portion"
                     tools:listitem="@layout/ingredient_item" />
 
                 <com.google.android.material.divider.MaterialDivider
