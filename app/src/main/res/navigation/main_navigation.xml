@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/addRecipeFragment">
 
     <fragment
         android:id="@+id/detailRecipeFragment"
@@ -31,11 +31,7 @@
         android:id="@+id/homeFragment"
         android:name="com.bangkit.snapcook.presentation.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_detectIngredientFragment2"
-            app:destination="@id/detectIngredientFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/searchRecipeFragment"
         android:name="com.bangkit.snapcook.presentation.search.SearchRecipeFragment"
@@ -66,4 +62,9 @@
         android:name="com.bangkit.snapcook.presentation.bookmark.BookmarkFragment"
         android:label="fragment_bookmark"
         tools:layout="@layout/fragment_bookmark" />
+    <fragment
+        android:id="@+id/takeIngredientPictureFragment"
+        android:name="com.bangkit.snapcook.presentation.take_ingredient_picture.TakeIngredientPictureFragment"
+        android:label="fragment_take_ingredient_picture"
+        tools:layout="@layout/fragment_take_ingredient_picture" />
 </navigation>

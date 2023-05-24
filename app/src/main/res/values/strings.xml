@@ -11,6 +11,7 @@
     <string name="action_add_ingredient">Tambah Bahan</string>
     <string name="label_main_ingredient">Bahan Utama</string>
     <string name="action_add_spice">Tambah Bumbu</string>
+    <string name="action_add_cooking_ware">Tambah Alat Memasak</string>
     <string name="label_spice">Bumbu</string>
     <string name="label_recipe_name">Nama Resep</string>
     <string name="label_portion">Porsi</string>
@@ -60,10 +61,20 @@
     <string name="validation_email">Your email format is incorrect</string>
     <string name="validation_password">Min 8 characters</string>
     <string name="validation_must_not_empty">This field must not be empty</string>
-    <string name="validation_description_must_not_empty">Story description must not be empty</string>
-    <string name="validation_photo">You have to add photo for your story</string>
+    <string name="validation_estimate_time_must_valid">Estimate time is not valid, it should contains hour or minute</string>
+    <string name="validation_description_must_not_empty">Recipe description must not be empty</string>
+    <string name="validation_photo">You have to add photo for your recipe</string>
+    <string name="validation_ingredient_empty">You have yet adding ingredients</string>
+    <string name="validation_not_selected_category">You have yet select recipe category</string>
+    <string name="validation_spices_empty">You have yet adding spices</string>
+    <string name="validation_utensils_empty">You have yet select utensils</string>
+    <string name="validation_steps_empty">You have yet add cooking steps</string>
     <string name="validation_email_not_valid">Email is invalid</string>
     <string name="validation_email_must_not_empty">Email should not be empty</string>
     <string name="label_recipe_description">Deskripsi Resep</string>
+    <string name="action_save_options">Simpan Pilihan</string>
+    <string name="action_save">Save</string>
+    <string name="action_publish">Publish</string>
+    <string name="label_recipe_category">Jenis Masakan</string>
 
 </resources>

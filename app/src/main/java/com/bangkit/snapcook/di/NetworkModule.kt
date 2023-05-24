@@ -3,6 +3,7 @@ package com.bangkit.snapcook.di
 import com.bangkit.snapcook.BuildConfig
 import com.bangkit.snapcook.data.network.HeaderInterceptor
 import com.bangkit.snapcook.data.network.services.BookmarkService
+import com.bangkit.snapcook.data.network.services.CategoryService
 import com.bangkit.snapcook.data.network.services.RecipeService
 import com.bangkit.snapcook.data.network.services.UserService
 import com.bangkit.snapcook.utils.PreferenceManager
@@ -38,6 +39,7 @@ val networkModule = module {
     single { provideRecipeService(get()) }
     single { provideUserService(get()) }
     single { provideBookmarkService(get()) }
+    single { provideCategoryService(get()) }
 }
 
 private val loggingInterceptor = if (BuildConfig.DEBUG) {
@@ -57,5 +59,8 @@ fun provideRecipeService(retrofit: Retrofit): RecipeService =
 
 fun provideUserService(retrofit: Retrofit): UserService =
     retrofit.create(UserService::class.java)
+
+fun provideCategoryService(retrofit: Retrofit): CategoryService =
+    retrofit.create(CategoryService::class.java)
 fun provideBookmarkService(retrofit: Retrofit): BookmarkService =
     retrofit.create(BookmarkService::class.java)

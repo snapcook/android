@@ -19,6 +19,7 @@ class RecipeDataSource(
         title: String,
         description: String,
         mainCategory: String,
+        secondCategoryId: String,
         totalServing: String,
         estimatedTime: String,
         mainIngredients: List<String>,
@@ -33,7 +34,7 @@ class RecipeDataSource(
                 val response = service.addRecipe(
                     photo = photo.toMultipart(),
                     mainCategory = mainCategory.toRequestBody(),
-                    secondCategoryId = "clhr4vpnx0002s60bx81gqf86".toRequestBody(),
+                    secondCategoryId = secondCategoryId.toRequestBody(),
                     totalServing = totalServing.toRequestBody(),
                     title = title.toRequestBody(),
                     estimatedTime = estimatedTime.toRequestBody(),

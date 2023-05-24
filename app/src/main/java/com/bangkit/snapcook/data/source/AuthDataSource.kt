@@ -7,6 +7,7 @@ import com.bangkit.snapcook.data.network.services.UserService
 import com.bangkit.snapcook.di.networkModule
 import com.bangkit.snapcook.di.preferenceModule
 import com.bangkit.snapcook.utils.PreferenceManager
+import com.bangkit.snapcook.utils.helper.createResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.koin.core.context.loadKoinModules
@@ -24,9 +25,8 @@ class AuthDataSource(
                 val response = service.register(request)
                 emit(ApiResponse.Success("Success"))
             } catch (e: Exception) {
-                emit(ApiResponse.Error(e.message.toString()))
-
-//                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
+//                emit(ApiResponse.Error(e.message.toString()))
+                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
             }
         }
     }
@@ -46,8 +46,7 @@ class AuthDataSource(
                 reloadModule()
                 emit(ApiResponse.Success("SUCCESS"))
             } catch (e: Exception) {
-                emit(ApiResponse.Error(e.message.toString()))
-//                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
+                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
             }
         }
     }

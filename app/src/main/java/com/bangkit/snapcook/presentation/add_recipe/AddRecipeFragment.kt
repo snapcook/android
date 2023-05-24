@@ -6,20 +6,25 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
+import com.bangkit.snapcook.data.model.Utensil
 import com.bangkit.snapcook.databinding.FragmentAddRecipeBinding
 import com.bangkit.snapcook.presentation.add_recipe.adapter.AddIngredientAdapter
 import com.bangkit.snapcook.presentation.add_recipe.adapter.AddSpiceAdapter
 import com.bangkit.snapcook.presentation.add_recipe.adapter.AddStepAdapter
+import com.bangkit.snapcook.presentation.add_recipe.adapter.AddUtensilsAdapter
+import com.bangkit.snapcook.presentation.add_recipe.adapter.SelectCategoryAdapter
+import com.bangkit.snapcook.presentation.modal.utensils.UtensilsBottomModal
 import com.bangkit.snapcook.utils.enums.ImageSource
 import com.bangkit.snapcook.utils.extension.extractToMinutes
 import com.bangkit.snapcook.utils.extension.getFileFromUri
+import com.bangkit.snapcook.utils.extension.observeResponse
 import com.bangkit.snapcook.utils.extension.observeSingleEvent
 import com.bangkit.snapcook.utils.extension.popClick
 import com.bangkit.snapcook.utils.extension.setGlideImageUri
 import com.bangkit.snapcook.utils.extension.showSnackBar
 import org.koin.android.ext.android.inject
-import timber.log.Timber
 import java.io.File
 
 class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
@@ -28,6 +33,7 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
 
     private var imageFile: File? = null
     private var mUri: Uri? = null
+    private val selectedUtensils = ArrayList<Utensil>()
 
     private val addIngredientAdapter: AddIngredientAdapter by lazy {
         AddIngredientAdapter()
@@ -39,6 +45,14 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
 
     private val addStepAdapter: AddStepAdapter by lazy {
         AddStepAdapter(binding.rvSteps)
+    }
+
+    private val addUtensilAdapter: AddUtensilsAdapter by lazy {
+        AddUtensilsAdapter()
+    }
+
+    private val categoryAdapter: SelectCategoryAdapter by lazy {
+        SelectCategoryAdapter()
     }
 
     override fun getViewBinding(
@@ -80,6 +94,18 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
                 isNestedScrollingEnabled = false
             }
 
+            rvCookingWare.apply {
+                adapter = addUtensilAdapter
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            }
+
+            rvCategory.apply {
+                adapter = categoryAdapter
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            }
+
             btnAddMainIngredient.popClick {
                 addIngredientAdapter.addData()
             }
@@ -90,6 +116,15 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
 
             btnAddStep.popClick {
                 addStepAdapter.addData()
+            }
+
+            btnAddCookingWare.popClick {
+                val bottomSheetDialogFragment = UtensilsBottomModal(selectedUtensils) {
+                    selectedUtensils.clear()
+                    selectedUtensils.addAll(it)
+                    addUtensilAdapter.setData(selectedUtensils)
+                }
+                bottomSheetDialogFragment.show(childFragmentManager, "UtensilsBottomModalFragment")
             }
 
             btnSave.popClick {
@@ -108,9 +143,6 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
 
     private fun handleImagePicker(uri: Uri?) {
         imageFile = requireActivity().getFileFromUri(uri)
-        Timber.d("FILE PATH IS ${imageFile?.absolutePath}")
-        Timber.d("FILE EXTENSION IS ${imageFile?.extension}")
-
         binding.imgFood.apply {
             scaleType = ImageView.ScaleType.CENTER
             setGlideImageUri(uri)
@@ -121,46 +153,64 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
         binding.apply {
             val recipeName = edtRecipeName.text.toString()
             val recipeDescription = edtRecipeDescription.text.toString()
+            val selectedCategory = categoryAdapter.retrieveSelectedId()
             val portion = edtPortion.text.toString()
-            val estimateTime = edtCookingTime.text.toString().extractToMinutes().toString()
+            val estimateTime = edtCookingTime.text.toString().extractToMinutes()
             val ingredients = addIngredientAdapter.retrieveResult()
             val spices = addSpiceAdapter.retrieveResult()
             val steps = addStepAdapter.retrieveResult()
-            val utensils = listOf("Garpu", "Wajan", "Mangkuk")
+            val utensils = selectedUtensils
 
-            viewModel.uploadRecipe(
-                photo = imageFile!!,
-                title = recipeName,
-                description = recipeDescription,
-                mainCategory = "Makanan",
-                totalServing = portion,
-                estimatedTime = estimateTime,
-                mainIngredients = ingredients,
-                spices = spices,
-                steps = steps,
-                utensils = utensils
-            )
-            return
-//            when {
-//                storyDescription.isEmpty() -> {
-//                    edtDescription.showError(getString(R.string.validation_must_not_empty))
-//                }
-//                imageFile == null -> {
-//                    root.showSnackBar(getString(R.string.validation_photo))
-//                }
-//                else -> {
-//                    viewModel.uploadRecipe(
-//                        photo = imageFile!!,
-//                        description = storyDescription,
-//                        latitude = if (allowLocation) myLocation?.latitude?.toFloat() else null,
-//                        longitude = if (allowLocation) myLocation?.longitude?.toFloat() else null
-//                    )
-//                }
-//            }
+            when {
+                imageFile == null -> {
+                    root.showSnackBar(getString(R.string.validation_photo))
+                }
+                recipeName.isEmpty() -> {
+                    edtRecipeDescription.error = getString(R.string.validation_must_not_empty)
+                }
+                portion.isEmpty() -> {
+                    edtPortion.error = getString(R.string.validation_must_not_empty)
+                }
+                estimateTime == null -> {
+                    edtPortion.error = getString(R.string.validation_estimate_time_must_valid)
+                }
+                selectedCategory.isEmpty() -> {
+                    root.showSnackBar(getString(R.string.validation_not_selected_category))
+                }
+                ingredients.isEmpty() -> {
+                    root.showSnackBar(getString(R.string.validation_ingredient_empty))
+                }
+                spices.isEmpty() -> {
+                    root.showSnackBar(getString(R.string.validation_spices_empty))
+                }
+                steps.isEmpty() -> {
+                    root.showSnackBar(getString(R.string.validation_steps_empty))
+                }
+                utensils.isEmpty() -> {
+                    root.showSnackBar(getString(R.string.validation_utensils_empty))
+                }
+
+                else -> {
+                    viewModel.uploadRecipe(
+                        photo = imageFile!!,
+                        title = recipeName,
+                        description = recipeDescription,
+                        mainCategory = "Makanan",
+                        secondCategoryId = selectedCategory,
+                        totalServing = portion,
+                        estimatedTime = estimateTime.toString(),
+                        mainIngredients = ingredients,
+                        spices = spices,
+                        steps = steps,
+                        utensils = utensils
+                    )
+                }
+            }
         }
     }
 
     override fun initProcess() {
+        viewModel.getCategories()
     }
 
     override fun initObservers() {
@@ -175,6 +225,20 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
             error = { response ->
                 hideLoadingDialog()
                 binding.root.showSnackBar(response.errorMessage)
+            },
+        )
+
+        viewModel.categoryResult.observeResponse(
+            viewLifecycleOwner,
+            loading = {
+                showLoadingDialog()
+            },
+            success = {
+                hideLoadingDialog()
+                categoryAdapter.setData(it.data)
+            },
+            error = { response ->
+                hideLoadingDialog()
             },
         )
     }
