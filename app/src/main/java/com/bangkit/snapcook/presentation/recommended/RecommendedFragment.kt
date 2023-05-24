@@ -1,17 +1,19 @@
-package com.bangkit.snapcook.presentation.bookmark
+package com.bangkit.snapcook.presentation.recommended
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bangkit.snapcook.base.BaseFragment
-import com.bangkit.snapcook.databinding.FragmentBookmarkBinding
+import com.bangkit.snapcook.databinding.FragmentRecommendedBinding
 
-class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
+class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
+
+
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): FragmentBookmarkBinding {
+    ): FragmentRecommendedBinding {
         TODO("Not yet implemented")
     }
 

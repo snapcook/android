@@ -1,5 +1,6 @@
 package com.bangkit.snapcook.data.repository
 
+import com.bangkit.snapcook.data.model.Recipe
 import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.data.source.RecipeDataSource
 import kotlinx.coroutines.Dispatchers
@@ -38,4 +39,22 @@ class RecipeRepository(
             utensils
         ).flowOn(Dispatchers.IO)
     }
+
+    suspend fun getRecipes(
+        authorId: String? = null,
+        mainCategory: String? = null,
+        secondCategoryId: String? = null,
+        search: String? = null
+    ): Flow<ApiResponse<List<Recipe>>>{
+        return dataSource.fetchRecipes(
+            authorId,
+            mainCategory,
+            secondCategoryId,
+            search
+        ).flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getRecipeDetail(slug: String): Flow<ApiResponse<Recipe>> =
+        dataSource.fetchRecipeDetail(slug).flowOn(Dispatchers.IO)
+
 }

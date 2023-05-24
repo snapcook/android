@@ -16,15 +16,15 @@ interface RecipeService {
 
     @GET("/recipe")
     suspend fun fetchRecipe(
-        @Query("authorId") authorId: String?,
-        @Query("mainCategory") category: String?,
-        @Query("secondCategory") secondCategory: String?,
-        @Query("search") search: String?,
+        @Query("authorId") authorId: String? = null,
+        @Query("mainCategory") category: String? = null,
+        @Query("secondCategory") secondCategory: String? = null,
+        @Query("search") search: String? = null,
     ): List<Recipe>
 
-    @GET("/recipe/{id}")
+    @GET("/recipe/{slug}")
     suspend fun fetchRecipeDetail(
-        @Path("id") id: String,
+        @Path("slug") slug: String,
     ): Recipe
 
     @POST("/recipe")

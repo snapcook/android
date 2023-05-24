@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <com.bangkit.snapcook.base.custom_view.IngredientTextView
-        android:id="@+id/tv_ingredient"
+        android:id="@+id/tv_portion"
         android:text="sugar"
         app:prefixText="500 gr"
         android:layout_width="match_parent"
