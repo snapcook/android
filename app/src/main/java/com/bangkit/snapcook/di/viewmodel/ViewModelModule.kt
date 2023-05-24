@@ -12,8 +12,6 @@ val viewModelModule = module {
     single { RegisterViewModel(get()) }
     single { LoginViewModel(get()) }
     single { AddRecipeViewModel(get(), get()) }
-
-    single { AddRecipeViewModel(get()) }
     single { HomeViewModel(get()) }
     single { DetailRecipeViewModel(get()) }
 }
