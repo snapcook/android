@@ -44,7 +44,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun navigateToFragment(navController: NavController) {
-        navController.navigate(R.id.addRecipeFragment)
+        navController.navigate(R.id.detectIngredientFragment)
     }
 
     override fun initProcess() {}

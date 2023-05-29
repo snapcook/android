@@ -1,7 +1,9 @@
 package com.bangkit.snapcook.utils.extension
 
+import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
 import android.text.TextUtils
@@ -16,6 +18,19 @@ fun Context.getImageUri(img: Bitmap): Uri? {
     val path = MediaStore.Images.Media.
     insertImage(this.contentResolver, img, "Title", null)
     return Uri.parse(path)
+}
+
+fun Uri.uriToBitmap(context: Context): Bitmap? {
+    var bitmap: Bitmap? = null
+    try {
+        val contentResolver: ContentResolver = context.contentResolver
+        val inputStream = contentResolver.openInputStream(this)
+        bitmap = BitmapFactory.decodeStream(inputStream)
+        inputStream?.close()
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return bitmap
 }
 
 fun Context.getFileFromUri(contentUri: Uri?): File? {

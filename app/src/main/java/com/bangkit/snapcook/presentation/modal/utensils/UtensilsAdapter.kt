@@ -7,6 +7,7 @@ import com.bangkit.snapcook.R
 import com.bangkit.snapcook.data.model.Utensil
 import com.bangkit.snapcook.databinding.CookingWareItemBinding
 import com.bangkit.snapcook.databinding.UtensilSelectionItemBinding
+import com.bangkit.snapcook.utils.extension.setImageUrl
 
 class UtensilsAdapter : RecyclerView.Adapter<UtensilsAdapter.UtensilViewHolder>() {
 
@@ -57,7 +58,7 @@ class UtensilsAdapter : RecyclerView.Adapter<UtensilsAdapter.UtensilViewHolder>(
                     iconCheck.setImageResource(R.drawable.ic_unchecked_box)
                 }
 
-                imgCookingWare.setImageResource(utensil.image)
+                imgCookingWare.setImageUrl(utensil.photo)
                 tvCookingWare.text = utensil.name
                 itemView.setOnClickListener {
                     if (selectedItems.contains(utensil)) {

@@ -75,6 +75,12 @@
     <string name="action_save">Save</string>
     <string name="action_publish">Publish</string>
     <string name="label_recipe_category">Jenis Masakan</string>
+    <string name="action_find_recipe">Cari Resep</string>
+    <string name="label_scan_result">Scanning Result</string>
+    <string name="action_take_other_picture">Ambil Foto Lain</string>
+    <string name="label_detected_ingredient">Bahan terdeteksi</string>
+    <string name="action_detail">Detail</string>
+    <string name="label_complete_ingredient">Bahan sudah lengkap</string>
 
 
 </resources>

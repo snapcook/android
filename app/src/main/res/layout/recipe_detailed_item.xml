@@ -16,15 +16,16 @@
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_16dp"
-            android:textSize="@dimen/font_big"
-            android:textStyle="bold"
             android:ellipsize="end"
             android:maxEms="15"
             android:maxLines="1"
+            android:textSize="@dimen/font_big"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/tv_category"
+            app:layout_constraintEnd_toStartOf="@+id/btn_bookmark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent"
             tools:text="Title" />
@@ -98,6 +99,8 @@
             android:layout_marginEnd="@dimen/dimen_16dp"
             android:layout_marginBottom="@dimen/dimen_16dp"
             android:textSize="@dimen/font_reg"
+            android:maxLines="2"
+            android:ellipsize="end"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearlayout"
             app:layout_constraintEnd_toEndOf="parent"

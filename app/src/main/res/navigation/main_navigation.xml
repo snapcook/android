@@ -37,9 +37,6 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_detectIngredientFragment2"
-            app:destination="@id/detectIngredientFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_detailRecipeFragment"
             app:destination="@id/detailRecipeFragment" />
     </fragment>
@@ -57,7 +54,11 @@
         android:id="@+id/detectIngredientFragment"
         android:name="com.bangkit.snapcook.presentation.detect_ingredient.DetectIngredientFragment"
         android:label="fragment_detect_ingredient"
-        tools:layout="@layout/fragment_detect_ingredient" />
+        tools:layout="@layout/fragment_detect_ingredient" >
+        <action
+            android:id="@+id/action_detectIngredientFragment_to_recommendedFragment"
+            app:destination="@id/recommendedFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.bangkit.snapcook.presentation.profile.ProfileFragment"
@@ -67,7 +68,14 @@
         android:id="@+id/noteFragment"
         android:name="com.bangkit.snapcook.presentation.note.NoteFragment"
         android:label="fragment_note"
-        tools:layout="@layout/fragment_note" />
+        tools:layout="@layout/fragment_note" >
+        <action
+            android:id="@+id/action_noteFragment_to_noteDetailFragment"
+            app:destination="@id/noteDetailFragment" />
+        <action
+            android:id="@+id/action_noteFragment_to_detailRecipeFragment"
+            app:destination="@id/detailRecipeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/bookmarkFragment"
         android:name="com.bangkit.snapcook.presentation.bookmark.BookmarkFragment"
@@ -77,5 +85,30 @@
         android:id="@+id/takeIngredientPictureFragment"
         android:name="com.bangkit.snapcook.presentation.take_ingredient_picture.TakeIngredientPictureFragment"
         android:label="fragment_take_ingredient_picture"
-        tools:layout="@layout/fragment_take_ingredient_picture" />
+        tools:layout="@layout/fragment_take_ingredient_picture" >
+        <action
+            android:id="@+id/action_takeIngredientPictureFragment_to_detectIngredientFragment"
+            app:destination="@id/detectIngredientFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recommendedFragment"
+        android:name="com.bangkit.snapcook.presentation.recommended.RecommendedFragment"
+        android:label="fragment_recommended"
+        tools:layout="@layout/fragment_recommended" >
+        <argument
+            android:name="result"
+            app:argType="string[]" />
+        <action
+            android:id="@+id/action_recommendedFragment_to_detailRecipeFragment"
+            app:destination="@id/detailRecipeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteDetailFragment"
+        android:name="com.bangkit.snapcook.presentation.note_detail.NoteDetailFragment"
+        android:label="fragment_note_detail"
+        tools:layout="@layout/fragment_note_detail" >
+        <argument
+            android:name="groupId"
+            app:argType="string" />
+    </fragment>
 </navigation>

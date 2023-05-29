@@ -1,8 +1,10 @@
 package com.bangkit.snapcook.data.network.services
 
 import com.bangkit.snapcook.data.model.Recipe
+import com.bangkit.snapcook.data.network.request.PredictIngredientRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -20,6 +22,11 @@ interface RecipeService {
         @Query("mainCategory") category: String? = null,
         @Query("secondCategory") secondCategory: String? = null,
         @Query("search") search: String? = null,
+    ): List<Recipe>
+
+    @POST("/predict")
+    suspend fun predictIngredient(
+        @Body request: PredictIngredientRequest
     ): List<Recipe>
 
     @GET("/recipe/{slug}")

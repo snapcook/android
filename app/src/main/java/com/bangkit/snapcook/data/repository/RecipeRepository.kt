@@ -2,10 +2,12 @@ package com.bangkit.snapcook.data.repository
 
 import com.bangkit.snapcook.data.model.Recipe
 import com.bangkit.snapcook.data.network.ApiResponse
+import com.bangkit.snapcook.data.network.request.PredictIngredientRequest
 import com.bangkit.snapcook.data.source.RecipeDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import timber.log.Timber
 import java.io.File
 
 class RecipeRepository(
@@ -44,14 +46,21 @@ class RecipeRepository(
         authorId: String? = null,
         mainCategory: String? = null,
         secondCategoryId: String? = null,
-        search: String? = null
-    ): Flow<ApiResponse<List<Recipe>>>{
+        search: String? = null,
+    ): Flow<ApiResponse<List<Recipe>>> {
         return dataSource.fetchRecipes(
             authorId,
             mainCategory,
             secondCategoryId,
             search
         ).flowOn(Dispatchers.IO)
+    }
+
+    suspend fun predictIngredients(
+        ingredients: List<String>,
+    ): Flow<ApiResponse<List<Recipe>>> {
+        Timber.d("HEHE2")
+        return dataSource.predictIngredient(PredictIngredientRequest(ingredients)).flowOn(Dispatchers.IO)
     }
 
     suspend fun getRecipeDetail(slug: String): Flow<ApiResponse<Recipe>> =

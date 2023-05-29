@@ -2,6 +2,7 @@ package com.bangkit.snapcook.data.source
 
 import com.bangkit.snapcook.data.model.Recipe
 import com.bangkit.snapcook.data.network.ApiResponse
+import com.bangkit.snapcook.data.network.request.PredictIngredientRequest
 import com.bangkit.snapcook.data.network.services.RecipeService
 import com.bangkit.snapcook.utils.PreferenceManager
 import com.bangkit.snapcook.utils.helper.createResponse
@@ -79,6 +80,33 @@ class RecipeDataSource(
                 emit(ApiResponse.Success(response))
             } catch (e: Exception) {
                 Timber.e(e.message)
+                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
+            }
+
+        }
+    }
+
+    suspend fun predictIngredient(
+        request: PredictIngredientRequest
+    ): Flow<ApiResponse<List<Recipe>>> {
+        return flow {
+            try {
+                Timber.d("HEHE3")
+
+                emit(ApiResponse.Loading)
+                val response = service.predictIngredient(request)
+
+                if (response.isEmpty()) {
+                    Timber.d("HEHE 5")
+
+                    emit(ApiResponse.Empty)
+                    return@flow
+                }
+
+                emit(ApiResponse.Success(response))
+            } catch (e: Exception) {
+                Timber.d("HEHE3 tapi error ${e.message}, ${e.cause}")
+
                 emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
             }
 

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.snapcook.data.model.Utensil
-import com.bangkit.snapcook.data.source.UtensilsSource
 import com.bangkit.snapcook.databinding.UtensilsSelectionBottomModalBinding
 import com.bangkit.snapcook.utils.extension.popClick
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -52,8 +51,11 @@ class UtensilsBottomModal(
                 onSave(adapter.retrieveSelectedUtensils())
                 dismiss()
             }
+
         }
+
+
+
         adapter.setSelectedData(utensils)
-        adapter.setData(UtensilsSource.utensils)
     }
 }

@@ -22,7 +22,12 @@
     <color name="colorDarkGreyToast">#9E000000</color>
 
     <color name="primary_color">#FFaed6d0</color>
+    <color name="primary_color_10">#1AAED6D0</color>
+    <color name="primary_color_25">#40AED6D0</color>
+
     <color name="copper">#FFE48364</color>
+    <color name="copper_25">#40E48364</color>
+
     <color name="secondary_color">#FF70E373</color>
     <color name="red_button">#DF334D</color>
     <color name="grey">#AFB1B6</color>

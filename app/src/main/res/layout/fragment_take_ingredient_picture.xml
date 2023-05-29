@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.take_ingredient_picture.TakeIngredientPictureFragment">
+   tools:context=".presentation.take_ingredient_picture.TakeIngredientPictureFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolBar"
@@ -12,7 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/primary_color"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_back" />
+        app:navigationIcon="@drawable/ic_close" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_vertical"

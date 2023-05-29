@@ -16,19 +16,14 @@ import com.bangkit.snapcook.utils.extension.getFileFromUri
 import com.bangkit.snapcook.utils.extension.popClick
 import com.bangkit.snapcook.utils.extension.setGlideImageUri
 import com.bangkit.snapcook.utils.extension.setPopBackEnabled
+import com.bangkit.snapcook.utils.extension.uriToBitmap
+import com.bangkit.snapcook.utils.helper.detectIngredient
 import java.io.File
 
 class TakeIngredientPictureFragment : BaseFragment<FragmentTakeIngredientPictureBinding>() {
 
     private lateinit var viewModel: TakeIngredientPictureViewModel
     private var imageFile: File? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        return inflater.inflate(R.layout.fragment_take_ingredient_picture, container, false)
-    }
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -66,6 +61,9 @@ class TakeIngredientPictureFragment : BaseFragment<FragmentTakeIngredientPicture
 
     private fun handleImagePicker(uri: Uri?) {
         imageFile = requireActivity().getFileFromUri(uri)
+        val bitmap = uri?.uriToBitmap(requireContext())
+//        val detectedBitmap = bitmap?.detectIngredient(requireContext())
+
         binding.imgIngredient.apply {
             scaleType = ImageView.ScaleType.CENTER
             setGlideImageUri(uri)

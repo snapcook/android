@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bangkit.snapcook.base.BaseFragment
+import com.bangkit.snapcook.data.model.Recipe
 import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.databinding.FragmentDetailRecipeBinding
 import com.bangkit.snapcook.utils.extension.popClick
@@ -17,6 +18,7 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
     private val viewModel: DetailRecipeViewModel by inject()
 
     private var slug = ""
+    private var recipe: Recipe? = null
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -33,7 +35,7 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
 
             }
             btnBuyIngredient.popClick {
-
+                recipe?.let { viewModel.addToGroceryList(it) }
             }
             btnStartCooking.popClick {
 
@@ -55,16 +57,16 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
             Timber.d("Response is $response")
             when (response) {
                 is ApiResponse.Success -> {
-                    val recipe = response.data
+                    recipe = response.data
                     binding.apply {
-                        imgFood.setImageUrl(recipe.photo)
-                        imgProfile.setImageUrl(recipe.author.photo)
-                        tvTitle.text = recipe.title
-                        tvUserName.text = recipe.author.name
-                        tvUserSlug.text = recipe.author.slug
-                        tvTimer.text = recipe.estimatedTime.toHoursAndMinutes()
-                        tvStory.text = recipe.description
-                        tvPortion.text = recipe.totalServing.toPortionString()
+                        imgFood.setImageUrl(recipe?.photo)
+                        imgProfile.setImageUrl(recipe?.author?.photo)
+                        tvTitle.text = recipe?.title
+                        tvUserName.text = recipe?.author?.name
+                        tvUserSlug.text = recipe?.author?.slug
+                        tvTimer.text = recipe?.estimatedTime?.toHoursAndMinutes()
+                        tvStory.text = recipe?.description
+                        tvPortion.text = recipe?.totalServing?.toPortionString()
                         //recycler view to do
                     }
 

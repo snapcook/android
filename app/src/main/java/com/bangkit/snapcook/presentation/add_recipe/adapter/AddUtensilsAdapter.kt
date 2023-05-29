@@ -7,6 +7,7 @@ import com.bangkit.snapcook.R
 import com.bangkit.snapcook.data.model.Utensil
 import com.bangkit.snapcook.databinding.CookingWareItemBinding
 import com.bangkit.snapcook.utils.extension.popClick
+import com.bangkit.snapcook.utils.extension.setImageUrl
 
 class AddUtensilsAdapter : RecyclerView.Adapter<AddUtensilsAdapter.StringViewHolder>() {
     private var data = ArrayList<Utensil>()
@@ -32,7 +33,7 @@ class AddUtensilsAdapter : RecyclerView.Adapter<AddUtensilsAdapter.StringViewHol
         RecyclerView.ViewHolder(binding.root) {
         fun bind(utensil: Utensil) {
             binding.apply {
-                imgCookingWare.setImageResource(utensil.image)
+                imgCookingWare.setImageUrl(utensil.photo)
                 tvCookingWare.text = utensil.name
             }
         }
