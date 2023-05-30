@@ -12,6 +12,7 @@ import com.bangkit.snapcook.data.model.Recipe
 import com.bangkit.snapcook.databinding.RecipeDetailedItemBinding
 import com.bangkit.snapcook.databinding.RecipeMiniItemBinding
 import com.bangkit.snapcook.utils.constant.AnimationConstants
+import com.bangkit.snapcook.utils.extension.popClick
 import com.bangkit.snapcook.utils.extension.popTap
 import com.bangkit.snapcook.utils.extension.setImageUrl
 
@@ -48,9 +49,15 @@ class ListRecipeDetailAdapter(
             ivBookmark.setImageDrawable(ContextCompat.getDrawable(ivBookmark.context, R.drawable.ic_bookmark_border))
         }
 
-        ivBookmark.setOnClickListener {
-            it.popTap()
+        ivBookmark.popClick {
             onBookmarkClick(recipe)
+            recipe.isBookmarked = !recipe.isBookmarked
+            notifyItemChanged(position)
+            if (recipe.isBookmarked) {
+                ivBookmark.setImageDrawable(ContextCompat.getDrawable(ivBookmark.context, R.drawable.ic_bookmark))
+            } else {
+                ivBookmark.setImageDrawable(ContextCompat.getDrawable(ivBookmark.context, R.drawable.ic_bookmark_border))
+            }
         }
     }
 

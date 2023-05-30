@@ -27,12 +27,12 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
         ListRecipeDetailAdapter(
             onClick = { navigateToDetail(it) },
             onBookmarkClick = { recipe ->
-                Timber.d("HEI")
-                if (recipe.bookmarkId != null) {
-                    viewModel.removeBookmark(recipe.bookmarkId!!)
+                if (recipe.isBookmarked) {
+                    viewModel.removeBookmark(recipe.id)
                     recipe.bookmarkId = null
                     binding.root.showSnackBar("Resep dihapus dari Bookmark.")
                 } else {
+                    binding.root.showSnackBar("Resep ditambahkan ke Bookmark.")
                     viewModel.addBookmark(recipe.id)
                 }
             }

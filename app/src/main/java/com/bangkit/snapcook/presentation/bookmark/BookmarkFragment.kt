@@ -25,22 +25,8 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
                 navigateToDetail(it)
                 },
             onBookmarkClick = { recipe ->
-                Timber.d("Bookmark icon clicked")
-                if (recipe.isBookmarked){
-                    viewModel.removeBookmark(recipe.bookmarkId ?: "")
-                } else {
-                    viewModel.removeBookmark(recipe.bookmarkId!!)
-                }
-
-                if (recipe.bookmarkId != null) {
-                    Timber.d("RecipeBookmarkedId = ${recipe.bookmarkId}")
-                    viewModel.removeBookmark(recipe.bookmarkId!!)
-                    recipe.bookmarkId = null
-                    Timber.d("RecipeBookmarkedId after remove = ${recipe.bookmarkId}")
-                    //viewModel.getBookmarkedRecipe()
-                    Timber.d("RecipeBookmarkedId after viewmodel observed again = ${recipe.bookmarkId}")
-                    binding.root.showSnackBar("Resep dihapus dari Bookmark.")
-                }
+                binding.root.showSnackBar("Resep dihapus dari Bookmark.")
+                viewModel.removeBookmark(recipe.bookmarkId ?: "")
             }
         )
     }
