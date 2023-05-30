@@ -2,11 +2,11 @@ package com.bangkit.snapcook.data.source
 
 import com.bangkit.snapcook.data.local.dao.BookmarkDao
 import com.bangkit.snapcook.data.model.Recipe
-import com.bangkit.snapcook.data.model.User
 import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.data.network.request.PredictIngredientRequest
 import com.bangkit.snapcook.data.network.services.RecipeService
 import com.bangkit.snapcook.utils.PreferenceManager
+import com.bangkit.snapcook.utils.helper.RawQueryHelper
 import com.bangkit.snapcook.utils.helper.createResponse
 import com.bangkit.snapcook.utils.helper.toMultipart
 import com.bangkit.snapcook.utils.helper.toRequestBody
@@ -17,7 +17,8 @@ import java.io.File
 
 class RecipeDataSource(
     private val service: RecipeService,
-    private val pref: PreferenceManager
+    private val pref: PreferenceManager,
+    private val dao: BookmarkDao
 ) {
     suspend fun addRecipe(
         photo: File,
@@ -85,7 +86,32 @@ class RecipeDataSource(
                 Timber.e(e.message)
                 emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
             }
+        }
+    }
 
+    suspend fun fetchSearchedRecipe(
+        search: String?
+    ): Flow<ApiResponse<List<Recipe>>> {
+        return flow {
+            try {
+                emit(ApiResponse.Loading)
+                val response = service.fetchRecipe(
+                    search = search
+                )
+
+                dao.insertAllRecipe(response)
+                val recipes = dao.getSearchRecipe(RawQueryHelper.searchRecipeQuery(search ?: ""))
+
+                if (recipes.isEmpty()) {
+                    emit(ApiResponse.Empty)
+                    return@flow
+                }
+
+                emit(ApiResponse.Success(recipes))
+            } catch (e: Exception) {
+                Timber.e(e.message)
+                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
+            }
         }
     }
 

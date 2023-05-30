@@ -42,7 +42,7 @@ class ListRecipeDetailAdapter(
         holder.bind(recipe)
 
         val ivBookmark = holder.binding.btnBookmark
-        if (recipe.bookmarkId!!.isNotEmpty()) {
+        if (recipe.isBookmarked) {
             ivBookmark.setImageDrawable(ContextCompat.getDrawable(ivBookmark.context, R.drawable.ic_bookmark))
         } else {
             ivBookmark.setImageDrawable(ContextCompat.getDrawable(ivBookmark.context, R.drawable.ic_bookmark_border))

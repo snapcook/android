@@ -19,7 +19,7 @@ interface BookmarkService {
     @POST("/bookmark")
     suspend fun addToBookmark(
       @Body request: AddBookmarkRequest
-    ): Nothing
+    ): BasicResponse
 
     @DELETE("/bookmark/{id}")
     suspend fun removeFromBookmark(

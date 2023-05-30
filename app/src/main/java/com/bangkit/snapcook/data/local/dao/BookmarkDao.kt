@@ -1,13 +1,13 @@
 package com.bangkit.snapcook.data.local.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.bangkit.snapcook.data.model.Recipe
 
 @Dao
 interface BookmarkDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAllRecipe(recipe:List<Recipe>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -16,18 +16,13 @@ interface BookmarkDao {
     @Query("SELECT * FROM recipe WHERE id = :id")
     suspend fun getDetailRecipe(id: String): Recipe
 
-    @Update
-    fun updateBookmarkRecipe(recipe: Recipe)
 
-    @Query("SELECT * FROM recipe WHERE is_bookmark = 1")
-    suspend fun getAllBookmarkedRecipe(): List<Recipe>
+    @Query("SELECT * FROM recipe WHERE isBookmarked = 1")
+    suspend fun getBookmarkedRecipe(): List<Recipe>
 
-    @Query("SELECT EXISTS(SELECT * FROM recipe WHERE id = :id)")
-    suspend fun isRecipeExist(id : String) : Boolean
+    @RawQuery(observedEntities = [Recipe::class])
+    suspend fun getSearchRecipe(query: SupportSQLiteQuery): List<Recipe>
 
-    @Query("UPDATE recipe SET is_bookmark = :isBookmark WHERE id = :id")
-    suspend fun updateRecipeBookmarkStatus(isBookmark: Boolean, id: String)
-
-    @Query("DELETE FROM recipe WHERE is_bookmark = 0")
-    fun deleteAll()
+    @Query("UPDATE recipe SET isBookmarked = :isBookmark WHERE id =:id")
+    suspend fun updateGroceryGroupCompleted(id: String, isBookmark: Boolean)
 }

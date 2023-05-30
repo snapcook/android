@@ -20,8 +20,8 @@ class BookmarkViewModel(
     private val repository: BookmarkRepository
 ) : ViewModel() {
 
-    val getBookmarkResult: LiveData<ApiResponse<List<BookmarkResponse>>> by lazy { _getBookmarkResult }
-    private val _getBookmarkResult = MutableLiveData<ApiResponse<List<BookmarkResponse>>>()
+    val getBookmarkResult: LiveData<ApiResponse<List<Recipe>>> by lazy { _getBookmarkResult }
+    private val _getBookmarkResult = MutableLiveData<ApiResponse<List<Recipe>>>()
 
     fun getBookmarkedRecipe(){
         viewModelScope.launch {

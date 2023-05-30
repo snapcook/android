@@ -59,8 +59,10 @@ class NoteFragment : BaseFragment<FragmentNoteBinding>() {
                 groceryGroupAdapter.setData(it.data)
             },
             empty = {
+                hideLoadingDialog()
                 Timber.d("EMPTY! DO SOMETHING")
             },
+
             error = {
                 hideLoadingDialog()
             }

@@ -4,20 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
-import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.databinding.FragmentSearchRecipeBinding
-import com.bangkit.snapcook.presentation.home.HomeFragmentDirections
-import com.bangkit.snapcook.presentation.home.adapter.ListRecipeAdapter
 import com.bangkit.snapcook.presentation.search.adapter.ListRecipeDetailAdapter
-import com.bangkit.snapcook.utils.extension.*
+import com.bangkit.snapcook.utils.extension.hide
+import com.bangkit.snapcook.utils.extension.observeResponse
+import com.bangkit.snapcook.utils.extension.observeSingleEvent
+import com.bangkit.snapcook.utils.extension.setPopBackEnabled
+import com.bangkit.snapcook.utils.extension.show
+import com.bangkit.snapcook.utils.extension.showSnackBar
 import org.koin.android.ext.android.inject
 import timber.log.Timber
-import java.util.*
+import java.util.Locale
 
 class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
 
@@ -27,6 +27,7 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
         ListRecipeDetailAdapter(
             onClick = { navigateToDetail(it) },
             onBookmarkClick = { recipe ->
+                Timber.d("HEI")
                 if (recipe.bookmarkId != null) {
                     viewModel.removeBookmark(recipe.bookmarkId!!)
                     recipe.bookmarkId = null
@@ -55,7 +56,7 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
                 setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String): Boolean {
                         clearFocus()
-                        viewModel.searchRecipe(null, null, null, query)
+                        viewModel.searchRecipe(query)
                         tvSearchKeyword.show()
                         tvSearchKeyword.text = capitalizeWord(query)
                         return true
@@ -80,13 +81,16 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
     override fun initProcess() {}
 
     override fun initObservers() {
-        viewModel.searchResult.observeSingleEvent(viewLifecycleOwner,
+        viewModel.searchResult.observeResponse(viewLifecycleOwner,
             loading = {
                 showLoadingDialog()
             },
             success = { response ->
                 hideLoadingDialog()
                 val recipes = response.data
+
+                Timber.d("HAVE DATA ${recipes.first().title}")
+
                 listRecipeDetailAdapter.setData(recipes)
                 binding.apply {
                     rvSearchRecipe.show()

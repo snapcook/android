@@ -4,14 +4,10 @@ import android.app.Application
 import androidx.room.Room
 import com.bangkit.snapcook.BuildConfig
 import com.bangkit.snapcook.data.local.room.SnapcookDatabase
-import com.bangkit.snapcook.data.local.converter.RecipeConverter
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
 val localModule = module {
-
-    ///Provide Dao
-    factory { get<SnapcookDatabase>().getGroceryDao() }
 
     ///Provide Database
     fun provideDatabase(application: Application): SnapcookDatabase {
@@ -19,6 +15,10 @@ val localModule = module {
             .fallbackToDestructiveMigration()
             .build()
     }
+
+    ///Provide Dao
+    factory { get<SnapcookDatabase>().getGroceryDao() }
+    factory { get<SnapcookDatabase>().getBookmarkDao() }
 
     ///Provide context for database
     single { provideDatabase(androidApplication()) }

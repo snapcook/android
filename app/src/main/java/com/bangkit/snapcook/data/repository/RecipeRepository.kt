@@ -55,6 +55,14 @@ class RecipeRepository(
         ).flowOn(Dispatchers.IO)
     }
 
+    suspend fun getSearchRecipes(
+        search: String?,
+    ): Flow<ApiResponse<List<Recipe>>> {
+        return dataSource.fetchSearchedRecipe(
+            search
+        ).flowOn(Dispatchers.IO)
+    }
+
     suspend fun predictIngredients(
         ingredients: List<String>,
     ): Flow<ApiResponse<List<Recipe>>> {

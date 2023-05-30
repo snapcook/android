@@ -26,6 +26,12 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
                 },
             onBookmarkClick = { recipe ->
                 Timber.d("Bookmark icon clicked")
+                if (recipe.isBookmarked){
+                    viewModel.removeBookmark(recipe.bookmarkId ?: "")
+                } else {
+                    viewModel.removeBookmark(recipe.bookmarkId!!)
+                }
+
                 if (recipe.bookmarkId != null) {
                     Timber.d("RecipeBookmarkedId = ${recipe.bookmarkId}")
                     viewModel.removeBookmark(recipe.bookmarkId!!)
@@ -48,8 +54,6 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
     }
 
     override fun initUI() {
-        viewModel.getBookmarkedRecipe()
-
         binding.apply {
             rvBookmarkedRecipe.apply {
                 layoutManager =
@@ -59,30 +63,32 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
         }
     }
 
-    override fun initProcess() {}
+    override fun initProcess() {
+        viewModel.getBookmarkedRecipe()
+    }
 
     override fun initObservers() {
         viewModel.getBookmarkResult.observe(viewLifecycleOwner){ response ->
             when (response) {
                 is ApiResponse.Success -> {
                     hideLoadingDialog()
-                    val bookmarkResponses = response.data
-                    val recipeList = mutableListOf<Recipe>()
+                    val bookmarkRecipes = response.data
+//                    val recipeList = mutableListOf<Recipe>()
+//
+//                    for (bookmarkResponse in bookmarkResponses) {
+//                        val recipe = bookmarkResponse.recipe
+//                        recipe.bookmarkId = bookmarkResponse.id
+//                        recipeList.add(recipe)
+//                    }
 
-                    for (bookmarkResponse in bookmarkResponses) {
-                        val recipe = bookmarkResponse.recipe
-                        recipe.bookmarkId = bookmarkResponse.id
-                        recipeList.add(recipe)
-                    }
-
-                    listRecipeDetailAdapter.setData(recipeList)
+                    listRecipeDetailAdapter.setData(bookmarkRecipes)
                 }
                 is ApiResponse.Loading -> {
                     showLoadingDialog()
                 }
                 is ApiResponse.Error -> {
                     hideLoadingDialog()
-                    Timber.d("${response.errorMessage}")
+                    Timber.d(response.errorMessage)
                     binding.root.showSnackBar(response.errorMessage)
                 }
                 is ApiResponse.Empty -> {

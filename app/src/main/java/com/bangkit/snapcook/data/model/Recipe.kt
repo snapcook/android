@@ -1,8 +1,11 @@
 package com.bangkit.snapcook.data.model
 
-import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "recipe")
 data class Recipe (
+    @PrimaryKey(autoGenerate = false)
     val id: String,
     val title: String,
     val mainCategory: String,
@@ -21,12 +24,7 @@ data class Recipe (
     val author: Author,
     val secondCategory: Category,
     val totalBookmark: Int,
-    var bookmarkId: String? = null
+    var bookmarkId: String? = null,
+    var isBookmarked: Boolean = false
 ) {
-    data class Author(
-        val name: String,
-        val photo: String,
-        val slug: String
-    )
-
 }

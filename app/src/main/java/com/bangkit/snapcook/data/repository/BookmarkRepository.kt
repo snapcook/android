@@ -13,13 +13,15 @@ class BookmarkRepository(
     private val dataSource: BookmarkDataSource
 ) {
 
-    suspend fun getBookmarkedRecipe(): Flow<ApiResponse<List<BookmarkResponse>>> {
+    suspend fun getBookmarkedRecipe(): Flow<ApiResponse<List<Recipe>>> {
         return dataSource.fetchBookmarkedRecipe().flowOn(Dispatchers.IO)
     }
 
     suspend fun addBookmark(
         id: String
     ): Flow<ApiResponse<String>> {
+        Timber.d("Remove Bookmark, id: $id")
+
         return dataSource.addBookmark(
             id
         ).flowOn(Dispatchers.IO)
