@@ -97,8 +97,6 @@ class RecipeDataSource(
                 val response = service.predictIngredient(request)
 
                 if (response.isEmpty()) {
-                    Timber.d("HEHE 5")
-
                     emit(ApiResponse.Empty)
                     return@flow
                 }

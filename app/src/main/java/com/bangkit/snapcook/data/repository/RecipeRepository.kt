@@ -59,7 +59,6 @@ class RecipeRepository(
     suspend fun predictIngredients(
         ingredients: List<String>,
     ): Flow<ApiResponse<List<Recipe>>> {
-        Timber.d("HEHE2")
         return dataSource.predictIngredient(PredictIngredientRequest(ingredients)).flowOn(Dispatchers.IO)
     }
 

@@ -60,6 +60,9 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
                 hideLoadingDialog()
                 recipeAdapter.setData(it.data)
             },
+            empty = {
+                hideLoadingDialog()
+            },
             error = {
                 hideLoadingDialog()
             }

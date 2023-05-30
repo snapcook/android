@@ -16,7 +16,6 @@ class RecommendedViewModel(private val repository: RecipeRepository) : ViewModel
     private val _recipeResult = MutableLiveData<ApiResponse<List<Recipe>>>()
 
     fun getRecipe(ingredients: List<String>) {
-        Timber.d("HEHE1")
         viewModelScope.launch {
             repository.predictIngredients(ingredients).collect {
                 _recipeResult.postValue(it)
