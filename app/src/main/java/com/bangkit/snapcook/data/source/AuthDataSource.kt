@@ -14,7 +14,8 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
 
 class AuthDataSource(
-    private val service: UserService, private val pref: PreferenceManager
+    private val service: UserService,
+    private val pref: PreferenceManager
 ) {
     suspend fun register(
         request: RegisterRequest

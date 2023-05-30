@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <com.bangkit.snapcook.base.custom_view.IngredientTextView
+    <TextView
         android:id="@+id/tv_instruction"
         tools:text="asdasd"
         app:prefixText="500 gr"

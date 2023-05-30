@@ -1,6 +1,8 @@
 package com.bangkit.snapcook.data.source
 
+import com.bangkit.snapcook.data.local.dao.BookmarkDao
 import com.bangkit.snapcook.data.model.Recipe
+import com.bangkit.snapcook.data.model.User
 import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.data.network.request.PredictIngredientRequest
 import com.bangkit.snapcook.data.network.services.RecipeService
@@ -14,7 +16,8 @@ import timber.log.Timber
 import java.io.File
 
 class RecipeDataSource(
-    private val service: RecipeService, private val pref: PreferenceManager
+    private val service: RecipeService,
+    private val pref: PreferenceManager
 ) {
     suspend fun addRecipe(
         photo: File,
@@ -127,6 +130,4 @@ class RecipeDataSource(
 
         }
     }
-
-
 }

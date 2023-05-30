@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 
 class UserDataSource(
-    private val service: UserService, private val pref: PreferenceManager
+    private val service: UserService,
+    private val pref: PreferenceManager
 ) {
 
     suspend fun fetchProfile(): Flow<ApiResponse<User>> {
@@ -26,7 +27,6 @@ class UserDataSource(
                 Timber.e(e.message)
                 emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
             }
-
         }
     }
 }

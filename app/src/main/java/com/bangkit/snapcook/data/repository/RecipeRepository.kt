@@ -13,7 +13,6 @@ import java.io.File
 class RecipeRepository(
     private val dataSource: RecipeDataSource,
 ) {
-
     suspend fun addRecipe(
         photo: File,
         title: String,
@@ -65,5 +64,4 @@ class RecipeRepository(
 
     suspend fun getRecipeDetail(slug: String): Flow<ApiResponse<Recipe>> =
         dataSource.fetchRecipeDetail(slug).flowOn(Dispatchers.IO)
-
 }

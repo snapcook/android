@@ -23,7 +23,7 @@ interface UserService {
     @POST("/register")
     suspend fun register(
         @Body request: RegisterRequest
-    ): User
+    ): Nothing
 
     @POST("/logout")
     suspend fun logout(): Nothing

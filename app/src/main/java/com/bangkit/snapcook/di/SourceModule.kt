@@ -1,5 +1,7 @@
 package com.bangkit.snapcook.di
 
+import com.bangkit.snapcook.data.repository.*
+import com.bangkit.snapcook.data.source.*
 import com.bangkit.snapcook.data.repository.AuthRepository
 import com.bangkit.snapcook.data.repository.CategoryRepository
 import com.bangkit.snapcook.data.repository.GroceryRepository
@@ -18,8 +20,12 @@ val sourceModule = module {
 
     factory { RecipeRepository(get()) }
     single { RecipeDataSource(get(), get()) }
+
     factory { UserRepository(get()) }
     single { UserDataSource(get(), get()) }
+
+    factory { BookmarkRepository(get()) }
+    single { BookmarkDataSource(get(), get()) }
 
     factory { CategoryRepository(get()) }
     single { CategoryDataSource(get()) }

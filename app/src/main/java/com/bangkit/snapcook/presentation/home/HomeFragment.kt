@@ -9,6 +9,7 @@ import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.databinding.FragmentHomeBinding
 import com.bangkit.snapcook.presentation.home.adapter.ListRecipeAdapter
+import com.bangkit.snapcook.utils.extension.showSnackBar
 import org.koin.android.ext.android.inject
 
 
@@ -43,6 +44,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 //            fabCamera.popClick {
 //                findNavController().navigate(R.id.action_homeFragment_to_detectIngredientFragment2)
 //            }
+
+            svRecipe.setOnClickListener {
+                navigateToSearch()
+            }
+
+            svRecipe.setOnQueryTextFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    navigateToSearch()
+                }
+            }
+
             rvPopularRecipe.apply {
                 adapter = listRecipeAdapter
                 layoutManager =
@@ -89,20 +101,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewModel.getRecipes()
         viewModel.getRecipes(null, selectedCategory, null, null)
     }
-
-    //error, loading, empty handling to be added
     override fun initObservers() {
         viewModel.popularRecipeResult.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ApiResponse.Success -> {
+                    hideLoadingDialog()
                     val recipes = response.data
                     listRecipeAdapter.setData(recipes)
                 }
                 is ApiResponse.Loading -> {
-                    // Handle loading state
+                    showLoadingDialog()
                 }
                 is ApiResponse.Error -> {
-                    // Handle error state
+                    hideLoadingDialog()
+                    binding.root.showSnackBar(response.errorMessage)
                 }
                 is ApiResponse.Empty -> {
                     // Handle empty state
@@ -113,14 +125,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewModel.recommendedRecipeResult.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ApiResponse.Success -> {
+                    hideLoadingDialog()
                     val recipes = response.data
                     listRecommendedAdapter.setData(recipes)
                 }
                 is ApiResponse.Loading -> {
-                    // Handle loading state
+                    showLoadingDialog()
                 }
                 is ApiResponse.Error -> {
-                    // Handle error state
+                    hideLoadingDialog()
                 }
                 is ApiResponse.Empty -> {
                     // Handle empty state
@@ -137,12 +150,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         )
     }
 
-    /*
     private fun navigateToSearch() {
         findNavController().navigate(
-            HomeFragmentDirections.!!(
-            )
+            HomeFragmentDirections.actionHomeFragmentToSearchRecipeFragment()
         )
-    }*/
+    }
 
 }

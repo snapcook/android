@@ -1,5 +1,7 @@
 package com.bangkit.snapcook.data.model
 
+import androidx.room.ColumnInfo
+
 data class Recipe (
     val id: String,
     val title: String,
@@ -16,11 +18,15 @@ data class Recipe (
     val estimatedTime: Int,
     val steps: List<String>,
     val slug: String,
-    val author: Author
+    val author: Author,
+    val secondCategory: Category,
+    val totalBookmark: Int,
+    var bookmarkId: String? = null
 ) {
     data class Author(
         val name: String,
         val photo: String,
         val slug: String
     )
+
 }

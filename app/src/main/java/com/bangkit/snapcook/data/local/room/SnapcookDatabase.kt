@@ -10,11 +10,10 @@ import com.bangkit.snapcook.data.model.GroceryGroup
 
 @Database(
     entities = [Grocery::class, GroceryGroup::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(ListGroceryConverter::class)
-
 abstract class SnapcookDatabase : RoomDatabase() {
     abstract fun getGroceryDao(): GroceryDao
 }

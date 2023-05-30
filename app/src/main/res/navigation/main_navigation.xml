@@ -39,12 +39,25 @@
         <action
             android:id="@+id/action_homeFragment_to_detailRecipeFragment"
             app:destination="@id/detailRecipeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_bookmarkFragment"
+            app:destination="@id/bookmarkFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchRecipeFragment"
+            app:destination="@id/searchRecipeFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchRecipeFragment"
         android:name="com.bangkit.snapcook.presentation.search.SearchRecipeFragment"
         android:label="fragment_search_recipe"
-        tools:layout="@layout/fragment_search_recipe" />
+        tools:layout="@layout/fragment_search_recipe" >
+        <action
+            android:id="@+id/action_searchRecipeFragment_to_detailRecipeFragment"
+            app:destination="@id/detailRecipeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.bangkit.snapcook.presentation.register.RegisterFragment"
@@ -80,7 +93,11 @@
         android:id="@+id/bookmarkFragment"
         android:name="com.bangkit.snapcook.presentation.bookmark.BookmarkFragment"
         android:label="fragment_bookmark"
-        tools:layout="@layout/fragment_bookmark" />
+        tools:layout="@layout/fragment_bookmark" >
+        <action
+            android:id="@+id/action_bookmarkFragment_to_detailRecipeFragment"
+            app:destination="@id/detailRecipeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/takeIngredientPictureFragment"
         android:name="com.bangkit.snapcook.presentation.take_ingredient_picture.TakeIngredientPictureFragment"

@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_16dp"
             android:ellipsize="end"
-            android:maxEms="15"
+            android:maxEms="13"
             android:maxLines="1"
             android:textSize="@dimen/font_big"
             android:textStyle="bold"

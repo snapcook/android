@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.bangkit.snapcook.BuildConfig
 import com.bangkit.snapcook.data.local.room.SnapcookDatabase
+import com.bangkit.snapcook.data.local.converter.RecipeConverter
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 

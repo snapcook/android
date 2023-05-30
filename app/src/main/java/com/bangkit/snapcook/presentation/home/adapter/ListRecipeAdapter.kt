@@ -35,8 +35,8 @@ class ListRecipeAdapter(
     }
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
-        val user = listRecipe[position]
-        holder.bind(user)
+        val recipe = listRecipe[position]
+        holder.bind(recipe)
     }
 
     override fun getItemCount(): Int = listRecipe.size
@@ -52,9 +52,7 @@ class ListRecipeAdapter(
                 }
 
                 binding.tvTitle.text = recipe.title
-
                 binding.tvCategory.text = recipe.mainCategory
-
                 binding.imgRecipe.setImageUrl(recipe.photo)
             }
     }
