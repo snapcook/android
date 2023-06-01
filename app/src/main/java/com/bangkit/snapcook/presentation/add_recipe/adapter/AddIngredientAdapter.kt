@@ -7,11 +7,20 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.snapcook.databinding.AddIngredientItemBinding
 import com.bangkit.snapcook.utils.extension.popClick
+import timber.log.Timber
 import java.util.Collections
 
 class AddIngredientAdapter : RecyclerView.Adapter<AddIngredientAdapter.StringViewHolder>() {
 
     private var data: ArrayList<String> = arrayListOf("", "")
+    private var isEdit = false
+
+    fun setData(data: List<String>){
+        this.data.clear()
+        this.data.addAll(data)
+        isEdit = true
+        notifyDataSetChanged()
+    }
 
     fun addData() {
         this.data.add("")
@@ -42,7 +51,12 @@ class AddIngredientAdapter : RecyclerView.Adapter<AddIngredientAdapter.StringVie
     inner class StringViewHolder(private val binding: AddIngredientItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
+
             binding.apply {
+                if (isEdit){
+                    edtIngredient.setText(data[layoutPosition])
+                }
+
                 edtIngredient.doAfterTextChanged {
                     data[layoutPosition] = it.toString()
                 }

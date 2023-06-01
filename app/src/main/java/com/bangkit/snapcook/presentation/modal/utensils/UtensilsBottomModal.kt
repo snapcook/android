@@ -14,6 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class UtensilsBottomModal(
+    private val defaultUtensil: List<Utensil>,
     private val utensils: List<Utensil>,
     private val onSave: (List<Utensil>) -> Unit) :
     BottomSheetDialogFragment() {
@@ -53,9 +54,7 @@ class UtensilsBottomModal(
             }
 
         }
-
-
-
+        adapter.setData(defaultUtensil)
         adapter.setSelectedData(utensils)
     }
 }

@@ -3,13 +3,17 @@ package com.bangkit.snapcook.presentation.home
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.databinding.FragmentHomeBinding
 import com.bangkit.snapcook.presentation.home.adapter.ListRecipeAdapter
+import com.bangkit.snapcook.utils.extension.closeApp
 import com.bangkit.snapcook.utils.extension.showSnackBar
+import com.bangkit.snapcook.utils.extension.showYesNoDialog
 import org.koin.android.ext.android.inject
 
 
@@ -31,6 +35,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    showYesNoDialog(
+                        title = getString(R.string.title_close_app),
+                        message = getString(R.string.message_close_app),
+                        onYes = {
+                            closeApp()
+                        }
+                    )
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,10 +62,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun initUI() {
         binding.apply {
-//            fabCamera.popClick {
-//                findNavController().navigate(R.id.action_homeFragment_to_detectIngredientFragment2)
-//            }
-
             svRecipe.setOnClickListener {
                 navigateToSearch()
             }

@@ -5,8 +5,10 @@ import com.bangkit.snapcook.presentation.bookmark.BookmarkViewModel
 import com.bangkit.snapcook.presentation.detail.DetailRecipeViewModel
 import com.bangkit.snapcook.presentation.home.HomeViewModel
 import com.bangkit.snapcook.presentation.login.LoginViewModel
+import com.bangkit.snapcook.presentation.my_recipe.MyRecipeViewModel
 import com.bangkit.snapcook.presentation.note.NoteViewModel
 import com.bangkit.snapcook.presentation.note_detail.NoteDetailViewModel
+import com.bangkit.snapcook.presentation.profile.ProfileViewModel
 import com.bangkit.snapcook.presentation.recommended.RecommendedViewModel
 import com.bangkit.snapcook.presentation.register.RegisterViewModel
 import com.bangkit.snapcook.presentation.search.SearchRecipeViewModel
@@ -23,4 +25,6 @@ val viewModelModule = module {
     single { RecommendedViewModel(get()) }
     single { NoteViewModel(get()) }
     single { NoteDetailViewModel(get()) }
+    single { ProfileViewModel(get()) }
+    single { MyRecipeViewModel(get()) }
 }

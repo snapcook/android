@@ -20,6 +20,15 @@ class SelectCategoryAdapter : RecyclerView.Adapter<SelectCategoryAdapter.SelectC
         notifyDataSetChanged()
     }
 
+    fun setSelectedData(categoryId: String) {
+        val selectedCategory: Category = data.last { it.id == categoryId }
+        selectedId = categoryId
+        val index = data.indexOf(selectedCategory)
+        notifyItemChanged(selectedIndex)
+        selectedIndex = index
+        notifyItemChanged(selectedIndex)
+    }
+
     fun retrieveSelectedId() = selectedId
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectCategoryAdapter {

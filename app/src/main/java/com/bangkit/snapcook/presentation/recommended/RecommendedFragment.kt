@@ -7,9 +7,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.databinding.FragmentRecommendedBinding
-import com.bangkit.snapcook.presentation.home.HomeFragmentDirections
+import com.bangkit.snapcook.presentation.recommended.adapter.DetectedIngredientAdapter
 import com.bangkit.snapcook.presentation.recommended.adapter.RecommendedRecipeAdapter
+import com.bangkit.snapcook.utils.extension.gone
 import com.bangkit.snapcook.utils.extension.observeResponse
+import com.bangkit.snapcook.utils.extension.show
+import com.bangkit.snapcook.utils.extension.slowShow
 import org.koin.android.ext.android.inject
 
 class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
@@ -22,6 +25,11 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
             navigateToDetail(it)
         }
     }
+
+    private val ingredientAdapter: DetectedIngredientAdapter by lazy {
+        DetectedIngredientAdapter()
+    }
+
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -37,11 +45,17 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
     }
 
     override fun initUI() {
+        ingredientAdapter.setData(result.toList())
         binding.apply {
             rvRecommendedRecipe.apply {
                 adapter = recipeAdapter
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            }
+            rvDetectedIngredient.apply {
+                adapter = ingredientAdapter
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             }
         }
     }
@@ -54,19 +68,35 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
         viewModel.recipeResult.observeResponse(
             viewLifecycleOwner,
             loading = {
-                showLoadingDialog()
+                showLoading(true)
             },
             success = {
-                hideLoadingDialog()
+                showLoading(false)
                 recipeAdapter.setData(it.data)
             },
             empty = {
-                hideLoadingDialog()
+                showLoading(false)
             },
             error = {
-                hideLoadingDialog()
+                showLoading(false)
             }
         )
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.apply {
+            if (isLoading) {
+                shimmeringLoadingDetection.startShimmer()
+                shimmeringLoadingDetection.showShimmer(true)
+                shimmeringLoadingDetection.show()
+                layoutRecommended.gone()
+            } else {
+                shimmeringLoadingDetection.stopShimmer()
+                shimmeringLoadingDetection.showShimmer(false)
+                shimmeringLoadingDetection.gone()
+                layoutRecommended.slowShow()
+            }
+        }
     }
 
     private fun navigateToDetail(slug: String) {

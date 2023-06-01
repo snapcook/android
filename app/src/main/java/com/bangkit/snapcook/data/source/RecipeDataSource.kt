@@ -2,9 +2,11 @@ package com.bangkit.snapcook.data.source
 
 import com.bangkit.snapcook.data.local.dao.BookmarkDao
 import com.bangkit.snapcook.data.model.Recipe
+import com.bangkit.snapcook.data.model.Utensil
 import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.data.network.request.PredictIngredientRequest
 import com.bangkit.snapcook.data.network.services.RecipeService
+import com.bangkit.snapcook.data.network.services.UtensilService
 import com.bangkit.snapcook.utils.PreferenceManager
 import com.bangkit.snapcook.utils.helper.RawQueryHelper
 import com.bangkit.snapcook.utils.helper.createResponse
@@ -17,6 +19,7 @@ import java.io.File
 
 class RecipeDataSource(
     private val service: RecipeService,
+    private val utensilService: UtensilService,
     private val pref: PreferenceManager,
     private val dao: BookmarkDao
 ) {
@@ -29,6 +32,7 @@ class RecipeDataSource(
         totalServing: String,
         estimatedTime: String,
         mainIngredients: List<String>,
+        fullIngredients: List<String>,
         spices: List<String>,
         steps: List<String>,
         utensils: List<String>,
@@ -37,6 +41,7 @@ class RecipeDataSource(
             try {
                 emit(ApiResponse.Loading)
                 val userId = pref.getUserId
+
                 val response = service.addRecipe(
                     photo = photo.toMultipart(),
                     mainCategory = mainCategory.toRequestBody(),
@@ -45,6 +50,52 @@ class RecipeDataSource(
                     title = title.toRequestBody(),
                     estimatedTime = estimatedTime.toRequestBody(),
                     mainIngredients = mainIngredients.toRequestBody(),
+                    fullIngredients = fullIngredients.toRequestBody(),
+                    spices = spices.toRequestBody(),
+                    steps = steps.toRequestBody(),
+                    utensils = utensils.toRequestBody(),
+                    description = description.toRequestBody(),
+                    authorId = userId.toRequestBody()
+                )
+
+                emit(ApiResponse.Success("Success"))
+            } catch (e: Exception) {
+                Timber.e(e.message)
+                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
+            }
+        }
+    }
+
+    suspend fun editRecipe(
+        id: String,
+        photo: File?,
+        title: String,
+        description: String,
+        mainCategory: String,
+        secondCategoryId: String,
+        totalServing: String,
+        estimatedTime: String,
+        mainIngredients: List<String>,
+        fullIngredients: List<String>,
+        spices: List<String>,
+        steps: List<String>,
+        utensils: List<String>,
+    ): Flow<ApiResponse<String>> {
+        return flow {
+            try {
+                emit(ApiResponse.Loading)
+                val userId = pref.getUserId
+
+                val response = service.editRecipe(
+                    id = id,
+                    photo = photo?.toMultipart(),
+                    mainCategory = mainCategory.toRequestBody(),
+                    secondCategoryId = secondCategoryId.toRequestBody(),
+                    totalServing = totalServing.toRequestBody(),
+                    title = title.toRequestBody(),
+                    estimatedTime = estimatedTime.toRequestBody(),
+                    mainIngredients = mainIngredients.toRequestBody(),
+                    fullIngredients = fullIngredients.toRequestBody(),
                     spices = spices.toRequestBody(),
                     steps = steps.toRequestBody(),
                     utensils = utensils.toRequestBody(),
@@ -74,6 +125,28 @@ class RecipeDataSource(
                     mainCategory,
                     secondCategoryId,
                     search
+                )
+
+                if (response.isEmpty()) {
+                    emit(ApiResponse.Empty)
+                    return@flow
+                }
+
+                emit(ApiResponse.Success(response))
+            } catch (e: Exception) {
+                Timber.e(e.message)
+                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
+            }
+        }
+    }
+
+    suspend fun fetchMyRecipe(): Flow<ApiResponse<List<Recipe>>> {
+        return flow {
+            try {
+                emit(ApiResponse.Loading)
+                val userId = pref.getUserId
+                val response = service.fetchRecipe(
+                    authorId = userId
                 )
 
                 if (response.isEmpty()) {
@@ -120,8 +193,6 @@ class RecipeDataSource(
     ): Flow<ApiResponse<List<Recipe>>> {
         return flow {
             try {
-                Timber.d("HEHE3")
-
                 emit(ApiResponse.Loading)
                 val response = service.predictIngredient(request)
 
@@ -132,8 +203,22 @@ class RecipeDataSource(
 
                 emit(ApiResponse.Success(response))
             } catch (e: Exception) {
-                Timber.d("HEHE3 tapi error ${e.message}, ${e.cause}")
+                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
+            }
+        }
+    }
 
+    suspend fun fetchUtensil(): Flow<ApiResponse<List<Utensil>>> {
+        return flow {
+            try {
+                emit(ApiResponse.Loading)
+                val response = utensilService.fetchUtensils()
+                if (response.isEmpty()) {
+                    emit(ApiResponse.Empty)
+                    return@flow
+                }
+                emit(ApiResponse.Success(response))
+            } catch (e: Exception) {
                 emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
             }
 

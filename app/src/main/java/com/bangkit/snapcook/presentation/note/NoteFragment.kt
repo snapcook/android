@@ -3,12 +3,16 @@ package com.bangkit.snapcook.presentation.note
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.databinding.FragmentNoteBinding
 import com.bangkit.snapcook.presentation.note.adapter.GroceryGroupAdapter
+import com.bangkit.snapcook.utils.extension.closeApp
 import com.bangkit.snapcook.utils.extension.observeResponse
+import com.bangkit.snapcook.utils.extension.showYesNoDialog
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
@@ -24,6 +28,23 @@ class NoteFragment : BaseFragment<FragmentNoteBinding>() {
                 navigateToRecipeDetail(slug)
             }
         )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    showYesNoDialog(
+                        title = getString(R.string.title_close_app),
+                        message = getString(R.string.message_close_app),
+                        onYes = {
+                            closeApp()
+                        }
+                    )
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun getViewBinding(

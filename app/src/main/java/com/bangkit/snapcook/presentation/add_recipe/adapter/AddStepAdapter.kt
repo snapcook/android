@@ -16,7 +16,14 @@ import java.util.Collections
 class AddStepAdapter(private val rv: RecyclerView) : RecyclerView.Adapter<AddStepAdapter.StringViewHolder>() {
 
     private var data: ArrayList<String> = arrayListOf("")
+    private var isEdit = false
 
+    fun setData(data: List<String>){
+        this.data.clear()
+        this.data.addAll(data)
+        isEdit = true
+        notifyDataSetChanged()
+    }
     fun addData() {
         this.data.add("")
         notifyItemInserted(this.data.size + 1)
@@ -54,6 +61,9 @@ class AddStepAdapter(private val rv: RecyclerView) : RecyclerView.Adapter<AddSte
             currentPosition = position
 
             binding.apply {
+                if (isEdit){
+                    edtStep.setText(data[layoutPosition])
+                }
                 edtStep.doAfterTextChanged {
                     data[layoutPosition] = it.toString()
                 }

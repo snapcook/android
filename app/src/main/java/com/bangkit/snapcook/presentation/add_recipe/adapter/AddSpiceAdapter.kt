@@ -12,7 +12,14 @@ import java.util.Collections
 class AddSpiceAdapter : RecyclerView.Adapter<AddSpiceAdapter.StringViewHolder>() {
 
     private var data: ArrayList<String> = arrayListOf("", "")
+    private var isEdit = false
 
+    fun setData(data: List<String>){
+        this.data.clear()
+        this.data.addAll(data)
+        isEdit = true
+        notifyDataSetChanged()
+    }
     fun addData() {
         this.data.add("")
         notifyItemInserted(this.data.size + 1)
@@ -43,6 +50,9 @@ class AddSpiceAdapter : RecyclerView.Adapter<AddSpiceAdapter.StringViewHolder>()
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
             binding.apply {
+                if (isEdit){
+                    edtIngredient.setText(data[layoutPosition])
+                }
                 edtIngredient.doAfterTextChanged {
                     data[layoutPosition] = it.toString()
                 }

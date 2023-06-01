@@ -8,6 +8,7 @@ import android.os.Looper
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import com.bangkit.snapcook.R
 import com.bangkit.snapcook.utils.constant.AnimationConstants.POP_ANIMATION
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -40,11 +41,14 @@ private val shimmerDrawable = ShimmerDrawable().apply {
     setShimmer(shimmer)
 }
 
+
 fun ImageView.setImageUrl(url: String?) {
     Glide.with(this.rootView)
         .load(url)
         .placeholder(shimmerDrawable)
-        .apply(RequestOptions())
+        .apply(RequestOptions().error(
+            R.drawable.img_placeholder_food
+        ))
         .into(this)
 }
 
@@ -93,9 +97,12 @@ fun View.showSnackBar(message: String) {
     }.show()
 }
 
-fun View.setAlphaAnimation(animationSpeed: Long): ObjectAnimator {
-    return ObjectAnimator.ofFloat(this, View.ALPHA, 1f)
-        .setDuration(animationSpeed)
+fun View.slowShow(duration: Long = 750L) {
+    this.show()
+    this.alpha = 0F
+    val animation = ObjectAnimator.ofFloat(this, View.ALPHA, 1f)
+        .setDuration(duration)
+    animation.start()
 }
 
 fun View.popTap() {

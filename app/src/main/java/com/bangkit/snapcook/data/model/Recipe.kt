@@ -26,5 +26,4 @@ data class Recipe (
     val totalBookmark: Int,
     var bookmarkId: String? = null,
     var isBookmarked: Boolean = false
-) {
-}
+)

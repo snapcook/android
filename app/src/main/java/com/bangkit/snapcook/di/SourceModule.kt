@@ -19,7 +19,7 @@ val sourceModule = module {
     single { AuthDataSource(get(), get()) }
 
     factory { RecipeRepository(get()) }
-    single { RecipeDataSource(get(), get(), get()) }
+    single { RecipeDataSource(get(), get(), get(), get()) }
 
     factory { UserRepository(get()) }
     single { UserDataSource(get(), get()) }

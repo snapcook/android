@@ -46,24 +46,29 @@ interface RecipeService {
         @Part("totalServing") totalServing: RequestBody,
         @Part("estimatedTime") estimatedTime: RequestBody,
         @Part("mainIngredients[]") mainIngredients: List<@JvmSuppressWildcards RequestBody>,
+        @Part("fullIngredients[]") fullIngredients: List<@JvmSuppressWildcards RequestBody>,
         @Part("spices[]") spices: List<@JvmSuppressWildcards RequestBody>,
         @Part("steps[]") steps: List<@JvmSuppressWildcards RequestBody>,
         @Part("utensils[]") utensils: List<@JvmSuppressWildcards RequestBody>,
     ): Recipe
 
     @PUT("/recipe/{id}")
+    @Multipart
     suspend fun editRecipe(
         @Path("id") id: String,
-        @Part photo: MultipartBody.Part,
+        @Part photo: MultipartBody.Part?,
         @Part("title") title: RequestBody,
         @Part("mainCategory") mainCategory: RequestBody? = null,
+        @Part("secondCategoryId") secondCategoryId: RequestBody? = null,
         @Part("authorId") authorId: RequestBody? = null,
         @Part("description") description: RequestBody,
         @Part("totalServing") totalServing: RequestBody,
         @Part("estimatedTime") estimatedTime: RequestBody,
-        @Part("mainIngredients[]") mainIngredients: List<RequestBody>,
-        @Part("spices[]") spices: List<RequestBody>,
-        @Part("steps[]") steps: List<RequestBody>,
-    ): Nothing
+        @Part("mainIngredients[]") mainIngredients: List<@JvmSuppressWildcards RequestBody>,
+        @Part("fullIngredients[]") fullIngredients: List<@JvmSuppressWildcards RequestBody>,
+        @Part("spices[]") spices: List<@JvmSuppressWildcards RequestBody>,
+        @Part("steps[]") steps: List<@JvmSuppressWildcards RequestBody>,
+        @Part("utensils[]") utensils: List<@JvmSuppressWildcards RequestBody>,
+    ): Recipe
 
 }

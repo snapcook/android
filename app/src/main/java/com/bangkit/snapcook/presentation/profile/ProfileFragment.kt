@@ -1,60 +1,122 @@
 package com.bangkit.snapcook.presentation.profile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import com.bangkit.snapcook.R
+import com.bangkit.snapcook.base.BaseFragment
+import com.bangkit.snapcook.data.model.User
+import com.bangkit.snapcook.databinding.FragmentProfileBinding
+import com.bangkit.snapcook.utils.PreferenceManager
+import com.bangkit.snapcook.utils.extension.closeApp
+import com.bangkit.snapcook.utils.extension.gone
+import com.bangkit.snapcook.utils.extension.observeResponse
+import com.bangkit.snapcook.utils.extension.popClick
+import com.bangkit.snapcook.utils.extension.setImageUrl
+import com.bangkit.snapcook.utils.extension.show
+import com.bangkit.snapcook.utils.extension.showYesNoDialog
+import com.bangkit.snapcook.utils.extension.slowShow
+import com.bangkit.snapcook.utils.helper.extractData
+import org.koin.android.ext.android.inject
+import timber.log.Timber
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val viewModel: ProfileViewModel by inject()
+    private val pref: PreferenceManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    showYesNoDialog(
+                        title = getString(R.string.title_close_app),
+                        message = getString(R.string.message_close_app),
+                        onYes = {
+                            closeApp()
+                        }
+                    )
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun getViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): FragmentProfileBinding {
+        return FragmentProfileBinding.inflate(inflater, container, false)
+    }
+
+    override fun initUI() {
+        binding.apply {
+            btnMyRecipe.popClick {
+                findNavController().navigate(R.id.action_profileFragment_to_myRecipeFragment)
+            }
+            btnSetting.popClick {
+                val test = "1 butir telur"
+                Timber.d("TEST : ${test.extractData().first} - ${test.extractData().second}")
+            }
+            btnLogout.popClick {
+                showYesNoDialog(
+                    title = "Logout",
+                    message = "Apakah kamu yakin untuk logout?",
+                    onYes = {
+                        pref.clearAllPreferences()
+                        findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+                    },
+                )
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+    override fun initProcess() {
+        viewModel.getProfile()
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    @SuppressLint("SetTextI18n")
+    override fun initObservers() {
+        viewModel.profileResult.observeResponse(
+            viewLifecycleOwner,
+            loading = {
+                showLoading(true)
+            },
+            success = {
+                showLoading(false)
+                val user: User = it.data
+
+                binding.apply {
+                    imgProfile.setImageUrl(user.photo)
+                    tvUserName.text = user.name
+                    tvUserSlug.text = "@${user.slug}"
                 }
+
+            },
+            error = {
+                showLoading(false)
             }
+        )
     }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.apply {
+            if (isLoading) {
+                shimmeringLoadingProfile.startShimmer()
+                shimmeringLoadingProfile.showShimmer(true)
+                shimmeringLoadingProfile.show()
+                layoutProfile.gone()
+            } else {
+                shimmeringLoadingProfile.stopShimmer()
+                shimmeringLoadingProfile.showShimmer(false)
+                shimmeringLoadingProfile.gone()
+                layoutProfile.slowShow()
+            }
+        }
+    }
+
 }
