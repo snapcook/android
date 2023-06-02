@@ -17,7 +17,7 @@ import com.bangkit.snapcook.data.model.Recipe
 
 @Database(
     entities = [Grocery::class, GroceryGroup::class, Recipe::class, Author::class],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(

@@ -20,7 +20,7 @@ class BookmarkRepository(
     suspend fun addBookmark(
         id: String
     ): Flow<ApiResponse<String>> {
-        Timber.d("Remove Bookmark, id: $id")
+        Timber.d("Add Bookmark, id: $id")
 
         return dataSource.addBookmark(
             id

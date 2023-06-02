@@ -4,8 +4,8 @@ import com.bangkit.snapcook.data.local.dao.BookmarkDao
 import com.bangkit.snapcook.data.model.Recipe
 import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.data.network.request.AddBookmarkRequest
-import com.bangkit.snapcook.data.network.response.BookmarkResponse
 import com.bangkit.snapcook.data.network.services.BookmarkService
+import com.bangkit.snapcook.data.network.services.RecipeService
 import com.bangkit.snapcook.utils.PreferenceManager
 import com.bangkit.snapcook.utils.helper.createResponse
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 
 class BookmarkDataSource(
-    private val service: BookmarkService,
+    private val bookmarkService: BookmarkService,
     private val pref: PreferenceManager,
     private val dao: BookmarkDao
 
@@ -32,15 +32,18 @@ class BookmarkDataSource(
                 val authorId = pref.getUserId
 
                 // Map dari response ke recipe aja
-                val recipes = service.fetchBookmarkedRecipe(authorId).map {
-                    return@map it.recipe
+                val recipes = bookmarkService.fetchBookmarkedRecipe(authorId).map { response ->
+                    val recipe = response.recipe
+                    dao.insertRecipe(recipe)
+                    dao.updateRecipeBookmarked(recipe.id, true)
+                    return@map recipe
                 }
 
-                if (recipes.isEmpty()) {
+                if (recipes.isNotEmpty()) {
+                    emit(ApiResponse.Success(recipes))
+                } else {
                     emit(ApiResponse.Empty)
                 }
-
-                emit(ApiResponse.Success(recipes))
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.message.toString()))
             }
@@ -54,9 +57,9 @@ class BookmarkDataSource(
             try {
                 emit(ApiResponse.Loading)
                 val authorId = pref.getUserId
-                dao.updateGroceryGroupCompleted(id, true)
+                dao.updateRecipeBookmarked(id, true)
 
-                val response = service.addToBookmark(
+                val response = bookmarkService.addToBookmark(
                     AddBookmarkRequest(
                         authorId,
                         id)
@@ -76,8 +79,8 @@ class BookmarkDataSource(
         return flow {
             try {
                 emit(ApiResponse.Loading)
-                dao.updateGroceryGroupCompleted(id, false)
-                val response = service.removeFromBookmark(id)
+                dao.updateRecipeBookmarked(id, false)
+                val response = bookmarkService.removeFromBookmark(id)
                 emit(ApiResponse.Success(response.message))
             } catch (e: Exception) {
                 Timber.e(e.message)

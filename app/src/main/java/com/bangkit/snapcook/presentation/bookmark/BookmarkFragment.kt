@@ -11,7 +11,7 @@ import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.databinding.FragmentBookmarkBinding
 import com.bangkit.snapcook.presentation.search.SearchRecipeFragmentDirections
 import com.bangkit.snapcook.presentation.search.adapter.ListRecipeDetailAdapter
-import com.bangkit.snapcook.utils.extension.showSnackBar
+import com.bangkit.snapcook.utils.extension.*
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
@@ -26,7 +26,8 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
                 },
             onBookmarkClick = { recipe ->
                 binding.root.showSnackBar("Resep dihapus dari Bookmark.")
-                viewModel.removeBookmark(recipe.bookmarkId ?: "")
+                viewModel.removeBookmark(recipe.id ?: "")
+                viewModel.getBookmarkedRecipe()
             }
         )
     }
@@ -54,34 +55,36 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
     }
 
     override fun initObservers() {
-        viewModel.getBookmarkResult.observe(viewLifecycleOwner){ response ->
-            when (response) {
-                is ApiResponse.Success -> {
-                    hideLoadingDialog()
-                    val bookmarkRecipes = response.data
-//                    val recipeList = mutableListOf<Recipe>()
-//
-//                    for (bookmarkResponse in bookmarkResponses) {
-//                        val recipe = bookmarkResponse.recipe
-//                        recipe.bookmarkId = bookmarkResponse.id
-//                        recipeList.add(recipe)
-//                    }
+        viewModel.getBookmarkResult.observeResponse(viewLifecycleOwner,
+            loading = {
+                showLoadingDialog()
+            },
+            success = { response ->
+                hideLoadingDialog()
+                val bookmarkRecipes = response.data
 
-                    listRecipeDetailAdapter.setData(bookmarkRecipes)
+                listRecipeDetailAdapter.setData(bookmarkRecipes)
+                binding.apply {
+                    emptyListLayout.root.gone()
+                    rvBookmarkedRecipe.show()
                 }
-                is ApiResponse.Loading -> {
-                    showLoadingDialog()
+            },
+            error = {response ->
+                hideLoadingDialog()
+                Timber.d(response.errorMessage)
+                binding.apply {
+                    emptyListLayout.root.show()
+                    root.showSnackBar(response.errorMessage)
                 }
-                is ApiResponse.Error -> {
-                    hideLoadingDialog()
-                    Timber.d(response.errorMessage)
-                    binding.root.showSnackBar(response.errorMessage)
-                }
-                is ApiResponse.Empty -> {
-                    // Handle empty state
+            },
+            empty = {
+                hideLoadingDialog()
+                binding.apply{
+                    rvBookmarkedRecipe.hide()
+                    emptyListLayout.root.show()
                 }
             }
-        }
+        )
     }
 
     private fun navigateToDetail(slug: String) {

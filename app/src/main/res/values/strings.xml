@@ -82,6 +82,8 @@
     <string name="label_detected_ingredient">Bahan terdeteksi</string>
     <string name="action_detail">Detail</string>
     <string name="label_complete_ingredient">Bahan sudah lengkap</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

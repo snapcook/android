@@ -9,12 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.databinding.FragmentSearchRecipeBinding
 import com.bangkit.snapcook.presentation.search.adapter.ListRecipeDetailAdapter
-import com.bangkit.snapcook.utils.extension.hide
-import com.bangkit.snapcook.utils.extension.observeResponse
-import com.bangkit.snapcook.utils.extension.observeSingleEvent
-import com.bangkit.snapcook.utils.extension.setPopBackEnabled
-import com.bangkit.snapcook.utils.extension.show
-import com.bangkit.snapcook.utils.extension.showSnackBar
+import com.bangkit.snapcook.utils.extension.*
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.Locale
@@ -23,13 +18,14 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
 
     private val viewModel: SearchRecipeViewModel by inject()
 
+    private var typedQuery: String? = null
+
     private val listRecipeDetailAdapter: ListRecipeDetailAdapter by lazy {
         ListRecipeDetailAdapter(
             onClick = { navigateToDetail(it) },
             onBookmarkClick = { recipe ->
                 if (recipe.isBookmarked) {
                     viewModel.removeBookmark(recipe.id)
-                    recipe.bookmarkId = null
                     binding.root.showSnackBar("Resep dihapus dari Bookmark.")
                 } else {
                     binding.root.showSnackBar("Resep ditambahkan ke Bookmark.")
@@ -50,7 +46,11 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
     override fun initUI() {
         binding.apply {
             toolBar.setPopBackEnabled()
+
             tvSearchKeyword.hide()
+            rvSearchRecipe.hide()
+            tvInfo.text = "Carilah resep yang kamu inginkan."
+
             svRecipe.apply {
                 isIconified = false
                 setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -58,9 +58,11 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
                         clearFocus()
                         viewModel.searchRecipe(query)
                         tvSearchKeyword.show()
+                        typedQuery = query
                         tvSearchKeyword.text = capitalizeWord(query)
                         return true
                     }
+
                     override fun onQueryTextChange(newText: String): Boolean {
                         tvSearchKeyword.text = capitalizeWord(newText)
                         return false
@@ -94,14 +96,38 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
                 listRecipeDetailAdapter.setData(recipes)
                 binding.apply {
                     rvSearchRecipe.show()
+                    emptyListLayout.root.gone()
                     tvInfo.text = "Resep yang ditemukan"
                 }
             },
             error = {response ->
                 hideLoadingDialog()
-                binding.root.showSnackBar(response.errorMessage)
+                binding.apply {
+                    root.showSnackBar(response.errorMessage)
+                    emptyListLayout.root.show()
+                }
             },
+            empty = {
+                hideLoadingDialog()
+                binding.apply {
+                    tvInfo.text = "Tidak ada resep seperti ini."
+                    rvSearchRecipe.hide()
+                    emptyListLayout.root.show()
+                }
+            }
         )
+    }
+
+    override fun onResume() {
+        binding.apply {
+            rvSearchRecipe.hide()
+            tvInfo.text = "Carilah resep yang kamu inginkan."
+            if(typedQuery != null){
+                tvSearchKeyword.text = capitalizeWord(typedQuery!!)
+                viewModel.searchRecipe(typedQuery)
+            }
+        }
+        super.onResume()
     }
 
     private fun capitalizeWord(word: String): String {
