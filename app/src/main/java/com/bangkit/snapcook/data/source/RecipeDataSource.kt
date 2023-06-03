@@ -208,6 +208,32 @@ class RecipeDataSource(
         }
     }
 
+    suspend fun fetchCategoryRecipe(
+        secondCategoryId: String
+    ): Flow<ApiResponse<List<Recipe>>> {
+        return flow {
+            try {
+                emit(ApiResponse.Loading)
+                val response = service.fetchRecipe(
+                    secondCategory = secondCategoryId
+                )
+
+                dao.insertAllRecipe(response)
+                val recipes = dao.getRecipesByCategoryId(secondCategoryId)
+
+                if (recipes.isEmpty()) {
+                    emit(ApiResponse.Empty)
+                    return@flow
+                }
+
+                emit(ApiResponse.Success(recipes))
+            } catch (e: Exception) {
+                Timber.e(e.message)
+                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
+            }
+        }
+    }
+
     suspend fun fetchUtensil(): Flow<ApiResponse<List<Utensil>>> {
         return flow {
             try {
