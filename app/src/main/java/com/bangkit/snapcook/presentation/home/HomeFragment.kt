@@ -10,8 +10,11 @@ import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.databinding.FragmentHomeBinding
+import com.bangkit.snapcook.presentation.home.adapter.CategoryAdapter
 import com.bangkit.snapcook.presentation.home.adapter.ListRecipeAdapter
 import com.bangkit.snapcook.utils.extension.closeApp
+import com.bangkit.snapcook.presentation.modal.utensils.UtensilsAdapter
+import com.bangkit.snapcook.utils.extension.observeResponse
 import com.bangkit.snapcook.utils.extension.showSnackBar
 import com.bangkit.snapcook.utils.extension.showYesNoDialog
 import org.koin.android.ext.android.inject
@@ -32,6 +35,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val listRecommendedAdapter: ListRecipeAdapter by lazy {
         ListRecipeAdapter {
             navigateToDetail(it)
+        }
+    }
+
+    private val listCategoryAdapter: CategoryAdapter by lazy {
+        CategoryAdapter { id, name ->
+            navigateToCategory(id, name)
         }
     }
 
@@ -92,6 +101,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
 
             rvUserTaste.apply {
+                adapter = listCategoryAdapter
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 isNestedScrollingEnabled = true
@@ -104,65 +114,87 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.apply {
             chipCategoryFood.setOnClickListener {
                 selectedCategory = chipCategoryFood.text.toString()
-                viewModel.getRecipes(null, selectedCategory, null, null)
+                viewModel.getRecipes(mainCategory = selectedCategory)
             }
 
             chipCategoryDrink.setOnClickListener {
                 selectedCategory = chipCategoryDrink.text.toString()
-                viewModel.getRecipes(null, selectedCategory, null, null)
+                viewModel.getRecipes(mainCategory = selectedCategory)
             }
         }
     }
 
     override fun initProcess() {
         viewModel.getRecipes()
-        viewModel.getRecipes(null, selectedCategory, null, null)
+        viewModel.getRecipes(mainCategory = selectedCategory)
+        viewModel.getCategories()
     }
     override fun initObservers() {
-        viewModel.popularRecipeResult.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is ApiResponse.Success -> {
-                    hideLoadingDialog()
-                    val recipes = response.data
-                    listRecipeAdapter.setData(recipes)
-                }
-                is ApiResponse.Loading -> {
-                    showLoadingDialog()
-                }
-                is ApiResponse.Error -> {
-                    hideLoadingDialog()
-                    binding.root.showSnackBar(response.errorMessage)
-                }
-                is ApiResponse.Empty -> {
-                    // Handle empty state
-                }
+        viewModel.popularRecipeResult.observeResponse(
+            viewLifecycleOwner,
+            loading = {
+                showLoadingDialog()
+            },
+            success = {
+                hideLoadingDialog()
+                listRecipeAdapter.setData(it.data)
+            },
+            empty = {
+                hideLoadingDialog()
+            },
+            error = {
+                hideLoadingDialog()
             }
-        }
+        )
 
-        viewModel.recommendedRecipeResult.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is ApiResponse.Success -> {
-                    hideLoadingDialog()
-                    val recipes = response.data
-                    listRecommendedAdapter.setData(recipes)
-                }
-                is ApiResponse.Loading -> {
-                    showLoadingDialog()
-                }
-                is ApiResponse.Error -> {
-                    hideLoadingDialog()
-                }
-                is ApiResponse.Empty -> {
-                    // Handle empty state
-                }
+        viewModel.recommendedRecipeResult.observeResponse(
+            viewLifecycleOwner,
+            loading = {
+                showLoadingDialog()
+            },
+            success = {
+                hideLoadingDialog()
+                listRecommendedAdapter.setData(it.data)
+            },
+            empty = {
+                hideLoadingDialog()
+            },
+            error = {
+                hideLoadingDialog()
             }
-        }
+        )
+
+        viewModel.categoryResult.observeResponse(
+            viewLifecycleOwner,
+            loading = {
+                showLoadingDialog()
+            },
+            success = {
+                hideLoadingDialog()
+                listCategoryAdapter.setData(it.data)
+            },
+            empty = {
+                hideLoadingDialog()
+            },
+            error = {
+                hideLoadingDialog()
+            }
+        )
     }
 
     private fun navigateToDetail(slug: String) {
         findNavController().navigate(
             HomeFragmentDirections.actionHomeFragmentToDetailRecipeFragment(
                 slug
+            )
+        )
+    }
+
+    private fun navigateToCategory(secondCategoryId: String, name: String) {
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToCategoryFragment(
+                secondCategoryId,
+                name
             )
         )
     }

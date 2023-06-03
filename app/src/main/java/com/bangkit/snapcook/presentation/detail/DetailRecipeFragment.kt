@@ -3,21 +3,19 @@ package com.bangkit.snapcook.presentation.detail
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.data.model.Recipe
-import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.databinding.FragmentDetailRecipeBinding
 import com.bangkit.snapcook.presentation.detail.adapter.ListStepsAdapter
 import com.bangkit.snapcook.presentation.detail.adapter.ListStringAdapter
-import com.bangkit.snapcook.utils.constant.AnimationConstants
-import com.bangkit.snapcook.utils.extension.popClick
-import com.bangkit.snapcook.utils.extension.setImageUrl
-import com.bangkit.snapcook.utils.extension.setPopBackEnabled
-import com.bangkit.snapcook.utils.extension.showSnackBar
+import com.bangkit.snapcook.presentation.detail.adapter.ListUtensilsAdapter
+import com.bangkit.snapcook.presentation.modal.utensils.UtensilsAdapter
+import com.bangkit.snapcook.utils.extension.*
 import org.koin.android.ext.android.inject
-import timber.log.Timber
 
 class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
 
@@ -38,6 +36,10 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
         ListStepsAdapter()
     }
 
+    private val listUtensilAdapter: ListUtensilsAdapter by lazy {
+        ListUtensilsAdapter()
+    }
+
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,25 +54,40 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                 it.findNavController().popBackStack()
             }
 
+            btnBookmark.popClick {
+                if (recipe!!.isBookmarked) {
+                    viewModel.removeBookmark(recipe!!.id)
+                    viewModel.getRecipeDetail(slug)
+                    root.showSnackBar("Resep dihapus dari Bookmark")
+                } else {
+                    viewModel.addBookmark(recipe!!.id)
+                    viewModel.getRecipeDetail(slug)
+                    root.showSnackBar("Resep ditambah dari Bookmark")
+                }
+            }
+
             rvIngredient.apply {
                 adapter = listIngredientAdapter
                 layoutManager =
                         LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                isNestedScrollingEnabled = false
             }
 
             rvSpices.apply {
                 adapter = listSpicesAdapter
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                isNestedScrollingEnabled = false
             }
 
             rvSteps.apply {
                 adapter = listStepsAdapter
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                isNestedScrollingEnabled = false
+            }
+
+            rvCookingWare.apply {
+                adapter = listUtensilAdapter
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             }
 
             btnBuyIngredient.popClick {
@@ -93,41 +110,43 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
     }
 
     override fun initObservers() {
-        viewModel.recipeDetailResult.observe(viewLifecycleOwner) { response ->
-            Timber.d("Response is $response")
-            when (response) {
-                is ApiResponse.Success -> {
-                    hideLoadingDialog()
-                    recipe = response.data
-                    binding.apply {
-                        imgFood.setImageUrl(recipe?.photo)
-                        imgProfile.setImageUrl(recipe?.author?.photo)
-                        tvTitle.text = recipe?.title
-                        tvUserName.text = recipe?.author?.name
-                        tvUserSlug.text = recipe?.author?.slug
-                        tvTotalBookmark.text = recipe?.totalBookmark?.toBookmarkCount()
-                        tvTimer.text = recipe?.estimatedTime?.toHoursAndMinutes()
-                        tvStory.text = recipe?.description
-                        tvPortion.text = recipe?.totalServing?.toPortionString()
-                        listIngredientAdapter.setData(recipe!!.mainIngredients)
-                        listSpicesAdapter.setData(recipe!!.spices)
-                        listStepsAdapter.setData(recipe!!.steps)
+        viewModel.recipeDetailResult.observeResponse(
+            viewLifecycleOwner,
+            loading = {
+                showLoadingDialog()
+            },
+            success = { response ->
+                hideLoadingDialog()
+                recipe = response.data
+                binding.apply {
+                    imgFood.setImageUrl(recipe?.photo)
+                    imgProfile.setImageUrl(recipe?.author?.photo)
+                    tvTitle.text = recipe?.title
+                    tvUserName.text = recipe?.author?.name
+                    tvUserSlug.text = recipe?.author?.slug
+                    tvTotalBookmark.text = recipe?.totalBookmark?.toBookmarkCount()
+                    tvTimer.text = recipe?.estimatedTime?.toHoursAndMinutes()
+                    tvStory.text = recipe?.description
+                    tvPortion.text = recipe?.totalServing?.toPortionString()
+                    listIngredientAdapter.setData(recipe!!.mainIngredients)
+                    listSpicesAdapter.setData(recipe!!.spices)
+                    listStepsAdapter.setData(recipe!!.steps)
+                    listUtensilAdapter.setData(recipe!!.utensils)
+
+                    if (recipe!!.isBookmarked) {
+                        btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark))
+                    } else {
+                        btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark_border))
                     }
-
                 }
-
-                is ApiResponse.Loading -> {
-                    showLoadingDialog()
-                }
-                is ApiResponse.Error -> {
-                    hideLoadingDialog()
-                }
-                is ApiResponse.Empty -> {
-                    // Handle empty state
-                }
-
+            },
+            empty = {
+                hideLoadingDialog()
+            },
+            error = {
+                hideLoadingDialog()
             }
-        }
+        )
     }
 
     private fun Int.toHoursAndMinutes(): String {

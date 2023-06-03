@@ -53,6 +53,9 @@
         <action
             android:id="@+id/action_homeFragment_to_searchRecipeFragment"
             app:destination="@id/searchRecipeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchRecipeFragment"
@@ -151,5 +154,20 @@
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.bangkit.snapcook.presentation.category.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category">
+        <argument
+            android:name="categoryId"
+            app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_categoryFragment_to_detailRecipeFragment"
+            app:destination="@id/detailRecipeFragment" />
     </fragment>
 </navigation>

@@ -230,8 +230,29 @@ class RecipeDataSource(
             try {
                 emit(ApiResponse.Loading)
                 val response = service.fetchRecipeDetail(slug)
+                if (dao.isRecipeIsExist(response.id)){
+                    dao.updateRecipe(
+                        response.id,
+                        response.title,
+                        response.photo,
+                        response.description,
+                        response.totalServing,
+                        response.mainIngredients,
+                        response.fullIngredients,
+                        response.spices,
+                        response.utensils,
+                        response.estimatedTime,
+                        response.steps,
+                        response.totalBookmark
+                    )
+                } else {
+                    dao.insertRecipe(response)
+                }
 
-                emit(ApiResponse.Success(response))
+
+                val recipe = dao.getDetailRecipe(response.id)
+
+                emit(ApiResponse.Success(recipe))
             } catch (e: Exception) {
                 Timber.e(e.message)
                 emit(ApiResponse.Error(e.createResponse()?.message ?: ""))

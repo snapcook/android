@@ -35,17 +35,27 @@
         app:layout_constraintTop_toBottomOf="@+id/appBar"
         android:text="@string/label_bookmarked_recipe"/>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_bookmarked_recipe"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/dimen_16dp"
-        android:layout_marginTop="@dimen/dimen_8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_bookmark"
-        tools:listitem="@layout/recipe_detailed_item" />
+        android:layout_marginTop="@dimen/dimen_8dp">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_bookmarked_recipe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/dimen_16dp"
+            tools:listitem="@layout/recipe_detailed_item" />
+
+
+        <include
+            android:id="@+id/empty_list_layout"
+            layout="@layout/custom_empty_list_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
