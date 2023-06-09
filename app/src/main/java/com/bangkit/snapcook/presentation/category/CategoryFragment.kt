@@ -70,10 +70,10 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     override fun initObservers() {
         viewModel.categoryResult.observeResponse(viewLifecycleOwner,
             loading = {
-                showLoadingDialog()
+                showLoading(true)
             },
             success = { response ->
-                hideLoadingDialog()
+                showLoading(false)
                 val recipes = response.data
 
                 Timber.d("HAVE DATA ${recipes.first().title}")
@@ -85,11 +85,11 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
                 }
             },
             error = {response ->
-                hideLoadingDialog()
+                showLoading(false)
                 binding.root.showSnackBar(response.errorMessage)
             },
             empty = {
-                hideLoadingDialog()
+                showLoading(false)
                 binding.apply {
                     rvCategory.hide()
                     emptyListLayout.root.show()
@@ -104,6 +104,24 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
                 slug
             )
         )
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.apply {
+            if (isLoading) {
+                shimmeringLoadingCategory.startShimmer()
+                shimmeringLoadingCategory.showShimmer(true)
+                shimmeringLoadingCategory.show()
+                tvCategory.gone()
+                frameRecipe.gone()
+            } else {
+                shimmeringLoadingCategory.stopShimmer()
+                shimmeringLoadingCategory.showShimmer(false)
+                shimmeringLoadingCategory.gone()
+                tvCategory.slowShow()
+                frameRecipe.slowShow()
+            }
+        }
     }
 
 }

@@ -46,6 +46,8 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
     override fun initUI() {
         binding.apply {
             toolBar.setPopBackEnabled()
+            svRecipe.slowShow()
+            tvInfo.slowShow()
 
             tvSearchKeyword.hide()
             rvSearchRecipe.hide()
@@ -85,10 +87,10 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
     override fun initObservers() {
         viewModel.searchResult.observeResponse(viewLifecycleOwner,
             loading = {
-                showLoadingDialog()
+                showLoading(true)
             },
             success = { response ->
-                hideLoadingDialog()
+                showLoading(false)
                 val recipes = response.data
 
                 Timber.d("HAVE DATA ${recipes.first().title}")
@@ -101,14 +103,14 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
                 }
             },
             error = {response ->
-                hideLoadingDialog()
+                showLoading(false)
                 binding.apply {
                     root.showSnackBar(response.errorMessage)
                     emptyListLayout.root.show()
                 }
             },
             empty = {
-                hideLoadingDialog()
+                showLoading(false)
                 binding.apply {
                     tvInfo.text = "Tidak ada resep seperti ini."
                     rvSearchRecipe.hide()
@@ -144,5 +146,29 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
                 slug
             )
         )
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.apply {
+            if (isLoading) {
+                shimmeringLoadingSearch.startShimmer()
+                shimmeringLoadingSearch.showShimmer(true)
+                shimmeringLoadingSearch.show()
+                toolBar.gone()
+                svRecipe.gone()
+                tvInfo.gone()
+                tvSearchKeyword.gone()
+                rvSearchRecipe.gone()
+            } else {
+                shimmeringLoadingSearch.stopShimmer()
+                shimmeringLoadingSearch.showShimmer(false)
+                shimmeringLoadingSearch.gone()
+                toolBar.slowShow()
+                svRecipe.slowShow()
+                tvInfo.slowShow()
+                tvSearchKeyword.slowShow()
+                rvSearchRecipe.slowShow()
+            }
+        }
     }
 }

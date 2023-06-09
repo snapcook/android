@@ -91,6 +91,8 @@
     <string name="action_logout">Logout</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_category_initialize">Makanan</string>
+    <string name="hint_home">Mau masak apa hari ini?</string>
 
 
 </resources>

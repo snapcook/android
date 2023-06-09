@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.search.SearchRecipeFragment">
+    tools:context=".presentation.search.SearchRecipeFragment"
+    android:id="@+id/layoutSearch">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolBar"
@@ -60,6 +61,7 @@
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/frameSearch"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -81,6 +83,16 @@
             android:visibility="gone" />
 
     </FrameLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:visibility="gone"
+        android:id="@+id/shimmeringLoadingSearch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/shimmer_search" />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 
 

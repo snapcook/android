@@ -57,11 +57,11 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
             btnBookmark.popClick {
                 if (recipe!!.isBookmarked) {
                     viewModel.removeBookmark(recipe!!.id)
-                    viewModel.getRecipeDetail(slug)
+                    viewModel.toggleBookmarkButton(false)
                     root.showSnackBar("Resep dihapus dari Bookmark")
                 } else {
                     viewModel.addBookmark(recipe!!.id)
-                    viewModel.getRecipeDetail(slug)
+                    viewModel.toggleBookmarkButton(true)
                     root.showSnackBar("Resep ditambah dari Bookmark")
                 }
             }
@@ -147,6 +147,18 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                 hideLoadingDialog()
             }
         )
+
+        viewModel.isBookmarked.observe(viewLifecycleOwner) { isBookmarked ->
+            binding.apply {
+                if (isBookmarked) {
+                    btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark))
+                    viewModel.getRecipeDetail(slug)
+                } else {
+                    btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark_border))
+                    viewModel.getRecipeDetail(slug)
+                }
+            }
+        }
     }
 
     private fun Int.toHoursAndMinutes(): String {

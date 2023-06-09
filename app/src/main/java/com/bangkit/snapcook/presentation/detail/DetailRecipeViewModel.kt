@@ -26,6 +26,9 @@ class DetailRecipeViewModel(
     val recipeDetailResult: LiveData<ApiResponse<Recipe>> by lazy { _recipeDetailResult }
     private val _recipeDetailResult = MutableLiveData<ApiResponse<Recipe>>()
 
+    val isBookmarked: LiveData<Boolean> by lazy { _isBookmarked }
+    private val _isBookmarked = MutableLiveData<Boolean>()
+
     fun getRecipeDetail(slug: String) {
         viewModelScope.launch {
             recipeRepository.getRecipeDetail(slug).collect {
@@ -66,7 +69,6 @@ class DetailRecipeViewModel(
             )
         }
     }
-
     fun addBookmark(id: String) {
         viewModelScope.launch {
             bookmarkRepository.addBookmark(id).collect {}
@@ -77,5 +79,9 @@ class DetailRecipeViewModel(
         viewModelScope.launch {
             bookmarkRepository.removeBookmark(id).collect {}
         }
+    }
+
+    fun toggleBookmarkButton(isBookmarked: Boolean){
+        _isBookmarked.value = isBookmarked
     }
 }

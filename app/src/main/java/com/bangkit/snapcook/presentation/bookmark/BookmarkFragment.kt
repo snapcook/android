@@ -73,10 +73,10 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
     override fun initObservers() {
         viewModel.getBookmarkResult.observeResponse(viewLifecycleOwner,
             loading = {
-                showLoadingDialog()
+                showLoading(true)
             },
             success = { response ->
-                hideLoadingDialog()
+                showLoading(false)
                 val bookmarkRecipes = response.data
 
                 listRecipeDetailAdapter.setData(bookmarkRecipes)
@@ -86,7 +86,7 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
                 }
             },
             error = {response ->
-                hideLoadingDialog()
+                showLoading(false)
                 Timber.d(response.errorMessage)
                 binding.apply {
                     emptyListLayout.root.show()
@@ -94,7 +94,7 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
                 }
             },
             empty = {
-                hideLoadingDialog()
+                showLoading(false)
                 binding.apply{
                     rvBookmarkedRecipe.hide()
                     emptyListLayout.root.show()
@@ -109,6 +109,24 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
                 slug
             )
         )
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.apply {
+            if (isLoading) {
+                shimmeringLoadingBookmark.startShimmer()
+                shimmeringLoadingBookmark.showShimmer(true)
+                shimmeringLoadingBookmark.show()
+                tvBookmark.gone()
+                frameRecipe.gone()
+            } else {
+                shimmeringLoadingBookmark.stopShimmer()
+                shimmeringLoadingBookmark.showShimmer(false)
+                shimmeringLoadingBookmark.gone()
+                tvBookmark.slowShow()
+                frameRecipe.slowShow()
+            }
+        }
     }
 
 }

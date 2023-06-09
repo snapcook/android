@@ -19,7 +19,7 @@ val viewModelModule = module {
     single { RegisterViewModel(get()) }
     single { LoginViewModel(get()) }
     single { AddRecipeViewModel(get(), get()) }
-    single { HomeViewModel(get(), get()) }
+    single { HomeViewModel(get(), get(), get()) }
     single { DetailRecipeViewModel(get(), get(), get()) }
     single { BookmarkViewModel(get()) }
     single { SearchRecipeViewModel(get(), get()) }

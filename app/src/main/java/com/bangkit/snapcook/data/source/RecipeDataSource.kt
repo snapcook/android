@@ -140,6 +140,36 @@ class RecipeDataSource(
         }
     }
 
+    suspend fun fetchRecipesOrdered(
+        authorId: String? = null,
+        mainCategory: String? = null,
+        secondCategoryId: String? = null,
+        search: String? = null
+    ): Flow<ApiResponse<List<Recipe>>> {
+        return flow {
+            try {
+                emit(ApiResponse.Loading)
+                val response = service.fetchRecipe(
+                    authorId,
+                    mainCategory,
+                    secondCategoryId,
+                    search
+                )
+
+                if (response.isEmpty()) {
+                    emit(ApiResponse.Empty)
+                    return@flow
+                }
+
+                val sortedRecipes = response.sortedByDescending { it.totalBookmark }
+                emit(ApiResponse.Success(sortedRecipes))
+            } catch (e: Exception) {
+                Timber.e(e.message)
+                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
+            }
+        }
+    }
+
     suspend fun fetchMyRecipe(): Flow<ApiResponse<List<Recipe>>> {
         return flow {
             try {
