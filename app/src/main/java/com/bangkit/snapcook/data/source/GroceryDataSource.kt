@@ -20,7 +20,7 @@ class GroceryDataSource(
             try {
                 emit(ApiResponse.Loading)
                 val groceries = dao.getGroceriesGroup()
-                Timber.d("TOTAL GROCERIES ${groceries.size}")
+
                 if (groceries.isEmpty()) {
                     emit(ApiResponse.Empty)
                     return@flow

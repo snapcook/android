@@ -5,7 +5,6 @@ import android.Manifest
 object AppConstants {
     const val PREFS_NAME = "distory.pref"
     const val KEY_TOKEN = "key.token"
-    const val KEY_ON_BOARD = "key.on.board.status"
     const val KEY_USER_ID = "key.user.id"
     const val KEY_ON_CLICK = "key.onclick"
     const val AUTHORIZATION = "Authorization"

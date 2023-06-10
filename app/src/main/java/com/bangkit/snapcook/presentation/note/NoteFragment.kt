@@ -60,7 +60,7 @@ class NoteFragment : BaseFragment<FragmentNoteBinding>() {
             rvGroceryGroup.apply {
                 adapter = groceryGroupAdapter
                 layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             }
         }
     }
@@ -77,7 +77,6 @@ class NoteFragment : BaseFragment<FragmentNoteBinding>() {
             },
             success = {
                 hideLoadingDialog()
-                Timber.d("GROCERIES ${it.data.size}")
                 groceryGroupAdapter.setData(it.data)
             },
             empty = {
@@ -106,4 +105,5 @@ class NoteFragment : BaseFragment<FragmentNoteBinding>() {
             )
         )
     }
+
 }

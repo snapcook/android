@@ -33,6 +33,7 @@ class AddUtensilsAdapter : RecyclerView.Adapter<AddUtensilsAdapter.StringViewHol
         RecyclerView.ViewHolder(binding.root) {
         fun bind(utensil: Utensil) {
             binding.apply {
+
                 imgCookingWare.setImageUrl(utensil.photo)
                 tvCookingWare.text = utensil.name
             }

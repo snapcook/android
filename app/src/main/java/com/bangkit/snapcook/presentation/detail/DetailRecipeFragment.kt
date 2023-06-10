@@ -1,10 +1,13 @@
 package com.bangkit.snapcook.presentation.detail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
@@ -15,8 +18,6 @@ import com.bangkit.snapcook.presentation.detail.adapter.ListStringAdapter
 import com.bangkit.snapcook.presentation.detail.adapter.ListUtensilsAdapter
 import com.bangkit.snapcook.presentation.modal.utensils.UtensilsAdapter
 import com.bangkit.snapcook.utils.extension.*
-import com.bangkit.snapcook.utils.extension.popClick
-import com.bangkit.snapcook.utils.extension.setImageUrl
 import org.koin.android.ext.android.inject
 
 class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
@@ -45,7 +46,7 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): FragmentDetailRecipeBinding {
         return FragmentDetailRecipeBinding.inflate(inflater, container, false)
     }
@@ -56,23 +57,10 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                 it.findNavController().popBackStack()
             }
 
-            btnBookmark.popClick {
-                if (recipe!!.isBookmarked) {
-                    viewModel.removeBookmark(recipe!!.id)
-                    viewModel.toggleBookmarkButton(false)
-                    root.showSnackBar("Resep dihapus dari Bookmark")
-                } else {
-                    viewModel.addBookmark(recipe!!.id)
-                    viewModel.toggleBookmarkButton(true)
-                    root.showSnackBar("Resep ditambah dari Bookmark")
-                }
-            }
-
             rvIngredient.apply {
                 adapter = listIngredientAdapter
                 layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                isNestedScrollingEnabled = false
+                        LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             }
 
             rvSpices.apply {
@@ -93,8 +81,28 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             }
 
+            btnBuyIngredient.popClick {
+                recipe?.let { viewModel.addToGroceryList(it) }
+            }
+
             btnStartCooking.popClick {
 
+            }
+        }
+    }
+
+    override fun initActions() {
+        binding.apply{
+            btnBookmark.popClick {
+                if (recipe!!.isBookmarked) {
+                    viewModel.removeBookmark(recipe!!.id)
+                    viewModel.toggleBookmarkButton(false)
+                    root.showSnackBar("Resep dihapus dari Bookmark")
+                } else {
+                    viewModel.addBookmark(recipe!!.id)
+                    viewModel.toggleBookmarkButton(true)
+                    root.showSnackBar("Resep ditambah dari Bookmark")
+                }
             }
         }
     }
@@ -108,35 +116,47 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
         viewModel.getRecipeDetail(slug)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initObservers() {
-        viewModel.recipeDetailResult.observe(viewLifecycleOwner) { response ->
-            Timber.d("Response is $response")
-            when (response) {
-                is ApiResponse.Success -> {
-                    hideLoadingDialog()
-                    recipe = response.data
-                    binding.apply {
-                        viewModel.checkIsGroceryGroupExist(recipe?.id ?: "")
-                        imgFood.setImageUrl(recipe?.photo)
-                        imgProfile.setImageUrl(recipe?.author?.photo)
-                        tvTitle.text = recipe?.title
-                        tvUserName.text = recipe?.author?.name
-                        tvUserSlug.text = recipe?.author?.slug
-                        tvTotalBookmark.text = recipe?.totalBookmark?.toBookmarkCount()
-                        tvTimer.text = recipe?.estimatedTime?.toHoursAndMinutes()
-                        tvStory.text = recipe?.description
-                        tvPortion.text = recipe?.totalServing?.toPortionString()
-                        listIngredientAdapter.setData(recipe!!.mainIngredients)
-                        listSpicesAdapter.setData(recipe?.spices ?: listOf())
-                        listStepsAdapter.setData(recipe?.steps ?: listOf())
-
-                        btnBuyIngredient.popClick {
-                            navigateToAddToGrocery(
-                                recipe!!
-
-                            )
-                        }
-                    }
+        viewModel.bookmarkResult.observeResponse(
+            viewLifecycleOwner,
+            loading = {
+//                showLoadingDialog()
+            },
+            success = {response ->
+//                hideLoadingDialog()
+                viewModel.getRecipeDetail(slug)
+            },
+            error = { error ->
+//                hideLoadingDialog()
+                binding.root.showSnackBar(error.errorMessage)
+            }
+        )
+        viewModel.recipeDetailResult.observeResponse(
+            viewLifecycleOwner,
+            loading = {
+                showLoading(true)
+            },
+            success = { response ->
+                showLoading(false)
+                recipe = response.data
+                binding.apply {
+                    imgFood.setImageUrl(recipe?.photo)
+                    imgProfile.setImageUrl(recipe?.author?.photo)
+                    tvTitle.text = recipe?.title
+                    tvCategory.text = recipe?.mainCategory
+                    tvSecondCategory.text = "| ${recipe!!.secondCategory.name} |"
+                    tvUserName.text = recipe?.author?.name
+                    tvUserSlug.text = recipe?.author?.slug
+                    tvTotalBookmark.text = recipe?.totalBookmark?.toBookmarkCount()
+                    tvTimer.text = recipe?.estimatedTime?.toHoursAndMinutes()
+                    tvStory.text = recipe?.description
+                    val portion = recipe?.totalServing?.toPortionString()
+                    tvPortion.text = getString(R.string.label_portion_detail, portion)
+                    listIngredientAdapter.setData(recipe!!.mainIngredients)
+                    listSpicesAdapter.setData(recipe!!.spices)
+                    listStepsAdapter.setData(recipe!!.steps)
+                    listUtensilAdapter.setData(recipe!!.utensils)
 
                     if (recipe!!.isBookmarked) {
                         btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark))
@@ -144,14 +164,17 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                         btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark_border))
                     }
                 }
-
-                is ApiResponse.Error -> {
-                    hideLoadingDialog()
+            },
+            empty = {
+                showLoading(false)
+            },
+            error = {
+                showLoading(false)
+                binding.apply {
+                    findNavController().popBackStack()
                 }
-
-                is ApiResponse.Empty -> {
-                    // Handle empty state
-                }
+            }
+        )
 
         viewModel.isBookmarked.observe(viewLifecycleOwner) { isBookmarked ->
             binding.apply {
@@ -162,15 +185,6 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                     btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark_border))
                     viewModel.getRecipeDetail(slug)
                 }
-            }
-        }
-
-        viewModel.isGroceryGroupExist.observe(viewLifecycleOwner) { isExist ->
-            binding.btnBuyIngredient.isEnabled = !isExist
-            if (isExist) {
-                binding.btnBuyIngredient.text = getString(R.string.label_already_added)
-            } else {
-                binding.btnBuyIngredient.text = getString(R.string.action_buy_ingredient)
             }
         }
     }
@@ -188,26 +202,29 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
         }
     }
 
-    private fun navigateToAddToGrocery(
-        recipe: Recipe,
-    ) {
-        val action =
-            DetailRecipeFragmentDirections.actionDetailRecipeFragmentToAddToGroceryFragment(
-                recipe.fullIngredients.toTypedArray(),
-                recipe.spices.toTypedArray(),
-                recipe.id,
-                recipe.slug,
-                recipe.photo,
-                recipe.title,
-            )
-        binding.root.findNavController().navigate(action)
-    }
-
     private fun Int.toPortionString(): String {
-        return "$this porsi"
+        return "$this Porsi"
     }
 
     private fun Int.toBookmarkCount(): String {
-        return "$this bookmark"
+        return "$this Bookmark"
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.apply {
+            if (isLoading) {
+                shimmeringDetailRecipe.startShimmer()
+                shimmeringDetailRecipe.showShimmer(true)
+                shimmeringDetailRecipe.show()
+                frameRecipeDetail.gone()
+                imgFood.gone()
+            } else {
+                shimmeringDetailRecipe.stopShimmer()
+                shimmeringDetailRecipe.showShimmer(false)
+                shimmeringDetailRecipe.gone()
+                frameRecipeDetail.slowShow()
+                imgFood.slowShow()
+            }
+        }
     }
 }

@@ -4,7 +4,6 @@ import com.bangkit.snapcook.data.model.Recipe
 import com.bangkit.snapcook.data.model.Utensil
 import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.data.network.request.PredictIngredientRequest
-import com.bangkit.snapcook.data.network.response.BasicResponse
 import com.bangkit.snapcook.data.source.RecipeDataSource
 import com.bangkit.snapcook.utils.helper.extractData
 import kotlinx.coroutines.Dispatchers
@@ -136,7 +135,4 @@ class RecipeRepository(
 
     suspend fun getRecipeDetail(slug: String): Flow<ApiResponse<Recipe>> =
         dataSource.fetchRecipeDetail(slug).flowOn(Dispatchers.IO)
-
-    suspend fun deleteRecipe(id: String): Flow<ApiResponse<BasicResponse>> =
-        dataSource.deleteRecipe(id).flowOn(Dispatchers.IO)
 }

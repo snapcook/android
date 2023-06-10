@@ -1,8 +1,5 @@
 package com.bangkit.snapcook.presentation
 
-import android.view.Window
-import android.view.WindowManager
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
@@ -14,7 +11,6 @@ import com.bangkit.snapcook.utils.extension.gone
 import com.bangkit.snapcook.utils.extension.popClick
 import com.bangkit.snapcook.utils.extension.show
 
-
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun getViewBinding(): ActivityMainBinding {
         return ActivityMainBinding.inflate(layoutInflater)
@@ -25,7 +21,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navControllerBottomBar = navHostBottomBar.navController
         binding.bottomNavigation.setupWithNavController(navControllerBottomBar)
-
         navControllerBottomBar.addOnDestinationChangedListener { _, currentDestination, _ ->
             if (isMainPage(currentDestination)) {
                 binding.bottomAppBar.show()

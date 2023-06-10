@@ -14,6 +14,7 @@ class PredictionAdapter : RecyclerView.Adapter<PredictionAdapter.PredictionViewH
     fun setData(results: List<String>) {
         data.clear()
         data.addAll(results)
+        Timber.d("SETDATA ${results[0]}")
 
         notifyDataSetChanged()
     }

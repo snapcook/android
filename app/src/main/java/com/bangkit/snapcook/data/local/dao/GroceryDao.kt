@@ -5,7 +5,6 @@ import androidx.paging.PagingSource
 import androidx.room.*
 import com.bangkit.snapcook.data.model.Grocery
 import com.bangkit.snapcook.data.model.GroceryGroup
-import retrofit2.http.DELETE
 
 @Dao
 interface GroceryDao {

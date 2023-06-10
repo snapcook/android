@@ -26,11 +26,11 @@ class DetailRecipeViewModel(
     val recipeDetailResult: LiveData<ApiResponse<Recipe>> by lazy { _recipeDetailResult }
     private val _recipeDetailResult = MutableLiveData<ApiResponse<Recipe>>()
 
+    val bookmarkResult: LiveData<ApiResponse<String>> by lazy { _bookmarkResult }
+    private val _bookmarkResult = MutableLiveData<ApiResponse<String>>()
+
     val isBookmarked: LiveData<Boolean> by lazy { _isBookmarked }
     private val _isBookmarked = MutableLiveData<Boolean>()
-
-    val isGroceryGroupExist: LiveData<Boolean> by lazy { _isGroceryGroupExist }
-    private val _isGroceryGroupExist = MutableLiveData<Boolean>()
 
     fun getRecipeDetail(slug: String) {
         viewModelScope.launch {
@@ -40,20 +40,51 @@ class DetailRecipeViewModel(
         }
     }
 
-    fun checkIsGroceryGroupExist(groupId: String) {
+    fun addToGroceryList(recipe: Recipe) {
         viewModelScope.launch {
-            _isGroceryGroupExist.postValue(groceryRepository.isGroceryGroupExist(groupId))
+            val groceryGroup = GroceryGroup(
+                slug = recipe.slug,
+                groupId = recipe.id,
+                utensils = recipe.utensils.size,
+                title = recipe.title,
+                photo = recipe.photo,
+                spices = recipe.spices.size,
+                ingredients = recipe.mainIngredients.size,
+            )
+            groceryRepository.insertGroceryGroup(groceryGroup)
+            groceryRepository.insertGroceries(
+                recipe.utensils.convertUtensilToGrocery(
+                    recipe.id,
+                    UTENSILS_TYPE
+                )
+            )
+            groceryRepository.insertGroceries(
+                recipe.spices.convertToGrocery(
+                    recipe.id,
+                    SPICES_TYPE
+                )
+            )
+            groceryRepository.insertGroceries(
+                recipe.fullIngredients.convertToGrocery(
+                    recipe.id,
+                    INGREDIENTS_TYPE
+                )
+            )
         }
     }
     fun addBookmark(id: String) {
         viewModelScope.launch {
-            bookmarkRepository.addBookmark(id).collect {}
+            bookmarkRepository.addBookmark(id).collect {
+                _bookmarkResult.postValue(it)
+            }
         }
     }
 
     fun removeBookmark(id: String) {
         viewModelScope.launch {
-            bookmarkRepository.removeBookmark(id).collect {}
+            bookmarkRepository.removeBookmark(id).collect {
+                _bookmarkResult.postValue(it)
+            }
         }
     }
 

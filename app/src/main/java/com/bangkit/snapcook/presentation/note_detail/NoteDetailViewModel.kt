@@ -34,10 +34,4 @@ class NoteDetailViewModel(private val repository: GroceryRepository) : ViewModel
             repository.updateGroceryGroupCompleted(grocery.groupId, newStatus)
         }
     }
-
-    fun deleteGrocery(groupId: String) {
-        viewModelScope.launch {
-            repository.deleteGroceryGroup(groupId)
-        }
-    }
 }

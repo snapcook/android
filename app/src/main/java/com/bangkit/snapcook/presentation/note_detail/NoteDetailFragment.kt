@@ -3,14 +3,10 @@ package com.bangkit.snapcook.presentation.note_detail
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.databinding.FragmentNoteDetailBinding
 import com.bangkit.snapcook.presentation.note_detail.adapter.ShoppingNoteAdapter
-import com.bangkit.snapcook.utils.extension.popClick
-import com.bangkit.snapcook.utils.extension.showYesNoDialog
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
@@ -52,16 +48,6 @@ class NoteDetailFragment : BaseFragment<FragmentNoteDetailBinding>() {
 
     override fun initUI() {
         binding.apply {
-            btnDelete.popClick {
-                showYesNoDialog(
-                    title = getString(R.string.title_delete_note),
-                    message = getString(R.string.desc_delete_note),
-                    onYes = {
-                        viewModel.deleteGrocery(groupId)
-                        findNavController().popBackStack()
-                    }
-                )
-            }
             rvIngredients.apply {
                 adapter = groceryIngredientGroupAdapter
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

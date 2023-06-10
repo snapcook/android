@@ -1,5 +1,6 @@
 package com.bangkit.snapcook.presentation.search
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -43,6 +44,7 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
         return FragmentSearchRecipeBinding.inflate(inflater, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initUI() {
         binding.apply {
             toolBar.setPopBackEnabled()
@@ -157,6 +159,7 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
                 toolBar.gone()
                 svRecipe.gone()
                 tvInfo.gone()
+                emptyListLayout.root.gone()
                 tvSearchKeyword.gone()
                 rvSearchRecipe.gone()
             } else {

@@ -5,27 +5,27 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingHorizontal="@dimen/dimen_8dp"
-    android:paddingVertical="@dimen/dimen_4dp"
+    android:padding="@dimen/dimen_8dp"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/img_category"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/img_item"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginBottom="@dimen/dimen_4dp"
         android:scaleType="centerCrop"
-        android:background="@drawable/bg_category_home"/>
+        app:strokeWidth="2dp"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"/>
 
     <TextView
-        android:id="@+id/tv_category"
+        android:id="@+id/tv_item"
         android:layout_width="64dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_4dp"
         android:gravity="center"
         android:maxLines="2"
         android:ellipsize="end"
-        android:text="Kategori"
+        android:text="@string/app_name"
         android:textSize="@dimen/font_small" />
 
 </LinearLayout>
