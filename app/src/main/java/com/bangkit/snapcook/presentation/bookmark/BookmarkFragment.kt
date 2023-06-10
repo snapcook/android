@@ -8,14 +8,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
-import com.bangkit.snapcook.data.model.Recipe
-import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.databinding.FragmentBookmarkBinding
-import com.bangkit.snapcook.presentation.search.SearchRecipeFragmentDirections
 import com.bangkit.snapcook.presentation.search.adapter.ListRecipeDetailAdapter
-import com.bangkit.snapcook.utils.extension.closeApp
-import com.bangkit.snapcook.utils.extension.showSnackBar
-import com.bangkit.snapcook.utils.extension.showYesNoDialog
+import com.bangkit.snapcook.utils.extension.*
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
@@ -30,7 +25,8 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
                 },
             onBookmarkClick = { recipe ->
                 binding.root.showSnackBar("Resep dihapus dari Bookmark.")
-                viewModel.removeBookmark(recipe.bookmarkId ?: "")
+                viewModel.removeBookmark(recipe.id ?: "")
+                viewModel.getBookmarkedRecipe()
             }
         )
     }
@@ -75,34 +71,36 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
     }
 
     override fun initObservers() {
-        viewModel.getBookmarkResult.observe(viewLifecycleOwner){ response ->
-            when (response) {
-                is ApiResponse.Success -> {
-                    hideLoadingDialog()
-                    val bookmarkRecipes = response.data
-//                    val recipeList = mutableListOf<Recipe>()
-//
-//                    for (bookmarkResponse in bookmarkResponses) {
-//                        val recipe = bookmarkResponse.recipe
-//                        recipe.bookmarkId = bookmarkResponse.id
-//                        recipeList.add(recipe)
-//                    }
+        viewModel.getBookmarkResult.observeResponse(viewLifecycleOwner,
+            loading = {
+                showLoading(true)
+            },
+            success = { response ->
+                showLoading(false)
+                val bookmarkRecipes = response.data
 
-                    listRecipeDetailAdapter.setData(bookmarkRecipes)
+                listRecipeDetailAdapter.setData(bookmarkRecipes)
+                binding.apply {
+                    emptyListLayout.root.gone()
+                    rvBookmarkedRecipe.show()
                 }
-                is ApiResponse.Loading -> {
-                    showLoadingDialog()
+            },
+            error = {response ->
+                showLoading(false)
+                Timber.d(response.errorMessage)
+                binding.apply {
+                    emptyListLayout.root.show()
+                    root.showSnackBar(response.errorMessage)
                 }
-                is ApiResponse.Error -> {
-                    hideLoadingDialog()
-                    Timber.d(response.errorMessage)
-                    binding.root.showSnackBar(response.errorMessage)
-                }
-                is ApiResponse.Empty -> {
-                    // Handle empty state
+            },
+            empty = {
+                showLoading(false)
+                binding.apply{
+                    rvBookmarkedRecipe.hide()
+                    emptyListLayout.root.show()
                 }
             }
-        }
+        )
     }
 
     private fun navigateToDetail(slug: String) {
@@ -111,6 +109,24 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>() {
                 slug
             )
         )
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.apply {
+            if (isLoading) {
+                shimmeringLoadingBookmark.startShimmer()
+                shimmeringLoadingBookmark.showShimmer(true)
+                shimmeringLoadingBookmark.show()
+                tvBookmark.gone()
+                frameRecipe.gone()
+            } else {
+                shimmeringLoadingBookmark.stopShimmer()
+                shimmeringLoadingBookmark.showShimmer(false)
+                shimmeringLoadingBookmark.gone()
+                tvBookmark.slowShow()
+                frameRecipe.slowShow()
+            }
+        }
     }
 
 }

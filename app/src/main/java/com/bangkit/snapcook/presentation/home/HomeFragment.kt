@@ -1,19 +1,25 @@
 package com.bangkit.snapcook.presentation.home
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
+import com.bangkit.snapcook.data.model.User
 import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.databinding.FragmentHomeBinding
+import com.bangkit.snapcook.presentation.home.adapter.CategoryAdapter
 import com.bangkit.snapcook.presentation.home.adapter.ListRecipeAdapter
-import com.bangkit.snapcook.utils.extension.closeApp
-import com.bangkit.snapcook.utils.extension.showSnackBar
-import com.bangkit.snapcook.utils.extension.showYesNoDialog
+import com.bangkit.snapcook.presentation.modal.utensils.UtensilsAdapter
+import com.bangkit.snapcook.utils.constant.AnimationConstants
+import com.bangkit.snapcook.utils.extension.*
 import org.koin.android.ext.android.inject
 
 
@@ -32,6 +38,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val listRecommendedAdapter: ListRecipeAdapter by lazy {
         ListRecipeAdapter {
             navigateToDetail(it)
+        }
+    }
+
+    private val listCategoryAdapter: CategoryAdapter by lazy {
+        CategoryAdapter { id, name ->
+            navigateToCategory(id, name)
         }
     }
 
@@ -66,6 +78,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 navigateToSearch()
             }
 
+            bannerImage.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.logo_snapcook_full))
+
             svRecipe.setOnQueryTextFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     navigateToSearch()
@@ -80,7 +94,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
 
             chipGroupCategory.apply {
-                chipCategoryFood.isChecked = true
+                chipCategoryFood.isSelected = true
                 isNestedScrollingEnabled = true
             }
 
@@ -92,6 +106,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
 
             rvUserTaste.apply {
+                adapter = listCategoryAdapter
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 isNestedScrollingEnabled = true
@@ -103,60 +118,98 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun initActions() {
         binding.apply {
             chipCategoryFood.setOnClickListener {
+                chipCategoryFood.isSelected = true
+                chipCategoryDrink.isSelected = false
                 selectedCategory = chipCategoryFood.text.toString()
-                viewModel.getRecipes(null, selectedCategory, null, null)
+                viewModel.getRecipes(mainCategory = selectedCategory)
             }
 
             chipCategoryDrink.setOnClickListener {
+                chipCategoryDrink.isSelected = true
+                chipCategoryFood.isSelected = false
                 selectedCategory = chipCategoryDrink.text.toString()
-                viewModel.getRecipes(null, selectedCategory, null, null)
+                viewModel.getRecipes(mainCategory = selectedCategory)
             }
         }
     }
 
     override fun initProcess() {
-        viewModel.getRecipes()
-        viewModel.getRecipes(null, selectedCategory, null, null)
+        viewModel.getRecipesOrdered()
+        viewModel.getRecipes(mainCategory = selectedCategory)
+        viewModel.getCategories()
+        viewModel.getProfile()
     }
     override fun initObservers() {
-        viewModel.popularRecipeResult.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is ApiResponse.Success -> {
-                    hideLoadingDialog()
-                    val recipes = response.data
-                    listRecipeAdapter.setData(recipes)
-                }
-                is ApiResponse.Loading -> {
-                    showLoadingDialog()
-                }
-                is ApiResponse.Error -> {
-                    hideLoadingDialog()
-                    binding.root.showSnackBar(response.errorMessage)
-                }
-                is ApiResponse.Empty -> {
-                    // Handle empty state
-                }
+        viewModel.popularRecipeResult.observeResponse(
+            viewLifecycleOwner,
+            loading = {
+                showLoading(true)
+            },
+            success = {
+                showLoading(false)
+                listRecipeAdapter.setData(it.data)
+            },
+            empty = {
+                showLoading(false)
+            },
+            error = {
+                showLoading(false)
             }
-        }
+        )
 
-        viewModel.recommendedRecipeResult.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is ApiResponse.Success -> {
-                    hideLoadingDialog()
-                    val recipes = response.data
-                    listRecommendedAdapter.setData(recipes)
-                }
-                is ApiResponse.Loading -> {
-                    showLoadingDialog()
-                }
-                is ApiResponse.Error -> {
-                    hideLoadingDialog()
-                }
-                is ApiResponse.Empty -> {
-                    // Handle empty state
-                }
+        viewModel.recommendedRecipeResult.observeResponse(
+            viewLifecycleOwner,
+            loading = {
+                showLoading(true)
+            },
+            success = {
+                showLoading(false)
+                listRecommendedAdapter.setData(it.data)
+            },
+            empty = {
+                showLoading(false)
+            },
+            error = {
+                showLoading(false)
             }
-        }
+        )
+
+        viewModel.categoryResult.observeResponse(
+            viewLifecycleOwner,
+            loading = {
+                showLoading(true)
+            },
+            success = {
+                showLoading(false)
+                listCategoryAdapter.setData(it.data)
+            },
+            empty = {
+                showLoading(false)
+            },
+            error = {
+                showLoading(false)
+            }
+        )
+
+        viewModel.profileResult.observeResponse(
+            viewLifecycleOwner,
+            loading = {
+                showLoading(true)
+            },
+            success = {
+                showLoading(false)
+                val user: User = it.data
+
+                binding.apply {
+                    imgUser.setImageUrl(user.photo)
+                    tvName.text = "${user.name}!"
+                }
+
+            },
+            error = {
+                showLoading(false)
+            }
+        )
     }
 
     private fun navigateToDetail(slug: String) {
@@ -167,10 +220,37 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         )
     }
 
+    private fun navigateToCategory(secondCategoryId: String, name: String) {
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToCategoryFragment(
+                secondCategoryId,
+                name
+            )
+        )
+    }
+
     private fun navigateToSearch() {
         findNavController().navigate(
             HomeFragmentDirections.actionHomeFragmentToSearchRecipeFragment()
         )
     }
 
+    private fun showLoading(isLoading: Boolean) {
+        binding.apply {
+            if (isLoading) {
+                shimmeringLoadingHome.startShimmer()
+                shimmeringLoadingHome.showShimmer(true)
+                shimmeringLoadingHome.show()
+                layoutHome.gone()
+            } else {
+                shimmeringLoadingHome.stopShimmer()
+                shimmeringLoadingHome.showShimmer(false)
+                shimmeringLoadingHome.gone()
+                layoutHome.slowShow()
+            }
+        }
+    }
+
 }
+
+

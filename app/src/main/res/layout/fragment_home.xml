@@ -6,24 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".presentation.home.HomeFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:id="@+id/appBar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fitsSystemWindows="true">-->
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:title="@string/app_name"
-            app:titleTextColor="@color/white"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
-    </com.google.android.material.appbar.AppBarLayout>
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:id="@+id/toolBar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:title="@string/app_name"-->
+<!--            app:titleTextColor="@color/white"-->
+<!--            app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />-->
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/layout_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
@@ -31,16 +32,69 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/dimen_24dp"
+                android:paddingTop="@dimen/dimen_24dp">
+
+                <TextView
+                    android:id="@+id/tv_welcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/font_big"
+                    android:text="Selamat datang," />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/font_big"
+                    android:layout_marginStart="@dimen/dimen_4dp"
+                    android:layout_toEndOf="@+id/tv_welcome"
+                    android:text="nama!" />
+
+                <TextView
+                    android:id="@+id/tv_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_welcome"
+                    android:textSize="@dimen/font_medium"
+                    android:text="@string/hint_home" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgUser"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end"
+                    tools:src="@tools:sample/avatars" />
+            </RelativeLayout>
+
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/sv_recipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_16dp"
                 android:layout_marginHorizontal="@dimen/dimen_24dp"
+                android:layout_marginTop="@dimen/dimen_16dp"
                 android:layout_marginBottom="@dimen/dimen_16dp"
                 android:background="@drawable/bg_search"
                 android:hint="@string/hint_search"
-                app:searchIcon="@drawable/ic_search"/>
+                app:searchIcon="@drawable/ic_search" />
+
+            <ImageView
+                android:id="@+id/banner_image"
+                android:paddingHorizontal="@dimen/dimen_24dp"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="fitCenter"
+                android:layout_marginBottom="@dimen/dimen_8dp"
+                android:src="@drawable/skeleton">
+
+            </ImageView>
 
             <TextView
                 android:id="@+id/tv_popular_recipe"
@@ -48,28 +102,49 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dimen_24dp"
                 android:layout_marginBottom="@dimen/dimen_8dp"
+                android:text="@string/label_popular_recipe"
                 android:textSize="@dimen/font_xbig"
-                android:textStyle="bold"
-                android:text="@string/label_popular_recipe" />
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_popular_recipe"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/dimen_24dp"
-                android:orientation="horizontal"
                 android:layout_marginBottom="@dimen/dimen_8dp"
+                android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/recipe_mini_item"/>
+                tools:listitem="@layout/recipe_mini_item" />
+
+            <TextView
+                android:id="@+id/tv_user_taste"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_24dp"
+                android:layout_marginBottom="@dimen/dimen_8dp"
+                android:text="@string/label_user_taste"
+                android:textSize="@dimen/font_small"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_user_taste"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dimen_24dp"
+                android:layout_marginBottom="@dimen/dimen_8dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/category_item">
+            </androidx.recyclerview.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/tv_recommended_recipe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dimen_24dp"
+                android:text="@string/label_recommended_recipe"
                 android:textSize="@dimen/font_xbig"
-                android:textStyle="bold"
-                android:text="@string/label_recommended_recipe" />
+                android:textStyle="bold" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group_category"
@@ -81,22 +156,24 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_category_food"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dimen_8dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:text="@string/action_category_food"
                     android:textSize="@dimen/font_small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dimen_8dp"/>
+                    app:chipBackgroundColor="@drawable/chip_selected_background"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_category_drink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="true"
                     android:text="@string/action_category_drink"
                     android:textSize="@dimen/font_small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    app:chipBackgroundColor="@drawable/chip_selected_background"/>
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -104,32 +181,22 @@
                 android:id="@+id/rv_recommended_recipe"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/dimen_8dp"
                 android:layout_marginLeft="@dimen/dimen_24dp"
+                android:layout_marginBottom="@dimen/dimen_24dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/recipe_mini_item"/>
+                tools:listitem="@layout/recipe_mini_item" />
 
-            <TextView
-                android:id="@+id/tv_user_taste"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/dimen_24dp"
-                android:layout_marginBottom="@dimen/dimen_8dp"
-                android:textSize="@dimen/font_small"
-                android:textStyle="bold"
-                android:text="@string/label_user_taste"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_user_taste"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/dimen_24dp"
-                android:layout_marginBottom="@dimen/dimen_8dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/category_item"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmering_loading_home"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/shimmer_home" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

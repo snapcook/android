@@ -141,6 +141,36 @@ class RecipeDataSource(
         }
     }
 
+    suspend fun fetchRecipesOrdered(
+        authorId: String? = null,
+        mainCategory: String? = null,
+        secondCategoryId: String? = null,
+        search: String? = null
+    ): Flow<ApiResponse<List<Recipe>>> {
+        return flow {
+            try {
+                emit(ApiResponse.Loading)
+                val response = service.fetchRecipe(
+                    authorId,
+                    mainCategory,
+                    secondCategoryId,
+                    search
+                )
+
+                if (response.isEmpty()) {
+                    emit(ApiResponse.Empty)
+                    return@flow
+                }
+
+                val sortedRecipes = response.sortedByDescending { it.totalBookmark }
+                emit(ApiResponse.Success(sortedRecipes))
+            } catch (e: Exception) {
+                Timber.e(e.message)
+                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
+            }
+        }
+    }
+
     suspend fun fetchMyRecipe(): Flow<ApiResponse<List<Recipe>>> {
         return flow {
             try {
@@ -209,6 +239,32 @@ class RecipeDataSource(
         }
     }
 
+    suspend fun fetchCategoryRecipe(
+        secondCategoryId: String
+    ): Flow<ApiResponse<List<Recipe>>> {
+        return flow {
+            try {
+                emit(ApiResponse.Loading)
+                val response = service.fetchRecipe(
+                    secondCategory = secondCategoryId
+                )
+
+                dao.insertAllRecipe(response)
+                val recipes = dao.getRecipesByCategoryId(secondCategoryId)
+
+                if (recipes.isEmpty()) {
+                    emit(ApiResponse.Empty)
+                    return@flow
+                }
+
+                emit(ApiResponse.Success(recipes))
+            } catch (e: Exception) {
+                Timber.e(e.message)
+                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
+            }
+        }
+    }
+
     suspend fun fetchUtensil(): Flow<ApiResponse<List<Utensil>>> {
         return flow {
             try {
@@ -243,8 +299,29 @@ class RecipeDataSource(
             try {
                 emit(ApiResponse.Loading)
                 val response = service.fetchRecipeDetail(slug)
+                if (dao.isRecipeIsExist(response.id)){
+                    dao.updateRecipe(
+                        response.id,
+                        response.title,
+                        response.photo,
+                        response.description,
+                        response.totalServing,
+                        response.mainIngredients,
+                        response.fullIngredients,
+                        response.spices,
+                        response.utensils,
+                        response.estimatedTime,
+                        response.steps,
+                        response.totalBookmark
+                    )
+                } else {
+                    dao.insertRecipe(response)
+                }
 
-                emit(ApiResponse.Success(response))
+
+                val recipe = dao.getDetailRecipe(response.id)
+
+                emit(ApiResponse.Success(recipe))
             } catch (e: Exception) {
                 Timber.e(e.message)
                 emit(ApiResponse.Error(e.createResponse()?.message ?: ""))

@@ -34,7 +34,9 @@ class BookmarkViewModel(
     fun removeBookmark(id: String){
         viewModelScope.launch {
             Timber.d("Remove Bookmark, id: $id")
-            repository.removeBookmark(id)
+            repository.removeBookmark(id).collect{
+
+            }
         }
     }
 }

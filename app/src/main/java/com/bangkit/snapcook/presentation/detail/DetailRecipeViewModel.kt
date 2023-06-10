@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.bangkit.snapcook.data.model.GroceryGroup
 import com.bangkit.snapcook.data.model.Recipe
 import com.bangkit.snapcook.data.network.ApiResponse
+import com.bangkit.snapcook.data.repository.BookmarkRepository
 import com.bangkit.snapcook.data.repository.GroceryRepository
 import com.bangkit.snapcook.data.repository.RecipeRepository
 import com.bangkit.snapcook.utils.constant.GroceryConstants.INGREDIENTS_TYPE
@@ -19,10 +20,14 @@ import kotlinx.coroutines.launch
 class DetailRecipeViewModel(
     private val recipeRepository: RecipeRepository,
     private val groceryRepository: GroceryRepository,
+    private val bookmarkRepository: BookmarkRepository
 ) : ViewModel() {
 
     val recipeDetailResult: LiveData<ApiResponse<Recipe>> by lazy { _recipeDetailResult }
     private val _recipeDetailResult = MutableLiveData<ApiResponse<Recipe>>()
+
+    val isBookmarked: LiveData<Boolean> by lazy { _isBookmarked }
+    private val _isBookmarked = MutableLiveData<Boolean>()
 
     val isGroceryGroupExist: LiveData<Boolean> by lazy { _isGroceryGroupExist }
     private val _isGroceryGroupExist = MutableLiveData<Boolean>()
@@ -39,5 +44,20 @@ class DetailRecipeViewModel(
         viewModelScope.launch {
             _isGroceryGroupExist.postValue(groceryRepository.isGroceryGroupExist(groupId))
         }
+    }
+    fun addBookmark(id: String) {
+        viewModelScope.launch {
+            bookmarkRepository.addBookmark(id).collect {}
+        }
+    }
+
+    fun removeBookmark(id: String) {
+        viewModelScope.launch {
+            bookmarkRepository.removeBookmark(id).collect {}
+        }
+    }
+
+    fun toggleBookmarkButton(isBookmarked: Boolean){
+        _isBookmarked.value = isBookmarked
     }
 }

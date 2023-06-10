@@ -5,22 +5,26 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="@dimen/dimen_4dp"
+    android:paddingHorizontal="@dimen/dimen_8dp"
+    android:paddingVertical="@dimen/dimen_4dp"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/img_category"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginBottom="@dimen/dimen_4dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/img_placeholder_food" />
+        android:background="@drawable/bg_category_home"/>
 
     <TextView
         android:id="@+id/tv_category"
-        android:layout_width="wrap_content"
+        android:layout_width="64dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:text="Kategori"
         android:textSize="@dimen/font_small" />
 

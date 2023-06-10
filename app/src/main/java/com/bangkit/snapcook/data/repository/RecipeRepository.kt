@@ -10,6 +10,7 @@ import com.bangkit.snapcook.utils.helper.extractData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import java.io.File
 
 class RecipeRepository(
@@ -89,6 +90,20 @@ class RecipeRepository(
         ).flowOn(Dispatchers.IO)
     }
 
+    suspend fun getRecipesOrdered(
+        authorId: String? = null,
+        mainCategory: String? = null,
+        secondCategoryId: String? = null,
+        search: String? = null,
+    ): Flow<ApiResponse<List<Recipe>>> {
+        return dataSource.fetchRecipesOrdered(
+            authorId,
+            mainCategory,
+            secondCategoryId,
+            search
+        ).flowOn(Dispatchers.IO)
+    }
+
     suspend fun getSearchRecipes(
         search: String?,
     ): Flow<ApiResponse<List<Recipe>>> {
@@ -99,6 +114,14 @@ class RecipeRepository(
 
     suspend fun getMyRecipe(): Flow<ApiResponse<List<Recipe>>> {
         return dataSource.fetchMyRecipe().flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getCategoryRecipes(
+        categoryId: String,
+    ): Flow<ApiResponse<List<Recipe>>> {
+        return dataSource.fetchCategoryRecipe(
+            categoryId
+        ).flowOn(Dispatchers.IO)
     }
 
     suspend fun predictIngredients(

@@ -105,6 +105,8 @@
     <string name="desc_delete_note">Are you sure want to delete this note?</string>
     <string name="title_add_to_grocery">Add to Grocery List</string>
     <string name="label_already_added">Already Added</string>
+    <string name="label_category_initialize">Makanan</string>
+    <string name="hint_home">Mau masak apa hari ini?</string>
 
 
 </resources>

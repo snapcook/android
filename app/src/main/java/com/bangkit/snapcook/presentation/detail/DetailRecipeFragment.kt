@@ -3,19 +3,21 @@ package com.bangkit.snapcook.presentation.detail
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.data.model.Recipe
-import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.databinding.FragmentDetailRecipeBinding
 import com.bangkit.snapcook.presentation.detail.adapter.ListStepsAdapter
 import com.bangkit.snapcook.presentation.detail.adapter.ListStringAdapter
+import com.bangkit.snapcook.presentation.detail.adapter.ListUtensilsAdapter
+import com.bangkit.snapcook.presentation.modal.utensils.UtensilsAdapter
+import com.bangkit.snapcook.utils.extension.*
 import com.bangkit.snapcook.utils.extension.popClick
 import com.bangkit.snapcook.utils.extension.setImageUrl
 import org.koin.android.ext.android.inject
-import timber.log.Timber
 
 class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
 
@@ -36,6 +38,10 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
         ListStepsAdapter()
     }
 
+    private val listUtensilAdapter: ListUtensilsAdapter by lazy {
+        ListUtensilsAdapter()
+    }
+
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,6 +56,18 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                 it.findNavController().popBackStack()
             }
 
+            btnBookmark.popClick {
+                if (recipe!!.isBookmarked) {
+                    viewModel.removeBookmark(recipe!!.id)
+                    viewModel.toggleBookmarkButton(false)
+                    root.showSnackBar("Resep dihapus dari Bookmark")
+                } else {
+                    viewModel.addBookmark(recipe!!.id)
+                    viewModel.toggleBookmarkButton(true)
+                    root.showSnackBar("Resep ditambah dari Bookmark")
+                }
+            }
+
             rvIngredient.apply {
                 adapter = listIngredientAdapter
                 layoutManager =
@@ -61,14 +79,18 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                 adapter = listSpicesAdapter
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                isNestedScrollingEnabled = false
             }
 
             rvSteps.apply {
                 adapter = listStepsAdapter
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                isNestedScrollingEnabled = false
+            }
+
+            rvCookingWare.apply {
+                adapter = listUtensilAdapter
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             }
 
             btnStartCooking.popClick {
@@ -116,10 +138,11 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                         }
                     }
 
-                }
-
-                is ApiResponse.Loading -> {
-                    showLoadingDialog()
+                    if (recipe!!.isBookmarked) {
+                        btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark))
+                    } else {
+                        btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark_border))
+                    }
                 }
 
                 is ApiResponse.Error -> {
@@ -130,6 +153,15 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                     // Handle empty state
                 }
 
+        viewModel.isBookmarked.observe(viewLifecycleOwner) { isBookmarked ->
+            binding.apply {
+                if (isBookmarked) {
+                    btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark))
+                    viewModel.getRecipeDetail(slug)
+                } else {
+                    btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark_border))
+                    viewModel.getRecipeDetail(slug)
+                }
             }
         }
 
