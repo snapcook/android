@@ -13,6 +13,9 @@
     <argument
         android:name="slug"
         app:argType="string" />
+        <action
+            android:id="@+id/action_detailRecipeFragment_to_addToGroceryFragment"
+            app:destination="@id/addToGroceryFragment" />
     </fragment>
     <fragment
         android:id="@+id/addRecipeFragment"
@@ -91,6 +94,9 @@
         <action
             android:id="@+id/action_profileFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/noteFragment"
@@ -153,6 +159,21 @@
             app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/main_navigation"
+            app:popUpToInclusive="true"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_onBoardingFragment"
+            app:destination="@id/onBoardingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onBoardingFragment"
+        android:name="com.bangkit.snapcook.presentation.onboard.OnBoardingFragment"
+        android:label="fragment_on_boarding"
+        tools:layout="@layout/fragment_on_boarding" >
+        <action
+            android:id="@+id/action_onBoardingFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
@@ -170,4 +191,32 @@
             android:id="@+id/action_categoryFragment_to_detailRecipeFragment"
             app:destination="@id/detailRecipeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addToGroceryFragment"
+        android:name="com.bangkit.snapcook.presentation.add_to_grocery.AddToGroceryFragment"
+        android:label="fragment_add_to_grocery"
+        tools:layout="@layout/fragment_add_to_grocery" >
+        <argument
+            android:name="ingredients"
+            app:argType="string[]" />
+        <argument
+            android:name="spices"
+            app:argType="string[]" />
+        <argument
+            android:name="recipeId"
+            app:argType="string" />
+        <argument
+            android:name="slug"
+            app:argType="string" />
+        <argument
+            android:name="photo"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.bangkit.snapcook.presentation.edit_profile.EditProfileFragment"
+        android:label="EditProfileFragment" />
 </navigation>

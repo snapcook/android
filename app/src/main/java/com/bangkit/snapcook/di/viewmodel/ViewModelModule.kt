@@ -1,9 +1,11 @@
 package com.bangkit.snapcook.di.viewmodel
 
 import com.bangkit.snapcook.presentation.add_recipe.AddRecipeViewModel
+import com.bangkit.snapcook.presentation.add_to_grocery.AddToGroceryViewModel
 import com.bangkit.snapcook.presentation.bookmark.BookmarkViewModel
 import com.bangkit.snapcook.presentation.category.CategoryViewModel
 import com.bangkit.snapcook.presentation.detail.DetailRecipeViewModel
+import com.bangkit.snapcook.presentation.edit_profile.EditProfileViewModel
 import com.bangkit.snapcook.presentation.home.HomeViewModel
 import com.bangkit.snapcook.presentation.login.LoginViewModel
 import com.bangkit.snapcook.presentation.my_recipe.MyRecipeViewModel
@@ -28,5 +30,7 @@ val viewModelModule = module {
     single { NoteDetailViewModel(get()) }
     single { ProfileViewModel(get()) }
     single { MyRecipeViewModel(get()) }
+    single { EditProfileViewModel(get()) }
+    single { AddToGroceryViewModel(get()) }
     single { CategoryViewModel(get(), get())}
 }

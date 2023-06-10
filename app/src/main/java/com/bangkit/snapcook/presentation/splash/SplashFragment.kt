@@ -19,6 +19,11 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 
     private fun initLoading() {
         Handler(Looper.getMainLooper()).postDelayed({
+            if (!pref.isAlreadyOnBoard) {
+                findNavController().navigate(R.id.action_splashFragment_to_onBoardingFragment)
+                return@postDelayed
+            }
+
             if (pref.isLogin) {
                 findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
                 return@postDelayed

@@ -3,6 +3,7 @@ package com.bangkit.snapcook.presentation.note.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.snapcook.data.model.GroceryGroup
 import com.bangkit.snapcook.databinding.GroceryGroupItemBinding
@@ -36,6 +37,15 @@ class GroceryGroupAdapter(
     override fun onBindViewHolder(holder: GroceryGroupViewHolder, position: Int) {
         val user = listGroceryGroup[position]
         holder.bind(user)
+        if (position == listGroceryGroup.lastIndex){
+            val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            params.bottomMargin = 100
+            holder.itemView.layoutParams = params
+        }else{
+            val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
+            params.bottomMargin = 0
+            holder.itemView.layoutParams = params
+        }
     }
 
     override fun getItemCount(): Int = listGroceryGroup.size

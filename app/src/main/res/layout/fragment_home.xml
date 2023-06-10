@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:textSize="@dimen/font_big"
-                    android:text="Selamat datang," />
+                    android:text="@string/welcome" />
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -55,7 +55,7 @@
                     android:textSize="@dimen/font_big"
                     android:layout_marginStart="@dimen/dimen_4dp"
                     android:layout_toEndOf="@+id/tv_welcome"
-                    android:text="nama!" />
+                    android:text="@string/welcome_name" />
 
                 <TextView
                     android:id="@+id/tv_info"

@@ -1,63 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <string name="app_name">Snapcook</string>
 
     <string name="label_yes">Yes</string>
     <string name="label_no">No</string>
-    <string name="label_ingredients_for">Bahan</string>
-    <string name="action_buy_ingredient">Beli Bahan</string>
-    <string name="label_cooking_ware">Alat Memasak</string>
-    <string name="label_steps">Langkah-Langkah</string>
-    <string name="action_start_cooking">Mulai Memasak</string>
-    <string name="action_add_ingredient">Tambah Bahan</string>
-    <string name="label_main_ingredient">Utama</string>
-    <string name="action_add_spice">Tambah Bumbu</string>
-    <string name="action_add_cooking_ware">Tambah Alat Memasak</string>
-    <string name="label_spice">Bumbu</string>
-    <string name="label_recipe_name">Nama Resep</string>
-    <string name="label_portion">Porsi</string>
-    <string name="label_step_item">Langkah %1$s</string>
-    <string name="label_step_item_detail">%1$s</string>
-    <string name="label_name_home">%name$s</string>
-    <string name="label_cooking_time">Lama Memasak</string>
-    <string name="action_add_step">Tambah Langkah</string>
-    <string name="action_take_food_picture">Ambil foto makanan</string>
-    <string name="warning_image_picker_permission">Aplikasi membutuhkan izin untuk mengakses kamera dan galeri</string>
-    <string name="label_choose_image_picker_method">Pilih metode pengambilan gambar</string>
-    <string name="hint_email">Masukkan email anda</string>
-    <string name="hint_password">Masukkan password</string>
-    <string name="label_popular_recipe">Resep Populer</string>
-    <string name="label_recommended_recipe">Rekomendasi dari Kami</string>
-    <string name="label_user_taste">Pilih berdasarkan seleramu</string>
-    <string name="label_found_recipe">Resep yang ditemukan</string>
-    <string name="action_category_food">Makanan</string>
-    <string name="action_category_drink">Minuman</string>
-    <string name="hint_search">Cari resep apa hari ini?</string>
-    <string name="action_login">Masuk</string>
+    <string name="label_ingredients_for">Ingredient</string>
+    <string name="action_buy_ingredient">Grocery</string>
+    <string name="label_cooking_ware">Cooking wares</string>
+    <string name="label_steps">Steps</string>
+    <string name="action_start_cooking">Start Cooking</string>
+    <string name="action_add_ingredient">Add Ingredients</string>
+    <string name="label_main_ingredient">Main Ingredients</string>
+    <string name="action_add_spice">Add Spice</string>
+    <string name="action_add_cooking_ware">Add Cooking ware</string>
+    <string name="label_spice">Spices</string>
+    <string name="label_recipe_name">Recipe Name</string>
+    <string name="label_portion">Servings</string>
+    <string name="label_step_item">Step %1$s</string>
+    <string name="label_cooking_time">Cooking Time</string>
+    <string name="action_add_step">Add Step</string>
+    <string name="action_take_food_picture">Take Photo</string>
+
+    <string name="hint_password">Input your password</string>
+    <string name="label_popular_recipe">Popular Recipe</string>
+    <string name="label_user_taste">Choose based on your taste</string>
+    <string name="action_category_food">Food</string>
+    <string name="action_category_drink">Drink</string>
+    <string name="action_login">Login</string>
     <string name="label_email">Email</string>
     <string name="label_password">Password</string>
     <string name="label_login">Login</string>
-    <string name="label_login_description">Please login using your account to continue</string>
-    <string name="action_register">Daftar</string>
-    <string name="label_dont_have_account">Tidak memiliki akun Snapcook?</string>
-    <string name="label_do_have_account">Sudah memiliki akun Snapcook?</string>
+    <string name="action_register">Register</string>
+    <string name="label_dont_have_account">Didn\'t have snapcook account?</string>
+    <string name="label_do_have_account">Already have Snapcook account?</string>
 
-    <string name="label_register">Daftar</string>
-    <string name="label_register_description">Buat akun untuk mengakses Snapcook</string>
-    <string name="label_name">Nama</string>
-    <string name="masukkan_nama_lengkap_mu">Masukkan nama lengkap mu</string>
+    <string name="label_register">Register</string>
+    <string name="label_name">Name</string>
+    <string name="masukkan_nama_lengkap_mu">Input your full name</string>
     <string name="message_logout">Are you sure you want to logout?</string>
     <string name="message_close_app">Are you sure you want to close Snapcook?</string>
 
     <string-array name="pictures">
-        <item>Dari kamera</item>
-        <item>Dari galeri</item>
+        <item>From Camera</item>
+        <item>From Gallery</item>
     </string-array>
 
-    <string name="label_detect_ingredient">Deteksi Bahan</string>
+    <string name="label_detect_ingredient">Detect Ingredients</string>
     <string name="instruction_detect_ingredient">Foto bahan Anda dan resep yang sesuai untuk Anda akan muncul.</string>
-    <string name="action_gallery">Galeri</string>
-    <string name="action_camera">Kamera</string>
-    <string name="action_scan">Mulai Scan</string>
+    <string name="action_gallery">Gallery</string>
+    <string name="action_camera">Camera</string>
+    <string name="action_scan">Start Scanning</string>
     <string name="title_logout">Logout</string>
     <string name="title_close_app">Close Snapcook?</string>
     <string name="title_ask_permission_location">Enable location</string>
@@ -76,25 +69,49 @@
     <string name="validation_steps_empty">You have yet add cooking steps</string>
     <string name="validation_email_not_valid">Email is invalid</string>
     <string name="validation_email_must_not_empty">Email should not be empty</string>
-    <string name="label_recipe_description">Deskripsi Resep</string>
-    <string name="action_save_options">Simpan Pilihan</string>
+    <string name="label_recipe_description">Recipe Description</string>
+    <string name="action_save_options">Save Options</string>
     <string name="action_save">Save</string>
     <string name="action_publish">Publish</string>
-    <string name="label_recipe_category">Jenis Masakan</string>
-    <string name="label_bookmarked_recipe">Resep Bookmark</string>
-    <string name="action_find_recipe">Cari Resep</string>
+    <string name="label_recipe_category">Type of Cuisine</string>
+    <string name="label_bookmarked_recipe">Recipe Bookmark</string>
+    <string name="action_find_recipe">Find Recipe</string>
     <string name="label_scan_result">Scanning Result</string>
-    <string name="action_take_other_picture">Ambil Foto Lain</string>
-    <string name="label_detected_ingredient">Bahan terdeteksi</string>
+    <string name="action_take_other_picture">Take another picture</string>
+    <string name="label_detected_ingredient">Ingredients Detected</string>
     <string name="action_detail">Detail</string>
-    <string name="label_complete_ingredient">Bahan sudah lengkap</string>
-    <string name="action_edit_profile" translatable="false">Edit Profile</string>
+    <string name="label_complete_ingredient">Ingredients is complete</string>
+    <string name="action_edit_profile">Edit Profile</string>
     <string name="action_logout">Logout</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_shopping_note">Shopping Note</string>
+    <string name="warning_image_picker_permission">Application need permission to access camera and gallery</string>
+    <string name="label_choose_image_picker_method">Choose image picker method</string>
+    <string name="hint_email">Input your email</string>
+    <string name="hint_full_name">Your name</string>
+    <string name="label_recommended_recipe">Our Recommendation</string>
+    <string name="label_found_recipe">Found Recipe</string>
+    <string name="hint_search">Type in recipe..</string>
+    <string name="label_login_description">Please login using your account to continue</string>
+    <string name="label_register_description">Register to gain Snapcook access</string>
+    <string name="action_next">Next</string>
+    <string name="action_get_started">Get Started</string>
+    <string name="skip">Skip</string>
+    <string name="on_board_content_1">Take a photo of your available ingredients, and we will provide you with personalized recipe recommendations.</string>
+    <string name="onboard_content_2">offers even novices practical steps that are enjoyable.</string>
+    <string name="onboard_content_3">Don’t wait to long, Let’s try make your own food now !</string>
+    <string name="title_delete_note">Delete Note?</string>
+    <string name="desc_delete_note">Are you sure want to delete this note?</string>
+    <string name="title_add_to_grocery">Add to Grocery List</string>
+    <string name="label_already_added">Already Added</string>
     <string name="label_category_initialize">Makanan</string>
-    <string name="hint_home">Mau masak apa hari ini?</string>
-    <string name="read_more">Lebih selengkapnya</string>
-    <string name="read_less">Kurangi</string>
-    <string name="label_portion_detail">| Porsi : %1$s</string>
-
-
+    <string name="hint_home">What to cook today?</string>
+    <string name="read_more">Read More</string>
+    <string name="read_less">Read Less</string>
+    <string name="label_portion_detail">| Portion : %1$s Portion </string>
+    <string name="label_step_item_detail">%1$s</string>
+    <string name="label_name_home">%1$s</string>
+    <string name="welcome">Welcome,</string>
+    <string name="welcome_name">%1$s!</string>
 </resources>

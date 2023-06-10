@@ -205,7 +205,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 binding.apply {
                     imgUser.setImageUrl(user.photo)
                     val name = extractFirstName(user.name)
-                    tvName.text = "${name}!"
+                    tvName.text = getString(R.string.welcome_name, name)
                 }
 
             },

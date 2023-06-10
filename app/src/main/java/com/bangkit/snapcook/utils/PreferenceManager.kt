@@ -2,6 +2,7 @@ package com.bangkit.snapcook.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.bangkit.snapcook.utils.constant.AppConstants.KEY_ON_BOARD
 import com.bangkit.snapcook.utils.constant.AppConstants.KEY_TOKEN
 import com.bangkit.snapcook.utils.constant.AppConstants.KEY_USER_ID
 import com.bangkit.snapcook.utils.constant.AppConstants.PREFS_NAME
@@ -18,6 +19,11 @@ class PreferenceManager(context: Context) {
         editor.apply()
     }
 
+    fun markUserDoneOnboard() {
+        editor.putString(KEY_ON_BOARD, "YES")
+        editor.apply()
+    }
+
     fun clearAllPreferences() {
         editor.remove(KEY_TOKEN)
         editor.remove(KEY_USER_ID)
@@ -25,6 +31,8 @@ class PreferenceManager(context: Context) {
     }
 
     val getToken = prefs.getString(KEY_TOKEN, "") ?: ""
+    private val getOnBoardStatus = prefs.getString(KEY_ON_BOARD, "") ?: ""
     val getUserId = prefs.getString(KEY_USER_ID, "") ?: ""
     val isLogin = getToken.isNotEmpty()
+    val isAlreadyOnBoard = getOnBoardStatus.isNotEmpty()
 }

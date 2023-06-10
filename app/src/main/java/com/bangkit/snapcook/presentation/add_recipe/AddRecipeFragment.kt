@@ -20,7 +20,18 @@ import com.bangkit.snapcook.presentation.add_recipe.adapter.SelectCategoryAdapte
 import com.bangkit.snapcook.presentation.detail.DetailRecipeFragmentArgs
 import com.bangkit.snapcook.presentation.modal.utensils.UtensilsBottomModal
 import com.bangkit.snapcook.utils.enums.ImageSource
-import com.bangkit.snapcook.utils.extension.*
+import com.bangkit.snapcook.utils.extension.extractToMinutes
+import com.bangkit.snapcook.utils.extension.getFileFromUri
+import com.bangkit.snapcook.utils.extension.gone
+import com.bangkit.snapcook.utils.extension.observeResponse
+import com.bangkit.snapcook.utils.extension.observeSingleEvent
+import com.bangkit.snapcook.utils.extension.popClick
+import com.bangkit.snapcook.utils.extension.setGlideImageUri
+import com.bangkit.snapcook.utils.extension.setImageUrl
+import com.bangkit.snapcook.utils.extension.show
+import com.bangkit.snapcook.utils.extension.showOKDialog
+import com.bangkit.snapcook.utils.extension.showSnackBar
+import com.bangkit.snapcook.utils.extension.showYesNoDialog
 import org.koin.android.ext.android.inject
 import java.io.File
 
@@ -76,6 +87,24 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
 
             btnBack.popClick {
                 findNavController().popBackStack()
+            }
+
+            if (slug.isEmpty()){
+                btnDelete.gone()
+            } else {
+                btnDelete.show()
+            }
+
+            btnDelete.popClick {
+                showYesNoDialog(
+                    title = "Hapus",
+                    message = "Yakin untuk menghapus resep?",
+                    onYes = {
+                        viewModel.deleteRecipe(recipeId ?: "")
+                        findNavController().popBackStack()
+                        root.showSnackBar("Berhasil menghapus resep")
+                    }
+                )
             }
 
             btnAddPicture.popClick {

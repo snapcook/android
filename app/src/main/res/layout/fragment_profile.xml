@@ -52,6 +52,7 @@
                 tools:text="ibnu1234" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_edit_profile"
                 style="@style/SnapcookButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

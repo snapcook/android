@@ -18,6 +18,8 @@ import com.bangkit.snapcook.presentation.detail.adapter.ListStringAdapter
 import com.bangkit.snapcook.presentation.detail.adapter.ListUtensilsAdapter
 import com.bangkit.snapcook.presentation.modal.utensils.UtensilsAdapter
 import com.bangkit.snapcook.utils.extension.*
+import com.bangkit.snapcook.utils.extension.popClick
+import com.bangkit.snapcook.utils.extension.setImageUrl
 import org.koin.android.ext.android.inject
 
 class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
@@ -46,7 +48,7 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): FragmentDetailRecipeBinding {
         return FragmentDetailRecipeBinding.inflate(inflater, container, false)
     }
@@ -79,10 +81,6 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                 adapter = listUtensilAdapter
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            }
-
-            btnBuyIngredient.popClick {
-                recipe?.let { viewModel.addToGroceryList(it) }
             }
 
             btnStartCooking.popClick {
@@ -141,6 +139,7 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                 showLoading(false)
                 recipe = response.data
                 binding.apply {
+                    viewModel.checkIsGroceryGroupExist(recipe?.id ?: "")
                     imgFood.setImageUrl(recipe?.photo)
                     imgProfile.setImageUrl(recipe?.author?.photo)
                     tvTitle.text = recipe?.title
@@ -151,12 +150,19 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                     tvTotalBookmark.text = recipe?.totalBookmark?.toBookmarkCount()
                     tvTimer.text = recipe?.estimatedTime?.toHoursAndMinutes()
                     tvStory.text = recipe?.description
-                    val portion = recipe?.totalServing?.toPortionString()
+                    val portion = recipe!!.totalServing.toString()
                     tvPortion.text = getString(R.string.label_portion_detail, portion)
                     listIngredientAdapter.setData(recipe!!.mainIngredients)
-                    listSpicesAdapter.setData(recipe!!.spices)
-                    listStepsAdapter.setData(recipe!!.steps)
+                    listSpicesAdapter.setData(recipe!!.spices ?: listOf())
+                    listStepsAdapter.setData(recipe!!.steps ?: listOf())
                     listUtensilAdapter.setData(recipe!!.utensils)
+
+                    btnBuyIngredient.popClick {
+                        navigateToAddToGrocery(
+                            recipe!!
+
+                        )
+                    }
 
                     if (recipe!!.isBookmarked) {
                         btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark))
@@ -187,6 +193,15 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                 }
             }
         }
+
+        viewModel.isGroceryGroupExist.observe(viewLifecycleOwner) { isExist ->
+            binding.btnBuyIngredient.isEnabled = !isExist
+            if (isExist) {
+                binding.btnBuyIngredient.text = getString(R.string.label_already_added)
+            } else {
+                binding.btnBuyIngredient.text = getString(R.string.action_buy_ingredient)
+            }
+        }
     }
 
     private fun Int.toHoursAndMinutes(): String {
@@ -202,8 +217,19 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
         }
     }
 
-    private fun Int.toPortionString(): String {
-        return "$this Porsi"
+    private fun navigateToAddToGrocery(
+        recipe: Recipe,
+    ) {
+        val action =
+            DetailRecipeFragmentDirections.actionDetailRecipeFragmentToAddToGroceryFragment(
+                recipe.fullIngredients.toTypedArray(),
+                recipe.spices.toTypedArray(),
+                recipe.id,
+                recipe.slug,
+                recipe.photo,
+                recipe.title,
+            )
+        binding.root.findNavController().navigate(action)
     }
 
     private fun Int.toBookmarkCount(): String {

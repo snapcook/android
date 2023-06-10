@@ -5,6 +5,7 @@ import com.bangkit.snapcook.data.model.Recipe
 import com.bangkit.snapcook.data.model.Utensil
 import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.data.network.request.PredictIngredientRequest
+import com.bangkit.snapcook.data.network.response.BasicResponse
 import com.bangkit.snapcook.data.network.services.RecipeService
 import com.bangkit.snapcook.data.network.services.UtensilService
 import com.bangkit.snapcook.utils.PreferenceManager
@@ -278,6 +279,18 @@ class RecipeDataSource(
                 emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
             }
 
+        }
+    }
+
+    suspend fun deleteRecipe(id: String): Flow<ApiResponse<BasicResponse>> {
+        return flow {
+            try {
+                emit(ApiResponse.Loading)
+                val response = service.deleteRecipe(id)
+                emit(ApiResponse.Success(response))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
+            }
         }
     }
 
