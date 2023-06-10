@@ -5,17 +5,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.data.model.Recipe
 import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.databinding.FragmentDetailRecipeBinding
 import com.bangkit.snapcook.presentation.detail.adapter.ListStepsAdapter
 import com.bangkit.snapcook.presentation.detail.adapter.ListStringAdapter
-import com.bangkit.snapcook.utils.constant.AnimationConstants
 import com.bangkit.snapcook.utils.extension.popClick
 import com.bangkit.snapcook.utils.extension.setImageUrl
-import com.bangkit.snapcook.utils.extension.setPopBackEnabled
-import com.bangkit.snapcook.utils.extension.showSnackBar
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
@@ -41,7 +39,7 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): FragmentDetailRecipeBinding {
         return FragmentDetailRecipeBinding.inflate(inflater, container, false)
     }
@@ -55,7 +53,7 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
             rvIngredient.apply {
                 adapter = listIngredientAdapter
                 layoutManager =
-                        LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                 isNestedScrollingEnabled = false
             }
 
@@ -71,10 +69,6 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                 isNestedScrollingEnabled = false
-            }
-
-            btnBuyIngredient.popClick {
-                recipe?.let { viewModel.addToGroceryList(it) }
             }
 
             btnStartCooking.popClick {
@@ -100,6 +94,7 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                     hideLoadingDialog()
                     recipe = response.data
                     binding.apply {
+                        viewModel.checkIsGroceryGroupExist(recipe?.id ?: "")
                         imgFood.setImageUrl(recipe?.photo)
                         imgProfile.setImageUrl(recipe?.author?.photo)
                         tvTitle.text = recipe?.title
@@ -110,8 +105,15 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                         tvStory.text = recipe?.description
                         tvPortion.text = recipe?.totalServing?.toPortionString()
                         listIngredientAdapter.setData(recipe!!.mainIngredients)
-                        listSpicesAdapter.setData(recipe!!.spices)
-                        listStepsAdapter.setData(recipe!!.steps)
+                        listSpicesAdapter.setData(recipe?.spices ?: listOf())
+                        listStepsAdapter.setData(recipe?.steps ?: listOf())
+
+                        btnBuyIngredient.popClick {
+                            navigateToAddToGrocery(
+                                recipe!!
+
+                            )
+                        }
                     }
 
                 }
@@ -119,13 +121,24 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                 is ApiResponse.Loading -> {
                     showLoadingDialog()
                 }
+
                 is ApiResponse.Error -> {
                     hideLoadingDialog()
                 }
+
                 is ApiResponse.Empty -> {
                     // Handle empty state
                 }
 
+            }
+        }
+
+        viewModel.isGroceryGroupExist.observe(viewLifecycleOwner) { isExist ->
+            binding.btnBuyIngredient.isEnabled = !isExist
+            if (isExist) {
+                binding.btnBuyIngredient.text = getString(R.string.label_already_added)
+            } else {
+                binding.btnBuyIngredient.text = getString(R.string.action_buy_ingredient)
             }
         }
     }
@@ -141,6 +154,21 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
         } else {
             "$minutes menit"
         }
+    }
+
+    private fun navigateToAddToGrocery(
+        recipe: Recipe,
+    ) {
+        val action =
+            DetailRecipeFragmentDirections.actionDetailRecipeFragmentToAddToGroceryFragment(
+                recipe.fullIngredients.toTypedArray(),
+                recipe.spices.toTypedArray(),
+                recipe.id,
+                recipe.slug,
+                recipe.photo,
+                recipe.title,
+            )
+        binding.root.findNavController().navigate(action)
     }
 
     private fun Int.toPortionString(): String {

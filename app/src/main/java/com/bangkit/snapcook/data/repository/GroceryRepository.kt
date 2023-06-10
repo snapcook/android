@@ -25,6 +25,10 @@ class GroceryRepository(
         dataSource.insertGroceries(groceries)
     }
 
+    suspend fun isGroceryGroupExist(groupId: String): Boolean {
+        return dataSource.isGroceryGroupExist(groupId)
+    }
+
     suspend fun insertGroceryGroup(newGroceryGroup: GroceryGroup) {
         dataSource.insertGroceryGroup(newGroceryGroup)
     }
@@ -35,6 +39,10 @@ class GroceryRepository(
 
     suspend fun updateGroceryGroupCompleted(groupId: String, isCompleted: Boolean) {
         dataSource.updateGroceryGroupCompleted(groupId, isCompleted)
+    }
+
+    suspend fun deleteGroceryGroup(groupId: String) {
+        dataSource.deleteGroceryGroup(groupId)
     }
 
 

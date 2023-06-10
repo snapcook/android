@@ -7,11 +7,11 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
-import com.bangkit.snapcook.ml.SnapcookV5
+import com.bangkit.snapcook.ml.SnapcookV7
 import org.tensorflow.lite.support.image.TensorImage
 
 fun Bitmap.detectIngredient(context: Context, onSuccessDetect: (List<String>) -> Unit): Bitmap{
-    val model = SnapcookV5.newInstance(context)
+    val model = SnapcookV7.newInstance(context)
 
     // Creates inputs for reference.
     val image = TensorImage.fromBitmap(this)
@@ -27,7 +27,7 @@ fun Bitmap.detectIngredient(context: Context, onSuccessDetect: (List<String>) ->
         val location = detectionResult.locationAsRectF
         val category = detectionResult.categoryAsString
 
-        if (score > 0.3f){
+        if (score > 0.4f){
             val canvas = mutableBitmap?.let { Canvas(it) }
             val paint = Paint()
 
@@ -38,7 +38,7 @@ fun Bitmap.detectIngredient(context: Context, onSuccessDetect: (List<String>) ->
             paint.color = setColorBasedOnCategory(category)
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = 2.0f
-            paint.textSize = 32.0f
+            paint.textSize = 22.0f
             paint.typeface = Typeface.SANS_SERIF
             paint.isAntiAlias = true
 
@@ -61,15 +61,15 @@ fun Bitmap.detectIngredient(context: Context, onSuccessDetect: (List<String>) ->
 private fun setColorBasedOnCategory(category: String): Int{
     val fixedCategory = category.lowercase()
     if (fixedCategory == "banana") return Color.RED
-    if (fixedCategory == "tempe") return Color.CYAN
+    if (fixedCategory == "tempe") return Color.GRAY
     if (fixedCategory == "daging sapi") return Color.YELLOW
     if (fixedCategory == "carrot") return Color.GREEN
     if (fixedCategory == "apple") return Color.CYAN
-    if (fixedCategory == "orange") return Color.GREEN
+    if (fixedCategory == "orange") return Color.MAGENTA
     if (fixedCategory == "egg") return Color.MAGENTA
     if (fixedCategory == "potato") return Color.RED
     if (fixedCategory == "chicken") return Color.MAGENTA
-    if (fixedCategory == "tomato") return Color.YELLOW
+    if (fixedCategory == "tomato") return Color.BLUE
     if (fixedCategory == "cabbage") return Color.YELLOW
     return Color.RED
 }

@@ -15,16 +15,21 @@ import com.bangkit.snapcook.utils.extension.slowShow
 import org.koin.android.ext.android.inject
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>() {
-
     private val pref: PreferenceManager by inject()
 
     private fun initLoading() {
         Handler(Looper.getMainLooper()).postDelayed({
+            if (!pref.isAlreadyOnBoard) {
+                findNavController().navigate(R.id.action_splashFragment_to_onBoardingFragment)
+                return@postDelayed
+            }
+
             if (pref.isLogin) {
                 findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
-            } else {
-                findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+                return@postDelayed
             }
+
+            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
         }, SPLASH_ANIMATION)
     }
 

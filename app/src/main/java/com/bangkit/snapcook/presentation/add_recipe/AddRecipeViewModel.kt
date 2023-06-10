@@ -11,6 +11,7 @@ import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.data.repository.CategoryRepository
 import com.bangkit.snapcook.data.repository.RecipeRepository
 import com.bangkit.snapcook.utils.helper.Event
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -31,6 +32,14 @@ class AddRecipeViewModel(
 
     val recipeDetailResult: LiveData<ApiResponse<Recipe>> by lazy { _recipeDetailResult }
     private val _recipeDetailResult = MutableLiveData<ApiResponse<Recipe>>()
+
+    fun deleteRecipe(id: String){
+        viewModelScope.launch {
+            repository.deleteRecipe(id).collect{
+
+            }
+        }
+    }
 
     fun getRecipeDetail(slug: String) {
         viewModelScope.launch {

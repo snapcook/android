@@ -20,7 +20,7 @@ class GroceryDataSource(
             try {
                 emit(ApiResponse.Loading)
                 val groceries = dao.getGroceriesGroup()
-
+                Timber.d("TOTAL GROCERIES ${groceries.size}")
                 if (groceries.isEmpty()) {
                     emit(ApiResponse.Empty)
                     return@flow
@@ -47,12 +47,20 @@ class GroceryDataSource(
         dao.insertGroceries(groceries)
     }
 
+    suspend fun isGroceryGroupExist(groupId: String): Boolean {
+        return dao.isGroceryGroupExist(groupId)
+    }
+
     suspend fun insertGroceryGroup(newGroceryGroup: GroceryGroup) {
         dao.insertGroceryGroup(newGroceryGroup)
     }
 
     suspend fun completeGroceryGroup(id: Int, groupId: String, isCompleted: Boolean) {
         dao.updateCompleted(id, groupId, isCompleted)
+    }
+
+    suspend fun deleteGroceryGroup(groupId: String) {
+        dao.deleteGroceriesGroup(groupId)
     }
 
     suspend fun updateGroceryGroupCompleted(groupId: String, isCompleted: Boolean) {

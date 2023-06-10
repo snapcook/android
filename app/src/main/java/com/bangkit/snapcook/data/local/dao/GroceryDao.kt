@@ -5,6 +5,7 @@ import androidx.paging.PagingSource
 import androidx.room.*
 import com.bangkit.snapcook.data.model.Grocery
 import com.bangkit.snapcook.data.model.GroceryGroup
+import retrofit2.http.DELETE
 
 @Dao
 interface GroceryDao {
@@ -18,6 +19,9 @@ interface GroceryDao {
     @Query("SELECT * FROM grocery_group")
     suspend fun getGroceriesGroup(): List<GroceryGroup>
 
+    @Query("DELETE FROM grocery_group WHERE group_id =:groupId")
+    suspend fun deleteGroceriesGroup(groupId: String)
+
     @Query("SELECT * FROM grocery_group WHERE id =:id")
     fun getGroceriesGroupDetail(id: Int): LiveData<GroceryGroup>
 
@@ -26,6 +30,9 @@ interface GroceryDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertGroceries(groceries: List<Grocery>)
+
+    @Query("SELECT EXISTS(SELECT * FROM grocery_group WHERE group_id = :groupId)")
+    suspend fun isGroceryGroupExist(groupId : String) : Boolean
 
     @Query("UPDATE grocery SET completed = :completed WHERE id =:groceryId AND group_id =:groupId")
     suspend fun updateCompleted(groceryId: Int, groupId: String, completed: Boolean)

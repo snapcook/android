@@ -62,10 +62,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 val test = "1 butir telur"
                 Timber.d("TEST : ${test.extractData().first} - ${test.extractData().second}")
             }
+            btnEditProfile.popClick {
+                findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
+            }
             btnLogout.popClick {
                 showYesNoDialog(
-                    title = "Logout",
-                    message = "Apakah kamu yakin untuk logout?",
+                    title = getString(R.string.title_logout),
+                    message = getString(R.string.message_logout),
                     onYes = {
                         pref.clearAllPreferences()
                         findNavController().navigate(R.id.action_profileFragment_to_loginFragment)

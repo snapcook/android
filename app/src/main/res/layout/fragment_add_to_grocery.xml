@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.add_to_grocery.AddToGroceryFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            app:title="@string/title_shopping_note"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primary_color"
+            app:titleTextColor="@color/grey_700"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_back" />
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:layout_marginHorizontal="@dimen/dimen_16dp"
+            android:background="@drawable/bg_button_radius_small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tx_ingredient"
+                style="@style/SnapcookTextStyle.Title"
+                android:paddingHorizontal="@dimen/dimen_8dp"
+                android:paddingVertical="@dimen/dimen_8dp"
+                android:textColor="@color/white"
+                android:background="@drawable/bg_button_radius_small"
+                android:text="@string/label_main_ingredient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_ingredients"
+            tools:itemCount="3"
+            android:layout_marginHorizontal="@dimen/dimen_16dp"
+            tools:listitem="@layout/shopping_note_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tx_spices"
+            android:layout_marginHorizontal="@dimen/dimen_16dp"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            style="@style/SnapcookTextStyle.Title"
+            android:paddingHorizontal="@dimen/dimen_8dp"
+            android:paddingVertical="@dimen/dimen_8dp"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_button_radius_small"
+            android:text="@string/label_spice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_spices"
+            tools:itemCount="3"
+            android:layout_marginHorizontal="@dimen/dimen_16dp"
+            tools:listitem="@layout/shopping_note_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_save"
+            android:layout_width="match_parent"
+            android:layout_marginVertical="@dimen/dimen_32dp"
+            android:layout_marginHorizontal="@dimen/dimen_16dp"
+            android:layout_height="wrap_content"
+            style="@style/SnapcookButton.LessRadius"
+            android:text="@string/action_save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/til_password" />
+
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>

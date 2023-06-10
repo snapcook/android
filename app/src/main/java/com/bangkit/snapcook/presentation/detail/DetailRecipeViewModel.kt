@@ -24,6 +24,9 @@ class DetailRecipeViewModel(
     val recipeDetailResult: LiveData<ApiResponse<Recipe>> by lazy { _recipeDetailResult }
     private val _recipeDetailResult = MutableLiveData<ApiResponse<Recipe>>()
 
+    val isGroceryGroupExist: LiveData<Boolean> by lazy { _isGroceryGroupExist }
+    private val _isGroceryGroupExist = MutableLiveData<Boolean>()
+
     fun getRecipeDetail(slug: String) {
         viewModelScope.launch {
             recipeRepository.getRecipeDetail(slug).collect {
@@ -32,36 +35,9 @@ class DetailRecipeViewModel(
         }
     }
 
-    fun addToGroceryList(recipe: Recipe) {
+    fun checkIsGroceryGroupExist(groupId: String) {
         viewModelScope.launch {
-            val groceryGroup = GroceryGroup(
-                slug = recipe.slug,
-                groupId = recipe.id,
-                utensils = recipe.utensils.size,
-                title = recipe.title,
-                photo = recipe.photo,
-                spices = recipe.spices.size,
-                ingredients = recipe.mainIngredients.size,
-            )
-            groceryRepository.insertGroceryGroup(groceryGroup)
-            groceryRepository.insertGroceries(
-                recipe.utensils.convertUtensilToGrocery(
-                    recipe.id,
-                    UTENSILS_TYPE
-                )
-            )
-            groceryRepository.insertGroceries(
-                recipe.spices.convertToGrocery(
-                    recipe.id,
-                    SPICES_TYPE
-                )
-            )
-            groceryRepository.insertGroceries(
-                recipe.fullIngredients.convertToGrocery(
-                    recipe.id,
-                    INGREDIENTS_TYPE
-                )
-            )
+            _isGroceryGroupExist.postValue(groceryRepository.isGroceryGroupExist(groupId))
         }
     }
 }

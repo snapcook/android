@@ -2,9 +2,11 @@ package com.bangkit.snapcook.data.network.services
 
 import com.bangkit.snapcook.data.model.Recipe
 import com.bangkit.snapcook.data.network.request.PredictIngredientRequest
+import com.bangkit.snapcook.data.network.response.BasicResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -33,6 +35,11 @@ interface RecipeService {
     suspend fun fetchRecipeDetail(
         @Path("slug") slug: String,
     ): Recipe
+
+    @DELETE("/recipe/{id}")
+    suspend fun deleteRecipe(
+        @Path("id") id: String,
+    ): BasicResponse
 
     @POST("/recipe")
     @Multipart
