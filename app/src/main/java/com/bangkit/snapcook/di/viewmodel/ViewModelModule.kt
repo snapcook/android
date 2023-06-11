@@ -32,6 +32,5 @@ val viewModelModule = module {
     single { MyRecipeViewModel(get()) }
     single { EditProfileViewModel(get()) }
     single { AddToGroceryViewModel(get()) }
-
     single { CategoryViewModel(get(), get())}
 }

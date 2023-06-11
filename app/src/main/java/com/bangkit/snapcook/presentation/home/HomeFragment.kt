@@ -1,5 +1,6 @@
 package com.bangkit.snapcook.presentation.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -139,6 +140,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewModel.getCategories()
         viewModel.getProfile()
     }
+    @SuppressLint("SetTextI18n")
     override fun initObservers() {
         viewModel.popularRecipeResult.observeResponse(
             viewLifecycleOwner,
@@ -160,17 +162,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewModel.recommendedRecipeResult.observeResponse(
             viewLifecycleOwner,
             loading = {
-                showLoading(true)
+                showLoadingRecommended(true)
             },
             success = {
-                showLoading(false)
+                showLoadingRecommended(false)
                 listRecommendedAdapter.setData(it.data)
             },
             empty = {
-                showLoading(false)
+                showLoadingRecommended(false)
             },
             error = {
-                showLoading(false)
+                showLoadingRecommended(false)
             }
         )
 
@@ -202,7 +204,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                 binding.apply {
                     imgUser.setImageUrl(user.photo)
-                    tvName.text = "${user.name}!"
+                    val name = extractFirstName(user.name)
+                    tvName.text = getString(R.string.welcome_name, name)
                 }
 
             },
@@ -235,6 +238,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         )
     }
 
+    private fun extractFirstName(fullname: String) : String {
+        return fullname.split(" ")[0]
+    }
+
     private fun showLoading(isLoading: Boolean) {
         binding.apply {
             if (isLoading) {
@@ -247,6 +254,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 shimmeringLoadingHome.showShimmer(false)
                 shimmeringLoadingHome.gone()
                 layoutHome.slowShow()
+            }
+        }
+    }
+
+    private fun showLoadingRecommended(isLoading: Boolean) {
+        binding.apply {
+            if (isLoading) {
+                shimmeringLoadingRecommended.startShimmer()
+                shimmeringLoadingRecommended.showShimmer(true)
+                shimmeringLoadingRecommended.show()
+                rvRecommendedRecipe.gone()
+            } else {
+                shimmeringLoadingRecommended.stopShimmer()
+                shimmeringLoadingRecommended.showShimmer(false)
+                shimmeringLoadingRecommended.gone()
+                rvRecommendedRecipe.slowShow()
             }
         }
     }

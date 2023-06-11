@@ -312,7 +312,8 @@ class RecipeDataSource(
                         response.utensils,
                         response.estimatedTime,
                         response.steps,
-                        response.totalBookmark
+                        response.totalBookmark,
+                        response.slug
                     )
                 } else {
                     dao.insertRecipe(response)

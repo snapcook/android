@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.snapcook.R
+import com.bangkit.snapcook.databinding.DetailStepItemBinding
 import com.bangkit.snapcook.databinding.StepItemBinding
 import timber.log.Timber
 import kotlin.collections.ArrayList
@@ -15,7 +16,7 @@ class ListStepsAdapter() : RecyclerView.Adapter<ListStepsAdapter.StringViewHolde
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StringViewHolder {
-        val binding = StepItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = DetailStepItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return StringViewHolder(binding)
     }
 
@@ -32,7 +33,7 @@ class ListStepsAdapter() : RecyclerView.Adapter<ListStepsAdapter.StringViewHolde
         notifyDataSetChanged()
     }
 
-    inner class StringViewHolder(private val binding: StepItemBinding) :
+    inner class StringViewHolder(private val binding: DetailStepItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         var currentPosition = 0
 
@@ -40,7 +41,7 @@ class ListStepsAdapter() : RecyclerView.Adapter<ListStepsAdapter.StringViewHolde
             currentPosition = position
 
             binding.apply {
-                tvStep.text = root.context.getString(R.string.label_step_item, "${currentPosition + 1}")
+                tvStep.text = root.context.getString(R.string.label_step_item_detail, "${currentPosition + 1}")
                 tvInstruction.text = data[position]
             }
         }

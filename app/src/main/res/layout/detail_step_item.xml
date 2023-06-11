@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dimen_4dp">
+
+    <TextView
+        android:id="@+id/tv_step"
+        tools:text="1"
+        android:textStyle="bold"
+        android:textSize="@dimen/font_medium"
+        android:layout_gravity="start"
+        android:layout_marginRight="@dimen/dimen_8dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_step_number"
+        android:layout_width="@dimen/dimen_32dp"
+        android:layout_height="@dimen/dimen_32dp"/>
+
+    <TextView
+        android:id="@+id/tv_instruction"
+        tools:text="Lakukan hal ini"
+        android:textSize="@dimen/font_medium"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
