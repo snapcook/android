@@ -232,6 +232,8 @@ class RecipeDataSource(
                     return@flow
                 }
 
+//                dao.insertAllRecipe(response)
+
                 emit(ApiResponse.Success(response))
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
@@ -312,7 +314,8 @@ class RecipeDataSource(
                         response.utensils,
                         response.estimatedTime,
                         response.steps,
-                        response.totalBookmark
+                        response.totalBookmark,
+                        response.slug
                     )
                 } else {
                     dao.insertRecipe(response)

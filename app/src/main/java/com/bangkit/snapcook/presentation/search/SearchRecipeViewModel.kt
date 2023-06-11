@@ -33,7 +33,6 @@ class SearchRecipeViewModel(
     fun addBookmark(id: String) {
         viewModelScope.launch {
             bookmarkRepository.addBookmark(id).collect {
-                // jangan lupa dicollect buat manggil flow nya
             }
         }
     }
@@ -41,7 +40,6 @@ class SearchRecipeViewModel(
     fun removeBookmark(id: String) {
         viewModelScope.launch {
             bookmarkRepository.removeBookmark(id).collect {
-                // jangan lupa dicollect buat manggil flow nya
             }
         }
     }

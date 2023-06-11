@@ -10,6 +10,7 @@ import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.databinding.FragmentNoteDetailBinding
 import com.bangkit.snapcook.presentation.note_detail.adapter.ShoppingNoteAdapter
 import com.bangkit.snapcook.utils.extension.popClick
+import com.bangkit.snapcook.utils.extension.setPopBackEnabled
 import com.bangkit.snapcook.utils.extension.showYesNoDialog
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -52,6 +53,7 @@ class NoteDetailFragment : BaseFragment<FragmentNoteDetailBinding>() {
 
     override fun initUI() {
         binding.apply {
+            toolBar.setPopBackEnabled()
             btnDelete.popClick {
                 showYesNoDialog(
                     title = getString(R.string.title_delete_note),

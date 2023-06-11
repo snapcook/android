@@ -1,11 +1,13 @@
 package com.bangkit.snapcook.presentation.search
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.databinding.FragmentSearchRecipeBinding
 import com.bangkit.snapcook.presentation.search.adapter.ListRecipeDetailAdapter
@@ -43,6 +45,7 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
         return FragmentSearchRecipeBinding.inflate(inflater, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initUI() {
         binding.apply {
             toolBar.setPopBackEnabled()
@@ -112,7 +115,7 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
             empty = {
                 showLoading(false)
                 binding.apply {
-                    tvInfo.text = "Tidak ada resep seperti ini."
+                    tvInfo.text = getString(R.string.label_no_recipe)
                     rvSearchRecipe.hide()
                     emptyListLayout.root.show()
                 }
@@ -123,7 +126,7 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
     override fun onResume() {
         binding.apply {
             rvSearchRecipe.hide()
-            tvInfo.text = "Carilah resep yang kamu inginkan."
+            tvInfo.text = getString(R.string.label_search_recipe)
             if(typedQuery != null){
                 tvSearchKeyword.text = capitalizeWord(typedQuery!!)
                 viewModel.searchRecipe(typedQuery)
@@ -157,6 +160,7 @@ class SearchRecipeFragment : BaseFragment<FragmentSearchRecipeBinding>() {
                 toolBar.gone()
                 svRecipe.gone()
                 tvInfo.gone()
+                emptyListLayout.root.gone()
                 tvSearchKeyword.gone()
                 rvSearchRecipe.gone()
             } else {

@@ -9,10 +9,7 @@ import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.databinding.FragmentRecommendedBinding
 import com.bangkit.snapcook.presentation.recommended.adapter.DetectedIngredientAdapter
 import com.bangkit.snapcook.presentation.recommended.adapter.RecommendedRecipeAdapter
-import com.bangkit.snapcook.utils.extension.gone
-import com.bangkit.snapcook.utils.extension.observeResponse
-import com.bangkit.snapcook.utils.extension.show
-import com.bangkit.snapcook.utils.extension.slowShow
+import com.bangkit.snapcook.utils.extension.*
 import org.koin.android.ext.android.inject
 
 class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
@@ -21,9 +18,18 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
     var result = emptyArray<String>()
 
     private val recipeAdapter: RecommendedRecipeAdapter by lazy {
-        RecommendedRecipeAdapter {
-            navigateToDetail(it)
-        }
+        RecommendedRecipeAdapter(
+            onClick = { navigateToDetail(it) },
+            onBookmarkClick = { recipe ->
+                if (recipe.isBookmarked) {
+                    viewModel.removeBookmark(recipe.id)
+                    binding.root.showSnackBar("Resep dihapus dari Bookmark.")
+                } else {
+                    binding.root.showSnackBar("Resep ditambahkan ke Bookmark.")
+                    viewModel.addBookmark(recipe.id)
+                }
+            }
+        )
     }
 
     private val ingredientAdapter: DetectedIngredientAdapter by lazy {
@@ -47,6 +53,7 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
     override fun initUI() {
         ingredientAdapter.setData(result.toList())
         binding.apply {
+            toolBar.setPopBackEnabled()
             rvRecommendedRecipe.apply {
                 adapter = recipeAdapter
                 layoutManager =
@@ -72,10 +79,14 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
             },
             success = {
                 showLoading(false)
+                binding.rvRecommendedRecipe.slowShow()
+                binding.emptyListLayout.root.gone()
                 recipeAdapter.setData(it.data)
             },
             empty = {
                 showLoading(false)
+                binding.emptyListLayout.root.slowShow()
+                binding.rvRecommendedRecipe.gone()
             },
             error = {
                 showLoading(false)
@@ -106,6 +117,5 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
             )
         )
     }
-
 
 }

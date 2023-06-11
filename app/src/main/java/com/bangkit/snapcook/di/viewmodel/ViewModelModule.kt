@@ -25,13 +25,12 @@ val viewModelModule = module {
     single { DetailRecipeViewModel(get(), get(), get()) }
     single { BookmarkViewModel(get()) }
     single { SearchRecipeViewModel(get(), get()) }
-    single { RecommendedViewModel(get()) }
+    single { RecommendedViewModel(get(), get()) }
     single { NoteViewModel(get()) }
     single { NoteDetailViewModel(get()) }
     single { ProfileViewModel(get()) }
     single { MyRecipeViewModel(get()) }
     single { EditProfileViewModel(get()) }
     single { AddToGroceryViewModel(get()) }
-
     single { CategoryViewModel(get(), get())}
 }

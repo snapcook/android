@@ -28,7 +28,7 @@ interface BookmarkDao {
 
     @Query("UPDATE recipe SET isBookmarked = :isBookmark WHERE id =:id")
     suspend fun updateRecipeBookmarked(id: String, isBookmark: Boolean)
-    @Query("UPDATE recipe SET title = :title, photo = :photo, description = :description, totalServing = :totalServing, mainIngredients = :mainIngredients, fullIngredients = :fullIngredients, spices = :spices, utensils = :utensils, estimatedTime = :estimatedTime, steps = :steps, totalBookmark = :totalBookmark WHERE id = :id")
+    @Query("UPDATE recipe SET title = :title, photo = :photo, description = :description, totalServing = :totalServing, mainIngredients = :mainIngredients, fullIngredients = :fullIngredients, spices = :spices, utensils = :utensils, estimatedTime = :estimatedTime, steps = :steps, totalBookmark = :totalBookmark, slug = :slug WHERE id = :id")
     suspend fun updateRecipe(
         id: String,
         title: String,
@@ -41,7 +41,8 @@ interface BookmarkDao {
         utensils: List<Utensil>,
         estimatedTime: Int,
         steps: List<String>,
-        totalBookmark: Int
+        totalBookmark: Int,
+        slug: String
     )
 
 
