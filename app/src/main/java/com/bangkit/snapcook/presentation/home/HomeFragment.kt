@@ -121,14 +121,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             chipCategoryFood.setOnClickListener {
                 chipCategoryFood.isSelected = true
                 chipCategoryDrink.isSelected = false
-                selectedCategory = chipCategoryFood.text.toString()
+                selectedCategory = "Makanan"
                 viewModel.getRecipes(mainCategory = selectedCategory)
             }
 
             chipCategoryDrink.setOnClickListener {
                 chipCategoryDrink.isSelected = true
                 chipCategoryFood.isSelected = false
-                selectedCategory = chipCategoryDrink.text.toString()
+                selectedCategory = "Minuman"
                 viewModel.getRecipes(mainCategory = selectedCategory)
             }
         }

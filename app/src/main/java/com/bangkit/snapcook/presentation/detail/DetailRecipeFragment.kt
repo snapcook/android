@@ -260,14 +260,12 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                 shimmeringDetailRecipe.startShimmer()
                 shimmeringDetailRecipe.showShimmer(true)
                 shimmeringDetailRecipe.show()
-                frameRecipeDetail.gone()
-                imgFood.gone()
+                coordinatorLayout.gone()
             } else {
                 shimmeringDetailRecipe.stopShimmer()
                 shimmeringDetailRecipe.showShimmer(false)
                 shimmeringDetailRecipe.gone()
-                frameRecipeDetail.slowShow()
-                imgFood.slowShow()
+                coordinatorLayout.slowShow()
             }
         }
     }

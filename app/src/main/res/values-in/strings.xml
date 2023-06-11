@@ -106,7 +106,7 @@
     <string name="hint_home">Mau masak apa hari ini?</string>
     <string name="read_more">Lebih Selengkapnya</string>
     <string name="read_less">Kurang</string>
-    <string name="label_portion_detail">| Porsi : %1$s Porsi</string>
+    <string name="label_portion_detail">" %1$s Porsi"</string>
     <string name="label_step_item_detail">%1$s</string>
     <string name="label_name_home">%1$s</string>
     <string name="welcome">Selamat datang,</string>
