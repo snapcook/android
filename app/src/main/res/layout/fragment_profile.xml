@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".presentation.profile.ProfileFragment">
+
+    <LinearLayout
+        android:id="@+id/layout_profile"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_profile"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_profile"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="@dimen/dimen_32dp"
+                android:src="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                style="@style/SnapcookTextStyle.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16dp"
+                android:background="@drawable/bg_button"
+                android:backgroundTint="@color/white"
+                android:paddingHorizontal="@dimen/dimen_16dp"
+                android:paddingVertical="@dimen/dimen_4dp"
+                android:textColor="@color/primary_color"
+                tools:text="Ibnu Batutah" />
+
+            <TextView
+                android:id="@+id/tv_user_slug"
+                style="@style/SnapcookTextStyle.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/dimen_16dp"
+                android:paddingVertical="@dimen/dimen_4dp"
+                android:textColor="@color/white"
+                tools:text="ibnu1234" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_edit_profile"
+                style="@style/SnapcookButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16dp"
+                android:layout_marginBottom="@dimen/dimen_24dp"
+                android:height="30dp"
+                android:backgroundTint="@color/white"
+                android:drawableStart="@drawable/ic_edit"
+                android:drawablePadding="@dimen/dimen_8dp"
+                android:minHeight="30dp"
+                android:text="@string/action_edit_profile"
+                android:textColor="@color/grey_700" />
+
+        </LinearLayout>
+
+        <com.bangkit.snapcook.base.custom_view.CustomSettingButton
+            android:id="@+id/btn_my_recipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            app:menuIcon="@drawable/ic_edit"
+            app:menuTitle="Resepku" />
+
+        <com.bangkit.snapcook.base.custom_view.CustomSettingButton
+            android:id="@+id/btn_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menuIcon="@drawable/ic_setting"
+            app:menuTitle="Pengaturan" />
+
+        <com.bangkit.snapcook.base.custom_view.CustomSettingButton
+            android:id="@+id/btn_faq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menuIcon="@drawable/ic_chat"
+            app:menuTitle="FAQ" />
+
+        <com.bangkit.snapcook.base.custom_view.CustomSettingButton
+            android:id="@+id/btn_help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menuIcon="@drawable/ic_info"
+            app:menuTitle="Bantuan" />
+
+        <LinearLayout
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingVertical="@dimen/dimen_12dp"
+            android:paddingHorizontal="@dimen/dimen_16dp">
+
+            <ImageView
+                android:id="@+id/imgIcon"
+                android:src="@drawable/ic_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/tvMenuTitle"
+                android:text="@string/action_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_16dp"
+                style="@style/SnapcookTextStyle"
+                android:textColor="@color/red_button"
+                app:layout_constraintTop_toTopOf="@id/imgIcon"
+                app:layout_constraintBottom_toBottomOf="@id/imgIcon"
+                app:layout_constraintStart_toEndOf="@id/imgIcon"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:visibility="gone"
+        android:id="@+id/shimmeringLoadingProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/shimmer_profile" />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+</RelativeLayout>

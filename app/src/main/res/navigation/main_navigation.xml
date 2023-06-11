@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/detailRecipeFragment"
+        android:name="com.bangkit.snapcook.presentation.detail.DetailRecipeFragment"
+        android:label="fragment_detail_recipe"
+        tools:layout="@layout/fragment_detail_recipe">
+    <argument
+        android:name="slug"
+        app:argType="string" />
+        <action
+            android:id="@+id/action_detailRecipeFragment_to_addToGroceryFragment"
+            app:destination="@id/addToGroceryFragment" />
+        <action
+            android:id="@+id/action_detailRecipeFragment_to_cookingFragment"
+            app:destination="@id/cookingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addRecipeFragment"
+        android:name="com.bangkit.snapcook.presentation.add_recipe.AddRecipeFragment"
+        android:label="fragment_add_recipe"
+        tools:layout="@layout/fragment_add_recipe" >
+        <argument
+            android:name="slug"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.bangkit.snapcook.presentation.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.bangkit.snapcook.presentation.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_detailRecipeFragment"
+            app:destination="@id/detailRecipeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_bookmarkFragment"
+            app:destination="@id/bookmarkFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchRecipeFragment"
+            app:destination="@id/searchRecipeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchRecipeFragment"
+        android:name="com.bangkit.snapcook.presentation.search.SearchRecipeFragment"
+        android:label="fragment_search_recipe"
+        tools:layout="@layout/fragment_search_recipe" >
+        <action
+            android:id="@+id/action_searchRecipeFragment_to_detailRecipeFragment"
+            app:destination="@id/detailRecipeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.bangkit.snapcook.presentation.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/detectIngredientFragment"
+        android:name="com.bangkit.snapcook.presentation.detect_ingredient.DetectIngredientFragment"
+        android:label="fragment_detect_ingredient"
+        tools:layout="@layout/fragment_detect_ingredient" >
+        <action
+            android:id="@+id/action_detectIngredientFragment_to_recommendedFragment"
+            app:destination="@id/recommendedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.bangkit.snapcook.presentation.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_myRecipeFragment"
+            app:destination="@id/myRecipeFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteFragment"
+        android:name="com.bangkit.snapcook.presentation.note.NoteFragment"
+        android:label="fragment_note"
+        tools:layout="@layout/fragment_note" >
+        <action
+            android:id="@+id/action_noteFragment_to_noteDetailFragment"
+            app:destination="@id/noteDetailFragment" />
+        <action
+            android:id="@+id/action_noteFragment_to_detailRecipeFragment"
+            app:destination="@id/detailRecipeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookmarkFragment"
+        android:name="com.bangkit.snapcook.presentation.bookmark.BookmarkFragment"
+        android:label="fragment_bookmark"
+        tools:layout="@layout/fragment_bookmark" >
+        <action
+            android:id="@+id/action_bookmarkFragment_to_detailRecipeFragment"
+            app:destination="@id/detailRecipeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recommendedFragment"
+        android:name="com.bangkit.snapcook.presentation.recommended.RecommendedFragment"
+        android:label="fragment_recommended"
+        tools:layout="@layout/fragment_recommended" >
+        <argument
+            android:name="result"
+            app:argType="string[]" />
+        <action
+            android:id="@+id/action_recommendedFragment_to_detailRecipeFragment"
+            app:destination="@id/detailRecipeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteDetailFragment"
+        android:name="com.bangkit.snapcook.presentation.note_detail.NoteDetailFragment"
+        android:label="fragment_note_detail"
+        tools:layout="@layout/fragment_note_detail" >
+        <argument
+            android:name="groupId"
+            app:argType="string" />
+        <argument
+            android:name="slug"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_noteDetailFragment_to_detailRecipeFragment"
+            app:destination="@id/detailRecipeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myRecipeFragment"
+        android:name="com.bangkit.snapcook.presentation.my_recipe.MyRecipeFragment"
+        android:label="fragment_my_recipe"
+        tools:layout="@layout/fragment_my_recipe" >
+        <action
+            android:id="@+id/action_myRecipeFragment_to_addRecipeFragment"
+            app:destination="@id/addRecipeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.bangkit.snapcook.presentation.splash.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_loginFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/main_navigation"
+            app:popUpToInclusive="true"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_onBoardingFragment"
+            app:destination="@id/onBoardingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onBoardingFragment"
+        android:name="com.bangkit.snapcook.presentation.onboard.OnBoardingFragment"
+        android:label="fragment_on_boarding"
+        tools:layout="@layout/fragment_on_boarding" >
+        <action
+            android:id="@+id/action_onBoardingFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.bangkit.snapcook.presentation.category.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category">
+        <argument
+            android:name="categoryId"
+            app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_categoryFragment_to_detailRecipeFragment"
+            app:destination="@id/detailRecipeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addToGroceryFragment"
+        android:name="com.bangkit.snapcook.presentation.add_to_grocery.AddToGroceryFragment"
+        android:label="fragment_add_to_grocery"
+        tools:layout="@layout/fragment_add_to_grocery" >
+        <argument
+            android:name="ingredients"
+            app:argType="string[]" />
+        <argument
+            android:name="spices"
+            app:argType="string[]" />
+        <argument
+            android:name="recipeId"
+            app:argType="string" />
+        <argument
+            android:name="slug"
+            app:argType="string" />
+        <argument
+            android:name="photo"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <action
+            app:restoreState="true"
+            app:popUpTo="@id/main_navigation"
+            app:popUpToSaveState="true"
+            android:id="@+id/action_addToGroceryFragment_to_noteFragment"
+            app:destination="@id/noteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.bangkit.snapcook.presentation.edit_profile.EditProfileFragment"
+        android:label="EditProfileFragment" />
+    <fragment
+        android:id="@+id/cookingFragment"
+        android:name="com.bangkit.snapcook.presentation.cooking.CookingFragment"
+        android:label="fragment_cooking"
+        tools:layout="@layout/fragment_cooking" >
+        <argument
+            android:name="ingredients"
+            app:argType="string[]" />
+        <argument
+            android:name="spices"
+            app:argType="string[]" />
+        <argument
+            android:name="steps"
+            app:argType="string[]" />
+    </fragment>
+</navigation>

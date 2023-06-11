@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.search.SearchRecipeFragment"
+    android:id="@+id/layoutSearch">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary_color"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back" />
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/sv_recipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_24dp"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:background="@drawable/bg_search"
+        android:hint="@string/hint_search"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:searchIcon="@drawable/ic_search"/>
+
+    <LinearLayout
+        android:id="@+id/linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_16dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/sv_recipe">
+
+        <TextView
+            android:id="@+id/tv_search_keyword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_8dp"
+            android:layout_marginStart="@dimen/dimen_8dp"
+            android:textSize="@dimen/font_big"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sv_recipe"
+            tools:text="Keyword"/>
+
+
+
+        <TextView
+            android:id="@+id/tv_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_4dp"
+            android:layout_marginStart="@dimen/dimen_8dp"
+            android:textSize="@dimen/font_reg"
+            android:text="@string/label_found_recipe"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frameSearch"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearlayout"
+        android:layout_marginTop="@dimen/dimen_8dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search_recipe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/dimen_16dp"
+            tools:listitem="@layout/recipe_detailed_item"/>
+
+        <include
+            android:id="@+id/empty_list_layout"
+            layout="@layout/custom_empty_list_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:visibility="gone"
+        android:id="@+id/shimmeringLoadingSearch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/shimmer_search" />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

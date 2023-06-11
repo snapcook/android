@@ -9,9 +9,6 @@ import org.koin.dsl.module
 
 val localModule = module {
 
-    ///Provide Dao
-    factory { get<SnapcookDatabase>().getGroceryDao() }
-
     ///Provide Database
     fun provideDatabase(application: Application): SnapcookDatabase {
         return Room.databaseBuilder(application, SnapcookDatabase::class.java, BuildConfig.DB_NAME)
@@ -19,6 +16,9 @@ val localModule = module {
             .build()
     }
 
+    ///Provide Dao
+    factory { get<SnapcookDatabase>().getGroceryDao() }
+    factory { get<SnapcookDatabase>().getBookmarkDao() }
 
     ///Provide context for database
     single { provideDatabase(androidApplication()) }

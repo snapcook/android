@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.detect_ingredient.DetectIngredientFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary_color"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <TextView
+        android:id="@+id/tv_detect_ingredient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="@string/label_detect_ingredient"
+        android:textSize="@dimen/font_big"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/card"
+        app:layout_constraintTop_toTopOf="@+id/guideline_vertical" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/grey_300"
+        android:layout_margin="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_detect_ingredient"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_ingredient"
+                android:layout_width="match_parent"
+                android:layout_height="194dp"
+                android:padding="@dimen/dimen_16dp"
+                app:srcCompat="@drawable/img_placeholder_food"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:layout_marginBottom="@dimen/dimen_16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_8dp"
+                    android:gravity="center"
+                    android:text="@string/instruction_detect_ingredient"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textColor="?android:attr/textColorSecondary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_gallery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dimen_8dp"
+                        android:drawableStart="@drawable/ic_gallery"
+                        android:drawablePadding="@dimen/dimen_8dp"
+                        android:drawableTint="@color/white"
+                        android:text="@string/action_gallery"
+                        style="@style/SnapcookButton.LessRadius"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_camera"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dimen_8dp"
+                        android:drawableStart="@drawable/ic_camera"
+                        android:drawablePadding="@dimen/dimen_8dp"
+                        android:drawableTint="@color/white"
+                        android:text="@string/action_camera"
+                        style="@style/SnapcookButton.LessRadius"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <ImageView
+        android:id="@+id/img_result"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintHeight_percent="0.6"
+        tools:src="@color/copper"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.65" />
+
+    <LinearLayout
+        android:id="@+id/layout_result"
+        android:background="@drawable/bg_bottom_modal"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <ImageView
+            android:id="@+id/btn_drag"
+            android:clickable="true"
+            android:padding="@dimen/dimen_16dp"
+            android:src="@drawable/ic_minimize"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true" />
+
+        <TextView
+            style="@style/SnapcookTextStyle.Title"
+            android:layout_marginHorizontal="@dimen/dimen_16dp"
+            android:text="@string/label_scan_result"
+            android:layout_marginBottom="@dimen/dimen_16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginBottom="@dimen/dimen_16dp"
+            android:layout_marginHorizontal="@dimen/dimen_8dp"
+            android:background="@drawable/bg_category_un_selected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edt_ingredient"
+                android:layout_width="0dp"
+                android:hint="@string/hint_add_ingredient"
+                android:textSize="12sp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_8dp"
+                android:background="@android:color/transparent"
+                android:minHeight="@dimen/dimen_44dp"
+                app:layout_constraintEnd_toStartOf="@+id/btn_add"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btn_add"
+                android:src="@drawable/ic_circle_add"
+                android:layout_marginEnd="@dimen/dimen_16dp"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/btn_find_recipe"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/prediction_item" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_reset"
+                style="@style/SnapcookButton"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/action_take_other_picture"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginVertical="@dimen/dimen_16dp"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_find_recipe"
+                style="@style/SnapcookButton"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/action_find_recipe"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginVertical="@dimen/dimen_16dp"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

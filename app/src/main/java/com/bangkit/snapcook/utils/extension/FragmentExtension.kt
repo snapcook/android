@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import com.bangkit.snapcook.R
 import com.bangkit.snapcook.data.network.ApiResponse
+import com.bangkit.snapcook.utils.helper.Event
 import kotlin.system.exitProcess
 
 fun Fragment.showOKDialog(title: String, message: String, onYes: () -> Unit) {
@@ -17,6 +18,16 @@ fun Fragment.showOKDialog(title: String, message: String, onYes: () -> Unit) {
         }
         setOnDismissListener {
             onYes.invoke()
+        }
+    }.create().show()
+}
+
+fun Fragment.showOKDialog(title: String, message: String) {
+    AlertDialog.Builder(requireActivity()).apply {
+        setTitle(title)
+        setMessage(message)
+        setPositiveButton("OK") { p0, _ ->
+            p0.dismiss()
         }
     }.create().show()
 }
@@ -52,6 +63,25 @@ fun <T> LiveData<ApiResponse<T>>.observeResponse(
             is ApiResponse.Success -> success.invoke(result)
             is ApiResponse.Error -> error.invoke(result)
             is ApiResponse.Empty -> empty?.invoke()
+        }
+    }
+}
+
+fun <T> LiveData<Event<ApiResponse<T>>>.observeSingleEvent(
+    lifeCycleOwner: LifecycleOwner,
+    loading: () -> Unit,
+    success: (ApiResponse.Success<T>) -> Unit,
+    error: (ApiResponse.Error) -> Unit,
+    empty: (() -> Unit)? = null
+) {
+    this.observe(lifeCycleOwner) { result ->
+        result.getContentIfNotHandled()?.let { response ->
+            when (response) {
+                is ApiResponse.Loading -> loading.invoke()
+                is ApiResponse.Success -> success.invoke(response)
+                is ApiResponse.Error -> error.invoke(response)
+                is ApiResponse.Empty -> empty?.invoke()
+            }
         }
     }
 }

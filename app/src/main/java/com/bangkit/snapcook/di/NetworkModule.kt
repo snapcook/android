@@ -2,7 +2,11 @@ package com.bangkit.snapcook.di
 
 import com.bangkit.snapcook.BuildConfig
 import com.bangkit.snapcook.data.network.HeaderInterceptor
+import com.bangkit.snapcook.data.network.services.BookmarkService
+import com.bangkit.snapcook.data.network.services.CategoryService
 import com.bangkit.snapcook.data.network.services.RecipeService
+import com.bangkit.snapcook.data.network.services.UserService
+import com.bangkit.snapcook.data.network.services.UtensilService
 import com.bangkit.snapcook.utils.PreferenceManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -26,16 +30,18 @@ val networkModule = module {
     /// Provide Retrofit
     single {
         Retrofit.Builder()
-            .baseUrl("")
+            .baseUrl(BuildConfig.BASE_URL_PRODUCTION)
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()
     }
 
-
     /// Provide Services
     single { provideRecipeService(get()) }
-
+    single { provideUserService(get()) }
+    single { provideBookmarkService(get()) }
+    single { provideCategoryService(get()) }
+    single { provideUtensilService(get()) }
 }
 
 private val loggingInterceptor = if (BuildConfig.DEBUG) {
@@ -52,3 +58,14 @@ private fun getHeaderInterceptor(preferenceManager: PreferenceManager): Intercep
 
 fun provideRecipeService(retrofit: Retrofit): RecipeService =
     retrofit.create(RecipeService::class.java)
+
+fun provideUserService(retrofit: Retrofit): UserService =
+    retrofit.create(UserService::class.java)
+
+fun provideCategoryService(retrofit: Retrofit): CategoryService =
+    retrofit.create(CategoryService::class.java)
+fun provideBookmarkService(retrofit: Retrofit): BookmarkService =
+    retrofit.create(BookmarkService::class.java)
+
+fun provideUtensilService(retrofit: Retrofit): UtensilService =
+    retrofit.create(UtensilService::class.java)

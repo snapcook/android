@@ -2,14 +2,18 @@ package com.bangkit.snapcook.utils.extension
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import com.bangkit.snapcook.R
 import com.bangkit.snapcook.utils.constant.AnimationConstants.POP_ANIMATION
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.facebook.shimmer.Shimmer
+import com.facebook.shimmer.ShimmerDrawable
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.snackbar.Snackbar
 
@@ -25,8 +29,35 @@ fun View.gone() {
     visibility = View.GONE
 }
 
+private val shimmer = Shimmer.AlphaHighlightBuilder()
+    .setDuration(1800)
+    .setBaseAlpha(0.7f)
+    .setHighlightAlpha(0.6f)
+    .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
+    .setAutoStart(true)
+    .build()
+
+private val shimmerDrawable = ShimmerDrawable().apply {
+    setShimmer(shimmer)
+}
+
+
 fun ImageView.setImageUrl(url: String?) {
-    Glide.with(this.rootView).load(url).apply(RequestOptions())
+    Glide.with(this.rootView)
+        .load(url)
+        .placeholder(shimmerDrawable)
+        .apply(
+            RequestOptions().error(
+                R.drawable.img_placeholder_food
+            )
+        )
+        .into(this)
+}
+
+fun ImageView.setGlideImageUri(uri: Uri?) {
+    Glide.with(this.rootView)
+        .load(uri)
+        .apply(RequestOptions())
         .into(this)
 }
 
@@ -68,9 +99,12 @@ fun View.showSnackBar(message: String) {
     }.show()
 }
 
-fun View.setAlphaAnimation(animationSpeed: Long): ObjectAnimator {
-    return ObjectAnimator.ofFloat(this, View.ALPHA, 1f)
-        .setDuration(animationSpeed)
+fun View.slowShow(duration: Long = 750L) {
+    this.show()
+    this.alpha = 0F
+    val animation = ObjectAnimator.ofFloat(this, View.ALPHA, 1f)
+        .setDuration(duration)
+    animation.start()
 }
 
 fun View.popTap() {

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="@dimen/dimen_8dp"
+    android:layout_marginTop="@dimen/dimen_4dp"
+    android:paddingVertical="@dimen/dimen_8dp"
+    android:paddingHorizontal="@dimen/dimen_16dp"
+    android:background="@drawable/bg_prediction"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_prediction"
+        tools:text="Bahan 1"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageButton
+        android:id="@+id/btn_delete"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_circle_close"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:tint="@color/copper" />
+
+</RelativeLayout>
