@@ -10,11 +10,7 @@ import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.data.model.Recipe
 import com.bangkit.snapcook.databinding.FragmentMyRecipeBinding
 import com.bangkit.snapcook.presentation.recommended.RecommendedFragmentDirections
-import com.bangkit.snapcook.utils.extension.gone
-import com.bangkit.snapcook.utils.extension.observeResponse
-import com.bangkit.snapcook.utils.extension.popClick
-import com.bangkit.snapcook.utils.extension.show
-import com.bangkit.snapcook.utils.extension.slowShow
+import com.bangkit.snapcook.utils.extension.*
 import org.koin.android.ext.android.inject
 
 class MyRecipeFragment : BaseFragment<FragmentMyRecipeBinding>() {
@@ -39,6 +35,7 @@ class MyRecipeFragment : BaseFragment<FragmentMyRecipeBinding>() {
     override fun initUI() {
         binding.apply {
             toolBar.title = "My Recipe"
+            toolBar.setPopBackEnabled()
 
             rvRecipe.apply {
                 adapter = recipeAdapter
