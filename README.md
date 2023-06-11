@@ -16,6 +16,13 @@ The android app lets you:
 - Bookmark your favorite recipes.
 - Create grocery list from recipes ingredients.
 
+## Permissions
+
+Snapcook requires the following permissions:
+- Full Network Access.
+- Access to camera.
+- Read and write access to external storage.
+
 ## Running The App
 
  **Warning**
