@@ -79,11 +79,14 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
             },
             success = {
                 showLoading(false)
+                binding.rvRecommendedRecipe.slowShow()
+                binding.emptyListLayout.root.gone()
                 recipeAdapter.setData(it.data)
             },
             empty = {
                 showLoading(false)
                 binding.emptyListLayout.root.slowShow()
+                binding.rvRecommendedRecipe.gone()
             },
             error = {
                 showLoading(false)
@@ -98,7 +101,6 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
                 shimmeringLoadingDetection.showShimmer(true)
                 shimmeringLoadingDetection.show()
                 layoutRecommended.gone()
-                emptyListLayout.root.gone()
             } else {
                 shimmeringLoadingDetection.stopShimmer()
                 shimmeringLoadingDetection.showShimmer(false)

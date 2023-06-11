@@ -57,12 +57,13 @@
             tools:listitem="@layout/recipe_detailed_item"/>
 
         <include
+            android:visibility="gone"
             android:id="@+id/empty_list_layout"
             layout="@layout/custom_empty_list_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearlayout" />
+            app:layout_constraintTop_toBottomOf="@+id/rv_detected_ingredient" />
 
 
     </LinearLayout>
