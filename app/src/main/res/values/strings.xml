@@ -111,5 +111,6 @@
     <string name="label_name_home">%1$s</string>
     <string name="welcome">Selamat datang,</string>
     <string name="welcome_name">%1$s !</string>
-
+    <string name="lalel_type_of_serving">Main Category</string>
+    <string name="validation_not_selected_main_category">You haven\'t choose a main category</string>
 </resources>
