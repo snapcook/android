@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
+import timber.log.Timber
 
 class AuthDataSource(
     private val service: UserService,
@@ -23,10 +24,11 @@ class AuthDataSource(
         return flow {
             try {
                 emit(ApiResponse.Loading)
-                val response = service.register(request)
+                service.register(request)
                 emit(ApiResponse.Success("Success"))
             } catch (e: Exception) {
 //                emit(ApiResponse.Error(e.message.toString()))
+                Timber.d("Error is ${e.message}")
                 emit(ApiResponse.Error(e.createResponse()?.message ?: ""))
             }
         }

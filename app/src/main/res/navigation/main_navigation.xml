@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_detailRecipeFragment_to_addToGroceryFragment"
             app:destination="@id/addToGroceryFragment" />
+        <action
+            android:id="@+id/action_detailRecipeFragment_to_cookingFragment"
+            app:destination="@id/cookingFragment" />
     </fragment>
     <fragment
         android:id="@+id/addRecipeFragment"
@@ -139,6 +142,12 @@
         <argument
             android:name="groupId"
             app:argType="string" />
+        <argument
+            android:name="slug"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_noteDetailFragment_to_detailRecipeFragment"
+            app:destination="@id/detailRecipeFragment" />
     </fragment>
     <fragment
         android:id="@+id/myRecipeFragment"
@@ -214,9 +223,30 @@
         <argument
             android:name="title"
             app:argType="string" />
+        <action
+            app:restoreState="true"
+            app:popUpTo="@id/main_navigation"
+            app:popUpToSaveState="true"
+            android:id="@+id/action_addToGroceryFragment_to_noteFragment"
+            app:destination="@id/noteFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.bangkit.snapcook.presentation.edit_profile.EditProfileFragment"
         android:label="EditProfileFragment" />
+    <fragment
+        android:id="@+id/cookingFragment"
+        android:name="com.bangkit.snapcook.presentation.cooking.CookingFragment"
+        android:label="fragment_cooking"
+        tools:layout="@layout/fragment_cooking" >
+        <argument
+            android:name="ingredients"
+            app:argType="string[]" />
+        <argument
+            android:name="spices"
+            app:argType="string[]" />
+        <argument
+            android:name="steps"
+            app:argType="string[]" />
+    </fragment>
 </navigation>

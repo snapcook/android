@@ -22,6 +22,16 @@ fun Fragment.showOKDialog(title: String, message: String, onYes: () -> Unit) {
     }.create().show()
 }
 
+fun Fragment.showOKDialog(title: String, message: String) {
+    AlertDialog.Builder(requireActivity()).apply {
+        setTitle(title)
+        setMessage(message)
+        setPositiveButton("OK") { p0, _ ->
+            p0.dismiss()
+        }
+    }.create().show()
+}
+
 fun Fragment.showYesNoDialog(title: String, message: String, onYes: () -> Unit) {
     AlertDialog.Builder(requireContext()).apply {
         setTitle(title)

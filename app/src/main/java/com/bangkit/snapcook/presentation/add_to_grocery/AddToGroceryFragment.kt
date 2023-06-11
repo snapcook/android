@@ -3,11 +3,13 @@ package com.bangkit.snapcook.presentation.add_to_grocery
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.databinding.FragmentAddToGroceryBinding
+import com.bangkit.snapcook.presentation.MainActivity
 import com.bangkit.snapcook.presentation.add_to_grocery.adapter.AddToGroceryAdapter
 import com.bangkit.snapcook.utils.extension.popClick
 import com.bangkit.snapcook.utils.extension.showSnackBar
@@ -24,11 +26,15 @@ class AddToGroceryFragment : BaseFragment<FragmentAddToGroceryBinding>() {
     private var spices: List<String> = listOf()
 
     private val ingredientAdapter: AddToGroceryAdapter by lazy {
-        AddToGroceryAdapter()
+        AddToGroceryAdapter{
+            binding.cbSelectAllIngredients.isChecked = ingredientAdapter.checkIsAllSelected()
+        }
     }
 
     private val spiceAdapter: AddToGroceryAdapter by lazy {
-        AddToGroceryAdapter()
+        AddToGroceryAdapter{
+            binding.cbSelectAllSpices.isChecked = spiceAdapter.checkIsAllSelected()
+        }
     }
 
     override fun getViewBinding(
@@ -62,6 +68,20 @@ class AddToGroceryFragment : BaseFragment<FragmentAddToGroceryBinding>() {
             rvSpices.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
+            cbSelectAllIngredients.setOnClickListener {
+                if (cbSelectAllIngredients.isChecked)
+                    ingredientAdapter.selectAll()
+                else
+                    ingredientAdapter.clearSelectedData()
+            }
+
+            cbSelectAllSpices.setOnClickListener {
+                if (cbSelectAllSpices.isChecked)
+                    spiceAdapter.selectAll()
+                else
+                    spiceAdapter.clearSelectedData()
+            }
+
             btnSave.popClick {
                 viewModel.addToGroceryList(
                     slug,
@@ -71,8 +91,10 @@ class AddToGroceryFragment : BaseFragment<FragmentAddToGroceryBinding>() {
                     ingredientAdapter.getSelectedData(),
                     spiceAdapter.getSelectedData()
                 )
-                findNavController().popBackStack()
-                root.showSnackBar("SUCCESS")
+//                (activity as? MainActivity)?.navigateToNavBarDestination(R.id.noteFragment)
+
+                findNavController().navigate(R.id.action_addToGroceryFragment_to_noteFragment)
+                root.showSnackBar(getString(R.string.message_success_added_to_grocery_list))
             }
         }
 

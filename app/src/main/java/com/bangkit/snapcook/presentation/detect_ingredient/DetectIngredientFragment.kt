@@ -82,7 +82,7 @@ class DetectIngredientFragment : BaseFragment<FragmentDetectIngredientBinding>()
                             val guideLine = binding.guideline
                             val params = guideLine.layoutParams as ConstraintLayout.LayoutParams
                             val percent = event.rawY / height
-                            if (percent < 0.85 && percent > 0.2) {
+                            if (percent < 0.6 && percent > 0.2) {
                                 params.guidePercent = percent
                                 guideLine.layoutParams = params
                             }
@@ -91,7 +91,6 @@ class DetectIngredientFragment : BaseFragment<FragmentDetectIngredientBinding>()
                     }
                     return true
                 }
-
             })
         }
     }

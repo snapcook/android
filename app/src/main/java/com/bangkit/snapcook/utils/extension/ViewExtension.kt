@@ -46,9 +46,11 @@ fun ImageView.setImageUrl(url: String?) {
     Glide.with(this.rootView)
         .load(url)
         .placeholder(shimmerDrawable)
-        .apply(RequestOptions().error(
-            R.drawable.img_placeholder_food
-        ))
+        .apply(
+            RequestOptions().error(
+                R.drawable.img_placeholder_food
+            )
+        )
         .into(this)
 }
 

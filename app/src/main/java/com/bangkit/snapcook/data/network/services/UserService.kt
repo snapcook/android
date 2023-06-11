@@ -28,7 +28,7 @@ interface UserService {
     @POST("/register")
     suspend fun register(
         @Body request: RegisterRequest
-    ): Nothing
+    ): User
 
     @PUT("/user/{id}")
     @Multipart

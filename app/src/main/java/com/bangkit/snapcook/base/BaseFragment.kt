@@ -15,7 +15,9 @@ import androidx.viewbinding.ViewBinding
 import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.custom_view.CustomLoadingDialog
 import com.bangkit.snapcook.utils.enums.ImageSource
+import com.bangkit.snapcook.utils.extension.checkIfImageTooSmall
 import com.bangkit.snapcook.utils.extension.getImageUri
+import com.bangkit.snapcook.utils.extension.showOKDialog
 import com.bangkit.snapcook.utils.extension.showSnackBar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -131,7 +133,14 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     private val pickFileImage =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
-                onGalleryImageResult(uri)
+                if (requireActivity().checkIfImageTooSmall(uri)) {
+                    showOKDialog(
+                        title = getString(R.string.title_warning),
+                        message = getString(R.string.warning_image_too_small),
+                    )
+                } else {
+                    onGalleryImageResult(uri)
+                }
             }
         }
 

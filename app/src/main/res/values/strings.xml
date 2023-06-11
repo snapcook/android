@@ -115,4 +115,13 @@
     <string name="validation_not_selected_main_category">You haven\'t choose a main category</string>
     <string name="label_no_recipe">Tidak ada resep seperti ini.</string>
     <string name="label_search_recipe">Carilah resep yang kamu inginkan.</string>
+    <string name="action_select_all">Semua</string>
+    <string name="message_success_added_to_grocery_list">Berhasil ditambahkan ke daftar belanja</string>
+    <string name="warning_image_too_small">Ukuran gambar terlalu kecil, Minimal 800 x 600 pixels</string>
+    <string name="title_warning">Peringatan</string>
+    <string name="hint_add_ingredient">Tambahkan bahan</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_back_to_recipe">Kembali Ke Resep</string>
+    <string name="message_end_cooking_step">Enjoy your meal!</string>
 </resources>

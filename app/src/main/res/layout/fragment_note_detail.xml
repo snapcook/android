@@ -97,6 +97,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_start_cooking"
+            android:layout_width="match_parent"
+            android:layout_marginVertical="@dimen/dimen_32dp"
+            android:layout_marginHorizontal="@dimen/dimen_16dp"
+            android:layout_height="wrap_content"
+            style="@style/SnapcookButton.LessRadius"
+            android:text="@string/action_start_cooking"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/til_password" />
+
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

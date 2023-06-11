@@ -6,14 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.snapcook.R
 import com.bangkit.snapcook.databinding.DetailStepItemBinding
-import com.bangkit.snapcook.databinding.StepItemBinding
-import timber.log.Timber
-import kotlin.collections.ArrayList
 
-class ListStepsAdapter() : RecyclerView.Adapter<ListStepsAdapter.StringViewHolder>() {
+class ListStepsAdapter : RecyclerView.Adapter<ListStepsAdapter.StringViewHolder>() {
 
     private var data: ArrayList<String> = arrayListOf("")
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StringViewHolder {
         val binding = DetailStepItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)

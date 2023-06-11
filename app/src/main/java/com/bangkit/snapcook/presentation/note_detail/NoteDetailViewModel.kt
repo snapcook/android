@@ -35,6 +35,13 @@ class NoteDetailViewModel(private val repository: GroceryRepository) : ViewModel
         }
     }
 
+    fun checkStatus(groupId: String) {
+        viewModelScope.launch {
+            val status = repository.checkGroceryStatus(groupId)
+            _isAllNoteCompleted.postValue(status)
+        }
+    }
+
     fun deleteGrocery(groupId: String) {
         viewModelScope.launch {
             repository.deleteGroceryGroup(groupId)

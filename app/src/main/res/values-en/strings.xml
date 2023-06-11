@@ -115,4 +115,11 @@
     <string name="validation_not_selected_main_category">You haven\'t choose a main category</string>
     <string name="label_no_recipe">No recipe like this.</string>
     <string name="label_search_recipe">Find the recipe you want.</string>
+    <string name="action_select_all">Select All</string>
+    <string name="message_success_added_to_grocery_list">Added to grocery list</string>
+    <string name="warning_image_too_small">Image is too small, minimum 800 x 600 pixels</string>
+    <string name="title_warning">Warning</string>
+    <string name="hint_add_ingredient">Add Ingredients</string>
+    <string name="action_back_to_recipe">Back To Recipe</string>
+    <string name="message_end_cooking_step">Selamat menikmati hidangan!</string>
 </resources>

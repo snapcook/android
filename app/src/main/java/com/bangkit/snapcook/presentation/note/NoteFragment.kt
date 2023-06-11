@@ -21,8 +21,8 @@ class NoteFragment : BaseFragment<FragmentNoteBinding>() {
 
     private val groceryGroupAdapter: GroceryGroupAdapter by lazy {
         GroceryGroupAdapter(
-            onClickDetail = {groupId ->
-                navigateToDetail(groupId)
+            onClickDetail = {groupId, slug ->
+                navigateToDetail(groupId, slug)
             },
             onClickStartCooking = {slug ->
                 navigateToRecipeDetail(slug)
@@ -72,29 +72,23 @@ class NoteFragment : BaseFragment<FragmentNoteBinding>() {
     override fun initObservers() {
         viewModel.groceryResult.observeResponse(
             viewLifecycleOwner,
-            loading = {
-                showLoadingDialog()
-            },
+            loading = {},
             success = {
-                hideLoadingDialog()
                 Timber.d("GROCERIES ${it.data.size}")
                 groceryGroupAdapter.setData(it.data)
             },
             empty = {
-                hideLoadingDialog()
                 Timber.d("EMPTY! DO SOMETHING")
             },
-
             error = {
-                hideLoadingDialog()
             }
         )
     }
 
-    private fun navigateToDetail(groupId: String) {
+    private fun navigateToDetail(groupId: String, slug: String) {
         findNavController().navigate(
             NoteFragmentDirections.actionNoteFragmentToNoteDetailFragment(
-                groupId
+                groupId, slug
             )
         )
     }

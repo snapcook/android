@@ -22,6 +22,9 @@ interface GroceryDao {
     @Query("DELETE FROM grocery_group WHERE group_id =:groupId")
     suspend fun deleteGroceriesGroup(groupId: String)
 
+    @Query("DELETE FROM grocery WHERE group_id =:groupId")
+    suspend fun deleteGroceries(groupId: String)
+
     @Query("SELECT * FROM grocery_group WHERE id =:id")
     fun getGroceriesGroupDetail(id: Int): LiveData<GroceryGroup>
 

@@ -150,13 +150,19 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                     tvStory.text = recipe?.description
                     val portion = recipe!!.totalServing.toString()
                     tvPortion.text = getString(R.string.label_portion_detail, portion)
-                    listIngredientAdapter.setData(recipe!!.mainIngredients)
-                    listSpicesAdapter.setData(recipe!!.spices ?: listOf())
-                    listStepsAdapter.setData(recipe!!.steps ?: listOf())
+                    listIngredientAdapter.setData(recipe?.fullIngredients ?: listOf())
+                    listSpicesAdapter.setData(recipe?.spices ?: listOf())
+                    listStepsAdapter.setData(recipe?.steps ?: listOf())
                     listUtensilAdapter.setData(recipe!!.utensils)
 
                     btnBuyIngredient.popClick {
                         navigateToAddToGrocery(
+                            recipe!!
+                        )
+                    }
+
+                    btnStartCooking.popClick {
+                        navigateToStartCooking(
                             recipe!!
                         )
                     }
@@ -246,6 +252,18 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                 recipe.slug,
                 recipe.photo,
                 recipe.title,
+            )
+        binding.root.findNavController().navigate(action)
+    }
+
+    private fun navigateToStartCooking(
+        recipe: Recipe,
+    ) {
+        val action =
+            DetailRecipeFragmentDirections.actionDetailRecipeFragmentToCookingFragment(
+                recipe.fullIngredients.toTypedArray(),
+                recipe.spices.toTypedArray(),
+                recipe.steps.toTypedArray(),
             )
         binding.root.findNavController().navigate(action)
     }

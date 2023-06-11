@@ -61,6 +61,7 @@ class GroceryDataSource(
 
     suspend fun deleteGroceryGroup(groupId: String) {
         dao.deleteGroceriesGroup(groupId)
+        dao.deleteGroceries(groupId)
     }
 
     suspend fun updateGroceryGroupCompleted(groupId: String, isCompleted: Boolean) {

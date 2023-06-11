@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.snapcook.databinding.ShoppingNoteItemBinding
 
-class AddToGroceryAdapter: RecyclerView.Adapter<AddToGroceryAdapter.ShoppingNoteViewHolder>() {
+class AddToGroceryAdapter(private val check: () -> Unit): RecyclerView.Adapter<AddToGroceryAdapter.ShoppingNoteViewHolder>() {
 
     private val groceries = ArrayList<String>()
     private val selectedGroceries = ArrayList<String>()
@@ -19,6 +19,21 @@ class AddToGroceryAdapter: RecyclerView.Adapter<AddToGroceryAdapter.ShoppingNote
     }
 
     fun getSelectedData(): List<String> = selectedGroceries
+
+    fun clearSelectedData() {
+        selectedGroceries.clear()
+        notifyDataSetChanged()
+    }
+
+    fun selectAll() {
+        selectedGroceries.clear()
+        selectedGroceries.addAll(groceries)
+        notifyDataSetChanged()
+    }
+
+    fun checkIsAllSelected(): Boolean {
+        return selectedGroceries.size == groceries.size
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -42,12 +57,15 @@ class AddToGroceryAdapter: RecyclerView.Adapter<AddToGroceryAdapter.ShoppingNote
         RecyclerView.ViewHolder(binding.root) {
             fun bind(grocery: String){
                 binding.apply {
+                    cbNote.isChecked = selectedGroceries.contains(grocery)
+
                     cbNote.setOnClickListener {
                         if (cbNote.isChecked) {
                             selectedGroceries.add(grocery)
                         } else {
                             selectedGroceries.remove(grocery)
                         }
+                        check()
                     }
                     tvNote.text = grocery
                 }

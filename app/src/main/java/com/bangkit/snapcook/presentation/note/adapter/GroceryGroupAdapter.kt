@@ -13,7 +13,7 @@ import com.bangkit.snapcook.utils.extension.setImageUrl
 import com.bangkit.snapcook.utils.extension.show
 
 class GroceryGroupAdapter(
-    private val onClickDetail: (String) -> Unit,
+    private val onClickDetail: (String, String) -> Unit,
     private val onClickStartCooking: (String) -> Unit
 ): RecyclerView.Adapter<GroceryGroupAdapter.GroceryGroupViewHolder>() {
 
@@ -65,8 +65,11 @@ class GroceryGroupAdapter(
                     btnStartCooking.popClick {
                         onClickStartCooking(grocery.slug)
                     }
+                    imgRecipe.setOnClickListener {
+                        onClickStartCooking(grocery.slug)
+                    }
                     btnDetail.popClick {
-                        onClickDetail(grocery.groupId)
+                        onClickDetail(grocery.groupId, grocery.slug)
                     }
                     tvTitle.text = grocery.title
                     imgRecipe.setImageUrl(grocery.photo)

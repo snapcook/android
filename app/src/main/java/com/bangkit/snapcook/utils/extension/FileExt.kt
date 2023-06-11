@@ -33,6 +33,23 @@ fun Uri.uriToBitmap(context: Context): Bitmap? {
     return bitmap
 }
 
+fun Context.checkIfImageTooSmall(contentUri: Uri): Boolean{
+    val inputStream = contentResolver.openInputStream(contentUri)
+    val options = BitmapFactory.Options().apply {
+        inJustDecodeBounds = true
+    }
+    BitmapFactory.decodeStream(inputStream, null, options)
+    inputStream?.close()
+
+    val imageWidth = options.outWidth
+    val imageHeight = options.outHeight
+
+    val minimumWidth = 600
+    val minimumHeight = 600
+
+    return imageWidth < minimumWidth || imageHeight < minimumHeight
+
+}
 fun Context.getFileFromUri(contentUri: Uri?): File? {
     val fileName: String = getFileName(contentUri) ?: ""
     Timber.d("FILE NAME FROM URI $fileName")
@@ -62,6 +79,7 @@ private fun getFileName(uri: Uri?): String? {
     }
     return "$fileName.jpg"
 }
+
 
 private fun copy(context: Context, srcUri: Uri?, dstFile: File?) {
     try {

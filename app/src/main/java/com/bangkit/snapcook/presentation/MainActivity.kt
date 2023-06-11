@@ -52,6 +52,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         navController.navigate(R.id.detectIngredientFragment)
     }
 
+    fun navigateToNavBarDestination(destinationId: Int) {
+        binding.bottomNavigation.selectedItemId = destinationId
+    }
+
     override fun initProcess() {}
 
     override fun initObservers() {}
