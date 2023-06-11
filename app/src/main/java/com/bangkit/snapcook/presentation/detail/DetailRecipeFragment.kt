@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.snapcook.R
@@ -16,7 +15,6 @@ import com.bangkit.snapcook.databinding.FragmentDetailRecipeBinding
 import com.bangkit.snapcook.presentation.detail.adapter.ListStepsAdapter
 import com.bangkit.snapcook.presentation.detail.adapter.ListStringAdapter
 import com.bangkit.snapcook.presentation.detail.adapter.ListUtensilsAdapter
-import com.bangkit.snapcook.presentation.modal.utensils.UtensilsAdapter
 import com.bangkit.snapcook.utils.extension.*
 import com.bangkit.snapcook.utils.extension.popClick
 import com.bangkit.snapcook.utils.extension.setImageUrl
@@ -160,14 +158,24 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                     btnBuyIngredient.popClick {
                         navigateToAddToGrocery(
                             recipe!!
-
                         )
                     }
 
+
                     if (recipe!!.isBookmarked) {
-                        btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark))
+                        btnBookmark.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                btnBookmark.context,
+                                R.drawable.ic_bookmark
+                            )
+                        )
                     } else {
-                        btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark_border))
+                        btnBookmark.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                btnBookmark.context,
+                                R.drawable.ic_bookmark_border
+                            )
+                        )
                     }
                 }
             },
@@ -185,24 +193,34 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
         viewModel.isBookmarked.observe(viewLifecycleOwner) { isBookmarked ->
             binding.apply {
                 if (isBookmarked) {
-                    btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark))
+                    btnBookmark.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            btnBookmark.context,
+                            R.drawable.ic_bookmark
+                        )
+                    )
                     viewModel.getRecipeDetail(slug)
                 } else {
-                    btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark_border))
+                    btnBookmark.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            btnBookmark.context,
+                            R.drawable.ic_bookmark_border
+                        )
+                    )
                     viewModel.getRecipeDetail(slug)
                 }
             }
         }
 
-        viewModel.isGroceryGroupExist.observe(viewLifecycleOwner) { isExist ->
-            binding.btnBuyIngredient.isEnabled = !isExist
-            if (isExist) {
-                binding.btnBuyIngredient.text = getString(R.string.label_already_added)
-            } else {
-                binding.btnBuyIngredient.text = getString(R.string.action_buy_ingredient)
+            viewModel.isGroceryGroupExist.observe(viewLifecycleOwner) { isExist ->
+                binding.btnBuyIngredient.isEnabled = !isExist
+                if (isExist) {
+                    binding.btnBuyIngredient.text = getString(R.string.label_already_added)
+                } else {
+                    binding.btnBuyIngredient.text = getString(R.string.action_buy_ingredient)
+                }
             }
         }
-    }
 
     private fun Int.toHoursAndMinutes(): String {
         val hours = this / 60
