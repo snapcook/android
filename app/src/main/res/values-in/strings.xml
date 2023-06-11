@@ -90,7 +90,6 @@
     <string name="label_complete_ingredient">Bahan sudah lengkap</string>
     <string name="action_edit_profile" translatable="false">Perbarui profil</string>
     <string name="action_logout">Keluar</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_shopping_note">Catatan Belanja</string>
     <string name="action_next">Selanjutnya</string>
@@ -104,5 +103,9 @@
     <string name="hint_full_name">Nama mu</string>
     <string name="title_add_to_grocery">Tambah Catatan Belanja</string>
     <string name="label_already_added">Sudah ditambahkan</string>
+    <string name="label_category_initialize">Makanan</string>
+    <string name="hint_home">Mau masak apa hari ini?</string>
+    <string name="lalel_type_of_serving">Jenis Hidangan</string>
+    <string name="validation_not_selected_main_category">Kamu belum milih jenis hindangan</string>
 
 </resources>

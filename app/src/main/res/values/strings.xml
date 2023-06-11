@@ -66,6 +66,7 @@
     <string name="validation_not_selected_category">You have yet select recipe category</string>
     <string name="validation_spices_empty">You have yet adding spices</string>
     <string name="validation_utensils_empty">You have yet select utensils</string>
+    <string name="validation_not_selected_main_category">You have yet select type of dishes</string>
     <string name="validation_steps_empty">You have yet add cooking steps</string>
     <string name="validation_email_not_valid">Email is invalid</string>
     <string name="validation_email_must_not_empty">Email should not be empty</string>
@@ -106,7 +107,8 @@
     <string name="title_add_to_grocery">Add to Grocery List</string>
     <string name="label_already_added">Already Added</string>
     <string name="label_category_initialize">Makanan</string>
-    <string name="hint_home">Mau masak apa hari ini?</string>
+    <string name="hint_home">What do you want to cook today?</string>
+    <string name="lalel_type_of_serving">Types of dishes</string>
 
 
 </resources>

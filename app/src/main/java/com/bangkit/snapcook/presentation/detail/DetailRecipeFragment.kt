@@ -9,14 +9,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bangkit.snapcook.R
 import com.bangkit.snapcook.base.BaseFragment
 import com.bangkit.snapcook.data.model.Recipe
+import com.bangkit.snapcook.data.network.ApiResponse
 import com.bangkit.snapcook.databinding.FragmentDetailRecipeBinding
 import com.bangkit.snapcook.presentation.detail.adapter.ListStepsAdapter
 import com.bangkit.snapcook.presentation.detail.adapter.ListStringAdapter
 import com.bangkit.snapcook.presentation.detail.adapter.ListUtensilsAdapter
-import com.bangkit.snapcook.presentation.modal.utensils.UtensilsAdapter
-import com.bangkit.snapcook.utils.extension.*
 import com.bangkit.snapcook.utils.extension.popClick
 import com.bangkit.snapcook.utils.extension.setImageUrl
+import com.bangkit.snapcook.utils.extension.showSnackBar
 import org.koin.android.ext.android.inject
 
 class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
@@ -110,7 +110,6 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
 
     override fun initObservers() {
         viewModel.recipeDetailResult.observe(viewLifecycleOwner) { response ->
-            Timber.d("Response is $response")
             when (response) {
                 is ApiResponse.Success -> {
                     hideLoadingDialog()
@@ -133,15 +132,24 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                         btnBuyIngredient.popClick {
                             navigateToAddToGrocery(
                                 recipe!!
-
                             )
                         }
-                    }
 
-                    if (recipe!!.isBookmarked) {
-                        btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark))
-                    } else {
-                        btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark_border))
+                        if (recipe!!.isBookmarked) {
+                            btnBookmark.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    btnBookmark.context,
+                                    R.drawable.ic_bookmark
+                                )
+                            )
+                        } else {
+                            btnBookmark.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    btnBookmark.context,
+                                    R.drawable.ic_bookmark_border
+                                )
+                            )
+                        }
                     }
                 }
 
@@ -153,24 +161,38 @@ class DetailRecipeFragment : BaseFragment<FragmentDetailRecipeBinding>() {
                     // Handle empty state
                 }
 
-        viewModel.isBookmarked.observe(viewLifecycleOwner) { isBookmarked ->
-            binding.apply {
-                if (isBookmarked) {
-                    btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark))
-                    viewModel.getRecipeDetail(slug)
-                } else {
-                    btnBookmark.setImageDrawable(ContextCompat.getDrawable(btnBookmark.context, R.drawable.ic_bookmark_border))
-                    viewModel.getRecipeDetail(slug)
+                else -> {}
+            }
+
+            viewModel.isBookmarked.observe(viewLifecycleOwner) { isBookmarked ->
+                binding.apply {
+                    if (isBookmarked) {
+                        btnBookmark.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                btnBookmark.context,
+                                R.drawable.ic_bookmark
+                            )
+                        )
+                        viewModel.getRecipeDetail(slug)
+                    } else {
+                        btnBookmark.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                btnBookmark.context,
+                                R.drawable.ic_bookmark_border
+                            )
+                        )
+                        viewModel.getRecipeDetail(slug)
+                    }
                 }
             }
-        }
 
-        viewModel.isGroceryGroupExist.observe(viewLifecycleOwner) { isExist ->
-            binding.btnBuyIngredient.isEnabled = !isExist
-            if (isExist) {
-                binding.btnBuyIngredient.text = getString(R.string.label_already_added)
-            } else {
-                binding.btnBuyIngredient.text = getString(R.string.action_buy_ingredient)
+            viewModel.isGroceryGroupExist.observe(viewLifecycleOwner) { isExist ->
+                binding.btnBuyIngredient.isEnabled = !isExist
+                if (isExist) {
+                    binding.btnBuyIngredient.text = getString(R.string.label_already_added)
+                } else {
+                    binding.btnBuyIngredient.text = getString(R.string.action_buy_ingredient)
+                }
             }
         }
     }

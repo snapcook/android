@@ -17,6 +17,7 @@ import com.bangkit.snapcook.presentation.add_recipe.adapter.AddSpiceAdapter
 import com.bangkit.snapcook.presentation.add_recipe.adapter.AddStepAdapter
 import com.bangkit.snapcook.presentation.add_recipe.adapter.AddUtensilsAdapter
 import com.bangkit.snapcook.presentation.add_recipe.adapter.SelectCategoryAdapter
+import com.bangkit.snapcook.presentation.add_recipe.adapter.SelectMainCategoryAdapter
 import com.bangkit.snapcook.presentation.detail.DetailRecipeFragmentArgs
 import com.bangkit.snapcook.presentation.modal.utensils.UtensilsBottomModal
 import com.bangkit.snapcook.utils.enums.ImageSource
@@ -65,6 +66,11 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
     private val categoryAdapter: SelectCategoryAdapter by lazy {
         SelectCategoryAdapter()
     }
+
+    private val mainCategoryAdapter: SelectMainCategoryAdapter by lazy {
+        SelectMainCategoryAdapter()
+    }
+
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -144,6 +150,13 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             }
 
+            rvMainCategory.apply {
+                adapter = mainCategoryAdapter
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            }
+
+
             btnAddMainIngredient.popClick {
                 addIngredientAdapter.addData()
             }
@@ -192,6 +205,7 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
             val recipeName = edtRecipeName.text.toString()
             val recipeDescription = edtRecipeDescription.text.toString()
             val selectedCategory = categoryAdapter.retrieveSelectedId()
+            val selectedMainCategory = mainCategoryAdapter.retrieveSelectedCategory()
             val portion = edtPortion.text.toString()
             val estimateTime = edtCookingTime.text.toString().extractToMinutes()
             val ingredients = addIngredientAdapter.retrieveResult()
@@ -237,12 +251,16 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
                     root.showSnackBar(getString(R.string.validation_utensils_empty))
                 }
 
+                selectedMainCategory.isEmpty() -> {
+                    root.showSnackBar(getString(R.string.validation_not_selected_main_category))
+                }
+
                 else -> {
                     viewModel.uploadRecipe(
                         photo = imageFile,
                         title = recipeName,
                         description = recipeDescription,
-                        mainCategory = "Makanan",
+                        mainCategory = selectedMainCategory,
                         secondCategoryId = selectedCategory,
                         totalServing = portion,
                         estimatedTime = estimateTime.toString(),
@@ -269,6 +287,7 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
 
     @SuppressLint("SetTextI18n")
     override fun initObservers() {
+        mainCategoryAdapter.setData(listOf("Makanan", "Minuman"))
         viewModel.uploadResult.observeSingleEvent(
             viewLifecycleOwner,
             loading = {

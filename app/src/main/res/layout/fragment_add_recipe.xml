@@ -150,6 +150,30 @@
                 style="@style/SnapcookTextStyle.Title"
                 android:layout_marginHorizontal="@dimen/dimen_16dp"
                 android:layout_marginTop="@dimen/dimen_8dp"
+                android:text="@string/lalel_type_of_serving"
+                android:textColor="@color/black" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_main_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:overScrollMode="never"
+                tools:itemCount="1"
+                tools:listitem="@layout/select_category_item" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:layout_marginVertical="@dimen/dimen_8dp"
+                app:dividerColor="@color/black" />
+
+            <TextView
+                style="@style/SnapcookTextStyle.Title"
+                android:layout_marginHorizontal="@dimen/dimen_16dp"
+                android:layout_marginTop="@dimen/dimen_8dp"
                 android:text="@string/label_recipe_category"
                 android:textColor="@color/black" />
 
