@@ -61,6 +61,10 @@ class AddStepAdapter(private val rv: RecyclerView) : RecyclerView.Adapter<AddSte
             currentPosition = position
 
             binding.apply {
+                if(edtStep.text.isEmpty()){
+                    edtStep.hint = root.context.getString(R.string.hint_steps)
+                }
+
                 if (isEdit){
                     edtStep.setText(data[layoutPosition])
                 }

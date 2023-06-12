@@ -111,8 +111,8 @@
     <string name="label_name_home">%1$s</string>
     <string name="welcome">Selamat datang,</string>
     <string name="welcome_name">%1$s !</string>
-    <string name="lalel_type_of_serving">Main Category</string>
-    <string name="validation_not_selected_main_category">You haven\'t choose a main category</string>
+    <string name="lalel_type_of_serving">Jenis Hidangan</string>
+    <string name="validation_not_selected_main_category">Kamu belum memilih kategori utama</string>
     <string name="label_no_recipe">Tidak ada resep seperti ini.</string>
     <string name="label_search_recipe">Carilah resep yang kamu inginkan.</string>
     <string name="action_select_all">Semua</string>
@@ -120,9 +120,15 @@
     <string name="warning_image_too_small">Ukuran gambar terlalu kecil, Minimal 800 x 600 pixels</string>
     <string name="title_warning">Peringatan</string>
     <string name="hint_add_ingredient">Tambahkan bahan</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_back_to_recipe">Kembali Ke Resep</string>
-    <string name="message_end_cooking_step">Enjoy your meal!</string>
+    <string name="message_end_cooking_step">Selamat menikmati hidangan!</string>
+    <string name="hint_your_recipe">Resep kamu</string>
+    <string name="hint_describe_recipe">Deskripsikan resepmu</string>
+    <string name="hint_default_portion">2</string>
+    <string name="hint_estimated_time">75 menit</string>
+    <string name="label_cooking_steps_here">Langkah memasak disini</string>
+    <string name="hint_ingredients">1 gr bahan baku</string>
+    <string name="hint_steps">Langkah memasak</string>
+    <string name="hint_spices">1 gr bumbu</string>
     <string name="action_drag_for_more">Tarik ke atas untuk lihat lebih jelas</string>
 </resources>

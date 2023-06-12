@@ -121,6 +121,14 @@
     <string name="title_warning">Warning</string>
     <string name="hint_add_ingredient">Add Ingredients</string>
     <string name="action_back_to_recipe">Back To Recipe</string>
-    <string name="message_end_cooking_step">Selamat menikmati hidangan!</string>
+    <string name="message_end_cooking_step">Enjoy your meal!</string>
+    <string name="hint_your_recipe">Your recipe</string>
+    <string name="hint_describe_recipe">Describe your recipe</string>
+    <string name="hint_default_portion">2</string>
+    <string name="hint_estimated_time">75 menit</string>
+    <string name="label_cooking_steps_here">Cooking steps here</string>
+    <string name="hint_ingredients">1 gr ingredients</string>
+    <string name="hint_steps">Cooking steps</string>
+    <string name="hint_spices">1 gr spices</string>
     <string name="action_drag_for_more">Pull to see more</string>
 </resources>

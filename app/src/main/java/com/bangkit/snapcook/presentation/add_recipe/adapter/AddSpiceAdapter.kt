@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.bangkit.snapcook.R
 import com.bangkit.snapcook.databinding.AddIngredientItemBinding
 import com.bangkit.snapcook.utils.extension.popClick
 import java.util.Collections
@@ -50,6 +51,10 @@ class AddSpiceAdapter : RecyclerView.Adapter<AddSpiceAdapter.StringViewHolder>()
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
             binding.apply {
+                if(edtIngredient.text.isEmpty()){
+                    edtIngredient.hint = root.context.getString(R.string.hint_spices)
+                }
+
                 if (isEdit){
                     edtIngredient.setText(data[layoutPosition])
                 }

@@ -45,7 +45,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
             btnSave.popClick {
                 viewModel.editProfile(
                     edtFullName.text.toString(),
-                    imageFile,)
+                    imageFile)
             }
         }
     }
