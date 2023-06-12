@@ -358,6 +358,7 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
                     addSpiceAdapter.setData(recipe.spices)
                     addStepAdapter.setData(recipe.steps)
                     categoryAdapter.setSelectedData(recipe.secondCategoryId)
+                    mainCategoryAdapter.setSelectedData(recipe.mainCategory)
                     imgFood.setImageUrl(recipe.photo)
                     selectedUtensils.clear()
                     selectedUtensils.addAll(recipe.utensils)
