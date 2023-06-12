@@ -70,9 +70,10 @@ class DetectIngredientFragment : BaseFragment<FragmentDetectIngredientBinding>()
             btnAdd.popClick {
                 if (edtIngredient.text.toString().isEmpty()) return@popClick
                 predictionAdapter.addData(edtIngredient.text.toString())
+                edtIngredient.text.clear()
             }
 
-            btnDrag.setOnTouchListener(object : View.OnTouchListener {
+            tvDrag.setOnTouchListener(object : View.OnTouchListener {
                 override fun onTouch(v: View?, event: MotionEvent?): Boolean {
                     var height = 0
                     when (event?.actionMasked) {
@@ -82,7 +83,7 @@ class DetectIngredientFragment : BaseFragment<FragmentDetectIngredientBinding>()
                             val guideLine = binding.guideline
                             val params = guideLine.layoutParams as ConstraintLayout.LayoutParams
                             val percent = event.rawY / height
-                            if (percent < 0.6 && percent > 0.2) {
+                            if (percent < 0.615 && percent > 0.2) {
                                 params.guidePercent = percent
                                 guideLine.layoutParams = params
                             }
@@ -111,7 +112,7 @@ class DetectIngredientFragment : BaseFragment<FragmentDetectIngredientBinding>()
         }
 
         binding.imgIngredient.apply {
-            scaleType = ImageView.ScaleType.CENTER
+            scaleType = ImageView.ScaleType.CENTER_CROP
             setGlideImageUri(uri)
         }
 
@@ -121,7 +122,7 @@ class DetectIngredientFragment : BaseFragment<FragmentDetectIngredientBinding>()
                 setImageBitmap(detectedBitmap)
             }
             val params = binding.guideline.layoutParams as ConstraintLayout.LayoutParams
-            params.guidePercent = 0.65f
+            params.guidePercent = 0.58f
             guideline.layoutParams = params
             showPredictionLayout()
         }
@@ -131,6 +132,7 @@ class DetectIngredientFragment : BaseFragment<FragmentDetectIngredientBinding>()
         binding.apply {
             imgResult.gone()
             layoutResult.gone()
+            tvDrag.gone()
             card.show()
         }
     }
@@ -139,6 +141,7 @@ class DetectIngredientFragment : BaseFragment<FragmentDetectIngredientBinding>()
         binding.apply {
             imgResult.show()
             layoutResult.show()
+            tvDrag.show()
             card.gone()
         }
     }

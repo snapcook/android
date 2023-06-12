@@ -124,4 +124,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_back_to_recipe">Kembali Ke Resep</string>
     <string name="message_end_cooking_step">Enjoy your meal!</string>
+    <string name="action_drag_for_more">Tarik ke atas untuk lihat lebih jelas</string>
 </resources>

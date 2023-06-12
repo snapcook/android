@@ -44,8 +44,8 @@ fun Context.checkIfImageTooSmall(contentUri: Uri): Boolean{
     val imageWidth = options.outWidth
     val imageHeight = options.outHeight
 
-    val minimumWidth = 600
-    val minimumHeight = 600
+    val minimumWidth = 400
+    val minimumHeight = 400
 
     return imageWidth < minimumWidth || imageHeight < minimumHeight
 
