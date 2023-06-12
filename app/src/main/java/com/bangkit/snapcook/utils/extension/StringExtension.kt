@@ -6,6 +6,10 @@ fun String.isEmailCorrect(): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
 }
 
+fun String.extractDigit(): String {
+    return this.replace("[^0-9]".toRegex(), "")
+}
+
 fun String.extractToMinutes(): Int? {
     try {
         val components = this.split(" ")

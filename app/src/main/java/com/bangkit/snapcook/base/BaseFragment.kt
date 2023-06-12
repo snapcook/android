@@ -31,6 +31,8 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     val binding get() = _binding!!
     private lateinit var loadingDialog: CustomLoadingDialog
 
+    private var allowSmallPicture = true
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -84,6 +86,13 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
                     if (source == ImageSource.GALLERY){
                         pickFileImage.launch("image/*")
+                        allowSmallPicture = true
+                        return
+                    }
+
+                    if (source == ImageSource.GALLERY_DETECTION){
+                        pickFileImage.launch("image/*")
+                        allowSmallPicture = false
                         return
                     }
                 }
@@ -133,14 +142,17 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     private val pickFileImage =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
-                if (requireActivity().checkIfImageTooSmall(uri)) {
-                    showOKDialog(
-                        title = getString(R.string.title_warning),
-                        message = getString(R.string.warning_image_too_small),
-                    )
-                } else {
-                    onGalleryImageResult(uri)
+                if (!allowSmallPicture) {
+                    if (requireActivity().checkIfImageTooSmall(uri)) {
+                        showOKDialog(
+                            title = getString(R.string.title_warning),
+                            message = getString(R.string.warning_image_too_small),
+                        )
+                    }
+                    return@registerForActivityResult
                 }
+
+                onGalleryImageResult(uri)
             }
         }
 

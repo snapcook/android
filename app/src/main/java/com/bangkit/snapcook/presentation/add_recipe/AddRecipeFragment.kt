@@ -21,6 +21,7 @@ import com.bangkit.snapcook.presentation.add_recipe.adapter.SelectMainCategoryAd
 import com.bangkit.snapcook.presentation.detail.DetailRecipeFragmentArgs
 import com.bangkit.snapcook.presentation.modal.utensils.UtensilsBottomModal
 import com.bangkit.snapcook.utils.enums.ImageSource
+import com.bangkit.snapcook.utils.extension.extractDigit
 import com.bangkit.snapcook.utils.extension.extractToMinutes
 import com.bangkit.snapcook.utils.extension.getFileFromUri
 import com.bangkit.snapcook.utils.extension.gone
@@ -206,7 +207,7 @@ class AddRecipeFragment : BaseFragment<FragmentAddRecipeBinding>() {
             val recipeDescription = edtRecipeDescription.text.toString()
             val selectedCategory = categoryAdapter.retrieveSelectedId()
             val selectedMainCategory = mainCategoryAdapter.retrieveSelectedCategory()
-            val portion = edtPortion.text.toString()
+            val portion = edtPortion.text.toString().extractDigit()
             val estimateTime = edtCookingTime.text.toString().extractToMinutes()
             val ingredients = addIngredientAdapter.retrieveResult()
             val spices = addSpiceAdapter.retrieveResult()

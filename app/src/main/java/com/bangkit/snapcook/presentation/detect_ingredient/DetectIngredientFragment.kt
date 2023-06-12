@@ -52,7 +52,7 @@ class DetectIngredientFragment : BaseFragment<FragmentDetectIngredientBinding>()
             }
 
             btnGallery.popClick {
-                takePicture(ImageSource.GALLERY)
+                takePicture(ImageSource.GALLERY_DETECTION)
             }
 
             btnReset.popClick {
