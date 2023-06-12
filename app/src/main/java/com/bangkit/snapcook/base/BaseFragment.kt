@@ -148,8 +148,9 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
                             title = getString(R.string.title_warning),
                             message = getString(R.string.warning_image_too_small),
                         )
+                    } else {
+                        onGalleryImageResult(uri)
                     }
-                    onGalleryImageResult(uri)
                     return@registerForActivityResult
                 }
 

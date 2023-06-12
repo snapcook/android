@@ -53,7 +53,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     override fun initUI() {
        binding.apply {
            toolBar.setPopBackEnabled()
-           tvCategory.text = name
+           toolBar.title = name
            rvCategory.hide()
            rvCategory.apply {
                layoutManager =
